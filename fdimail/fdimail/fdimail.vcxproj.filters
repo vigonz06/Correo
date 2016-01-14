@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Lists">
+      <UniqueIdentifier>{9c935cb3-4369-417f-b08d-2b40f542fb0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Auxiliar">
+      <UniqueIdentifier>{5bfbc9a8-e42f-440b-bac1-6d22833cb206}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="List Elements">
+      <UniqueIdentifier>{4a068f0a-627f-4836-81b9-d72f8bb1cbb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Client">
+      <UniqueIdentifier>{c5488427-5273-43b0-9c95-435b376fffbc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="fdimail.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Date.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Encript.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ContactList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphInter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Mail.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tElemTray.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TrayList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="User.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VisibleTrayList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Session.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RecipientList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Date.h">
+      <Filter>Auxiliar</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalConstants.h">
+      <Filter>Auxiliar</Filter>
+    </ClInclude>
+    <ClInclude Include="Encript.h">
+      <Filter>Auxiliar</Filter>
+    </ClInclude>
+    <ClInclude Include="utilsWin.h">
+      <Filter>Auxiliar</Filter>
+    </ClInclude>
+    <ClInclude Include="checkML.h">
+      <Filter>Auxiliar</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphInter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="List.h">
+      <Filter>Lists</Filter>
+    </ClInclude>
+    <ClInclude Include="MailList.h">
+      <Filter>Lists</Filter>
+    </ClInclude>
+    <ClInclude Include="VisibleTrayList.h">
+      <Filter>Lists</Filter>
+    </ClInclude>
+    <ClInclude Include="ContactList.h">
+      <Filter>Lists</Filter>
+    </ClInclude>
+    <ClInclude Include="TrayList.h">
+      <Filter>Lists</Filter>
+    </ClInclude>
+    <ClInclude Include="UserList.h">
+      <Filter>Lists</Filter>
+    </ClInclude>
+    <ClInclude Include="User.h">
+      <Filter>List Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="tElemTray.h">
+      <Filter>List Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="tContact.h">
+      <Filter>List Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Mail.h">
+      <Filter>List Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="Session.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RecipientList.h">
+      <Filter>Lists</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="fdimail.com_mails.txt" />
+    <Text Include="fdimail.com_users.txt" />
+  </ItemGroup>
+</Project>
