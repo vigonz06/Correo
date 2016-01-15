@@ -5,29 +5,6 @@
 #include "Date.h"
 #include <ctime>
 
-Mail* Mail::errorMail()
-{
-	std::ostringstream ID;
-	Mail* error = new Mail;
-	std::string* recipient = new std::string;
-
-	error->from = "Tecnical Service";
-	error->date = time(0);
-	error->user_count = 2;
-
-	ID << "fdimail" << "_" << error->date;
-	error->id = ID.str();
-
-	*recipient = "fdimail";
-	error->recipients.insert(recipient);
-
-	error->subject = "Mail error";
-
-	error->body = "It seems that this mail does not exist";
-
-	return error;
-}
-
 void Mail::save(std::ofstream &file) const
 {
 	file << id << std::endl << user_count << std::endl 

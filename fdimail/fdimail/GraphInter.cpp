@@ -23,7 +23,7 @@ void GraphInter::load()
 	if (inter == nullptr)
 	{
 		inter = new GraphInter;
-		error = Mail::errorMail();
+		error = errorMail();
 	}
 }
 
@@ -345,6 +345,29 @@ int GraphInter::AccountOptions()
 	elems[3] = "Exit to session menu";
 
 	return menu(elems, 4, "option");
+}
+
+Mail* GraphInter::errorMail()
+{
+	std::ostringstream ID;
+	Mail* error = new Mail;
+	std::string* recipient = new std::string;
+
+	error->setFrom("Tecnical Service");
+	error->setDate(time(0));
+	error->setCounter(2);
+
+	ID << "fdimail" << "_" << error->getDate();
+	error->setId(ID.str());
+
+	*recipient = "fdimail";
+	error->setRecipient(recipient);
+
+	error->setSubject("Mail error");
+
+	error->setBody("It seems that this mail does not exist");
+
+	return error;
 }
 
 Mail* GraphInter::newMail(const std::string &sender, ContactList* contactList)

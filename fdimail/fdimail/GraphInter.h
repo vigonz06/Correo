@@ -19,6 +19,7 @@ class GraphInter
 private:
 
 	static GraphInter* inter;
+	static Mail* errorMail();
 	static Mail* error;
 
 	GraphInter() {}

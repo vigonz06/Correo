@@ -32,8 +32,6 @@ public:
 
 	Mail() : user_count(0) {}
 
-	static Mail* errorMail();
-
 	const std::string& getId() const { return id; }
 	int getCounter() const { return user_count; }
 	int lowerCounter(){ return --user_count; }
