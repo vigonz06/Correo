@@ -603,11 +603,11 @@ void Session::filterOptions(Filter filter)
 	{
 		chooseOrder(filter);
 	}
-	else if (option == 1)
+	if (option == 1)
 	{
 		chooseFilter(filter);
 	}
-	else if (option == 2)
+	if (option == 2)
 	{
 		visible.closeFilter();
 	}

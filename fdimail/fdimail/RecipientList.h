@@ -15,8 +15,6 @@ private:
 
 public:
 
-	RecipientList() {};
-
 	bool insert(std::string* elem);
 	void destroy(std::string name);
 

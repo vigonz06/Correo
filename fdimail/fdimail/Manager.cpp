@@ -68,10 +68,7 @@ User* Manager::registerUser()
 			return nullptr;
 		}
 	}
-	else
-	{
-		return nullptr;
-	}
+	else return nullptr;
 }
 
 User* Manager::createAccount()
@@ -96,10 +93,7 @@ User* Manager::createAccount()
 			return nullptr;
 		}
 	}
-	else
-	{
-		return nullptr;
-	}
+	else return nullptr;
 }
 
 void Manager::deleteAccount(User* user)
@@ -188,10 +182,7 @@ void Manager::loadUsers(std::string &name)
 		GraphInter::get()->display("Enter the file url ((ENTER) for continue)");
 		GraphInter::get()->enter(userLocation);
 
-		if (userLocation != "")
-		{
-			name = userLocation;
-		}
+		if (userLocation != "") name = userLocation;
 	}
 }
 
@@ -205,9 +196,6 @@ void Manager::loadMails(std::string &name)
 		GraphInter::get()->display("Enter the file url ((ENTER) for continue)");
 		GraphInter::get()->enter(mailLocation);
 
-		if (mailLocation != "")
-		{
-			name = mailLocation;
-		}
+		if (mailLocation != "") name = mailLocation;
 	}
 }

@@ -143,7 +143,7 @@ void VisibleTrayList::orderByDate()
 
 void VisibleTrayList::orderBySubject()
 {
-	orderBy([](tElemTray* a, tElemTray* b) { return (a->mail->getSubject() <= b->mail->getSubject()); });
+	orderBy([](tElemTray* a, tElemTray* b) { return a->mail->getSubject() <= b->mail->getSubject(); });
 }
 
 void VisibleTrayList::reverse()

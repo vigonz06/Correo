@@ -13,8 +13,7 @@ bool RecipientList::insert(std::string* elem)
 {
 	if (!full())
 	{
-		list[counter] = elem;
-		counter++;
+		list[counter++] = elem;
 		return true;
 	}
 	else return false;

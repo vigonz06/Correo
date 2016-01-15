@@ -29,7 +29,6 @@ bool User::load(std::ifstream &file)
 			recycling.load(file);
 			outbox.load(file);
 			inbox.load(file);
-
 			return true;
 		}
 		else return false;
