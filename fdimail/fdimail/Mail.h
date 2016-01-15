@@ -51,11 +51,12 @@ public:
 	std::string& setFrom(std::string newFrom) { return from = newFrom; }
 	std::string& setBody(std::string newBody) { return body = newBody; }
 	std::string& setSubject(std::string newSubject) { return subject = newSubject; }
+	void setRecipient(std::string* newRecipient) { recipients.insert(newRecipient); }
 
 	void save(std::ofstream &file)const;
 	bool load(std::ifstream &file);
 
-	const std::string to_string()const;
-	const std::string header()const;
+	const std::string to_string() const;
+	const std::string header() const;
 };
 #endif

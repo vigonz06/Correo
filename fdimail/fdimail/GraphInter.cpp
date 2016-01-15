@@ -1006,7 +1006,7 @@ void GraphInter::send_to_multiple(Mail* mail, ContactList* contactList)
 		enter(*recipient);
 
 		*recipient = contactList->SearchFastName(*recipient);
-		mail->getRecipients().insert(recipient);
+		mail->setRecipient(recipient);
 
 		if (*mail->getRecipients().operator[](i) == "@fdimail.com")
 		{
