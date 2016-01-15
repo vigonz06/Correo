@@ -683,37 +683,18 @@ void Session::chooseOrder(Filter filter)
 	}
 	else
 	{
-		int option = GraphInter::get()->chooseorder(this);
+		filter = Filter(GraphInter::get()->chooseorder(this));
 		bool invert = true;
 
-		if (option == 0)
+		int select = GraphInter::get()->Invert();
+
+		switch (select)
 		{
-			filter = subject;
-
-			int select = GraphInter::get()->Invert();
-
-			switch (select)
-			{
-			case 0:
-				invert = false;
-				break;
-			}
-			visible.setInvert(invert);
+		case 0:
+			invert = false;
+			break;
 		}
-		else if (option == 1)
-		{
-			filter = date;
-
-			int to_select = GraphInter::get()->Invert();
-
-			switch (to_select)
-			{
-			case 0:
-				invert = false;
-				break;
-			}
-			visible.setInvert(invert);
-		}
+		visible.setInvert(invert);
 		visible.changeOrder(filter);
 	}
 }

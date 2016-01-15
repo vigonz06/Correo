@@ -10,12 +10,16 @@ VisibleTrayList::VisibleTrayList() : List()
 
 void VisibleTrayList::init(TrayList* trayList)
 {
-	filters[date] = false;
+	for (int i = subject; i <= body; i++)
+	{
+		filters[Filter(i)] = false;
+	}
+	/*filters[date] = false;
 	filters[body] = false;
 	filters[subject] = false;
 	filters[emissor] = false;
-	filters[recipients] = false;
-
+	filters[recipients] = false;*/
+	
 	active_order = none;
 	inverse_order = false;
 
@@ -146,7 +150,7 @@ void VisibleTrayList::reverse()
 {
 	for (int i = 0; i < counter / 2; i++)
 	{
-		change(i, length() - i - 1);
+		change(i, counter - i - 1);
 	}
 }
 
