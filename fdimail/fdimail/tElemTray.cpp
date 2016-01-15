@@ -1,6 +1,3 @@
-#ifndef TELEMTRAY
-#define TELEMTRAY
-
 #include "tElemTray.h"
 #include "Manager.h"
 
@@ -15,5 +12,3 @@ void tElemTray::load(std::ifstream &file)
 	file >> idMail >> read;
 	mail = Manager::getManager()->getMailList()->get(idMail);
 }
-
-#endif

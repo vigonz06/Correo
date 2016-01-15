@@ -1,7 +1,6 @@
 #ifndef TELEMENTRAY
 #define TELEMENTRAY
 
-#include "Manager.h"
 #include <string>
 #include "Mail.h"
 

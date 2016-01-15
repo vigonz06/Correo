@@ -48,6 +48,9 @@
     <ClCompile Include="Manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="tElemTray.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="TrayList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -61,9 +64,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RecipientList.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="tElemTray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
