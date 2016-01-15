@@ -15,10 +15,13 @@ private:
 
 public:
 
+	RecipientList() {};
+
 	bool insert(std::string* elem);
 	void destroy(std::string name);
+
 	bool load(std::ifstream &file);
-	void save(std::ofstream &file);
+	void save(std::ofstream &file) const;
 };
 
 #endif

@@ -14,11 +14,10 @@ for work whith the alias an user has
 class ContactList : public List < tContact>
 {
 public:
+
 	ContactList(){}
 	ContactList(std::string userID);
 
-	//If name is in contacts, returns address associated.
-	//Else, it returns name unchanged
 	std::string SearchFastName(std::string &name);
 	void changeMe(std::string new_name);
 

@@ -11,6 +11,7 @@
 #include "Mail.h"
 
 GraphInter* GraphInter::inter = nullptr;
+Mail* GraphInter::error = nullptr;
 
 GraphInter* GraphInter::get()
 {
@@ -22,6 +23,7 @@ void GraphInter::load()
 	if (inter == nullptr)
 	{
 		inter = new GraphInter;
+		error = Mail::errorMail();
 	}
 }
 
@@ -30,6 +32,7 @@ void GraphInter::close()
 	if (inter != nullptr) 
 	{
 		delete inter;
+		delete error;
 	}
 }
 
@@ -295,15 +298,15 @@ int GraphInter::SureToEmpty(Mail* mail)
 	{
 		display("From: " + mail->getFrom());
 
-		for (int k = 0; k < mail->getRecipients()->length(); k++)
+		for (int k = 0; k < mail->getRecipients().length(); k++)
 		{
 			if (k == 0)
 			{
-				display("To: " + *mail->getRecipients()->operator[](k));
+				display("To: " + *mail->getRecipients().operator[](k));
 			}
 			else
 			{
-				display("CC: " + *mail->getRecipients()->operator[](k));
+				display("CC: " + *mail->getRecipients().operator[](k));
 			}
 		}
 		display(linea());
@@ -342,6 +345,208 @@ int GraphInter::AccountOptions()
 	elems[3] = "Exit to session menu";
 
 	return menu(elems, 4, "option");
+}
+
+Mail* GraphInter::newMail(const std::string &sender, ContactList* contactList)
+{
+	std::string subject;
+	std::ostringstream ID;
+	Mail* newMail = new Mail;
+
+	newMail->setFrom(sender);
+	newMail->setDate(time(0));
+	newMail->setCounter(2);
+
+	ID << sender << "_" << newMail->getDate();
+	newMail->setId(ID.str());
+
+	display("From: " + sender);
+
+	send_to_multiple(newMail, contactList);
+
+	if (newMail->getRecipients().empty()) return nullptr;
+
+	else
+	{
+		display("Subject: ");
+		enter(subject);
+		newMail->setSubject(subject);
+
+		if (newMail->getSubject() == "")
+		{
+			int choose;
+
+			do
+			{
+				clearConsole();
+
+				choose = SureToEmpty(newMail);
+
+				switch (choose)
+				{
+				case 0:
+
+					display("From: " + newMail->getFrom());
+
+					for (int k = 0; k < newMail->getRecipients().length(); k++)
+					{
+						if (k == 0)
+						{
+							display("To: " + *newMail->getRecipients().operator[](k));
+						}
+						else
+						{
+							display("CC: " + *newMail->getRecipients().operator[](k));
+						}
+					}
+					display("Subject: ");
+					enter(subject);
+					newMail->setSubject(subject);
+					break;
+
+				case 1:
+
+					subject = "No subject";
+					display("From: " + newMail->getFrom());
+
+					for (int k = 0; k < newMail->getRecipients().length(); k++)
+					{
+						if (k == 0)
+						{
+							display("To: " + *newMail->getRecipients().operator[](k));
+						}
+						else
+						{
+							display("CC: " + *newMail->getRecipients().operator[](k));
+						}
+					}
+					display("Subject: " + newMail->getSubject());
+					break;
+				}
+			} while (choose == 0 && newMail->getSubject() == "");
+		}
+
+		display("Body (enter twice (ENTER) to end the body): ");
+
+		std::string line;
+		std::string text = "";
+		do
+		{
+			enter(line);
+			text += line + "\n";
+		} while (line != "");
+
+		newMail->setBody(text);
+
+		if (newMail->getBody() == "" || newMail->getBody() == "\n") return nullptr;
+
+		else return newMail;
+	}
+}
+
+Mail* GraphInter::answerMail(Mail* &originalMail, const std::string &sender)
+{
+	std::ostringstream ID, BODY, SUBJECT;
+	std::string* recipient = new std::string;
+	Mail* newMail = new Mail;
+	std::string WhatToSay;
+
+	SUBJECT << "Re: " << originalMail->getSubject();
+
+	newMail->setFrom(sender);
+	newMail->setDate(time(0));
+
+	*recipient = originalMail->getFrom();
+	newMail->getRecipients().insert(recipient);
+
+	newMail->setSubject(SUBJECT.str());
+
+	ID << sender << "_" << newMail->getDate();
+	newMail->setId(ID.str());
+	display(center_word("Answered mail", HORIZONTAL, " "));
+
+	display("");
+
+	display("From: " + sender);
+
+	display("To: " + originalMail->getFrom());
+
+	display("Subject: " + newMail->getSubject());
+
+	display("Body (enter twice (ENTER) to end the body): ");
+
+	std::string line;
+	WhatToSay = "";
+	do
+	{
+		enter(line);
+		WhatToSay += line + "\n";
+	} while (line != "");
+
+	if (WhatToSay == "" || WhatToSay == "\n")
+	{
+		WhatToSay = "No body";
+	}
+
+	BODY << WhatToSay << std::endl << linea()
+		<< std::endl << originalMail->to_string();
+
+	newMail->setBody(BODY.str());
+
+	return newMail;
+}
+
+Mail* GraphInter::forward(Mail* &originalMail, const std::string &sender, ContactList* contactList)
+{
+	std::ostringstream ID, BODY, SUBJECT;
+	std::string WhatToSay;
+	Mail* newMail = new Mail;
+
+	SUBJECT << "Re: " << originalMail->getSubject();
+
+	newMail->setFrom(sender);
+	newMail->setDate(time(0));
+	newMail->setSubject(SUBJECT.str());
+
+	ID << sender << "_" << newMail->getDate();
+	newMail->setId(ID.str());
+
+	display(center_word("Forwarded mail", HORIZONTAL, " "));
+
+	display("");
+
+	display("From: " + sender);
+
+	send_to_multiple(newMail, contactList);
+
+	if (newMail->getRecipients().empty()) return nullptr;
+
+	else
+	{
+		display("Subject: " + newMail->getSubject());
+
+		display("Body (enter twice (ENTER) to end the body): ");
+
+		std::string line;
+		WhatToSay = "";
+		do
+		{
+			enter(line);
+			WhatToSay += line + "\n";
+		} while (line != "");
+
+		if (WhatToSay == "" || WhatToSay == "\n")
+		{
+			WhatToSay = "No body";
+		}
+
+		BODY << WhatToSay << std::endl << linea()
+			<< std::endl << originalMail->to_string();
+
+		newMail->setBody(BODY.str());
+
+		return newMail;
+	}
 }
 
 Mail* GraphInter::selectMail(Session* session)
@@ -466,7 +671,7 @@ void GraphInter::showTray(Session* session)
 
 			if (mail == nullptr)
 			{
-				mail = Mail::errorMail();
+				mail = error;
 			}
 
 			thisMail = mail->header();
@@ -761,6 +966,91 @@ int GraphInter::menu(std::string elems[], int max_elems, std::string to_choose)
 	} while (key != ENTER && key != ESCAPE);
 
 	return elem;
+}
+
+void GraphInter::send_to_multiple(Mail* mail, ContactList* contactList)
+{
+	int i;
+
+	for (i = 0; i < MAX_RECIPIENTS && *mail->getRecipients().operator[](i) != "@fdimail.com"; i++)
+	{
+		clearConsole();
+
+		display("From: " + mail->getFrom());
+
+		if (i > 0)
+		{
+			for (int j = 0; j < i; j++)
+			{
+				if (j == 0)
+				{
+					display("To: " + *mail->getRecipients().operator[](j));
+				}
+				else
+				{
+					display("CC: " + *mail->getRecipients().operator[](j));
+				}
+			}
+			display(linea());
+		}
+		std::string* recipient = new std::string;
+
+		if (i == 0)
+		{
+			display("To (enter (ENTER) to end the recipients):");
+		}
+		else
+		{
+			display("CC (enter (ENTER) to end the recipients):");
+		}
+		enter(*recipient);
+
+		*recipient = contactList->SearchFastName(*recipient);
+		mail->getRecipients().insert(recipient);
+
+		if (*mail->getRecipients().operator[](i) == "@fdimail.com")
+		{
+			mail->getRecipients().destroy(*mail->getRecipients().operator[](i));
+			i--;
+		}
+		else
+		{
+			bool repeat = false;
+
+			for (int j = 0; j < i && !repeat; j++)
+			{
+				if (i != j && *mail->getRecipients().operator[](j) == *mail->getRecipients().operator[](i))
+				{
+					display("You have already choose this destinatary, you cannot choose it again");
+					pause();
+
+					mail->getRecipients().destroy(*mail->getRecipients().operator[](i));
+					i--;
+					repeat = true;
+				}
+			}
+		}
+		GraphInter::get()->clearConsole();
+	}
+
+	mail->setCounter(mail->getRecipients().length() + 1);
+
+	GraphInter::get()->display("From: " + mail->getFrom());
+
+	if (!mail->getRecipients().empty())
+	{
+		for (int k = 0; k < mail->getRecipients().length(); k++)
+		{
+			if (k == 0)
+			{
+				GraphInter::get()->display("To: " + *mail->getRecipients().operator[](k));
+			}
+			else
+			{
+				GraphInter::get()->display("CC: " + *mail->getRecipients().operator[](k));
+			}
+		}
+	}
 }
 
 std::string GraphInter::center_word(std::string word, int length, std::string arround)

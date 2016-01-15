@@ -42,9 +42,9 @@ public:
 
 	inline bool full() const  { return counter == dim; }
 	inline bool empty() const { return counter == 0; }
-	inline int length() const { return this->counter; }
+	inline int length() const { return counter; }
 
-	T* operator [](int i) { assert(0 <= i && i < counter);  return list[i]; }
+	T* operator [](int i) const { assert(0 <= i && i < counter);  return list[i]; }
 
 	bool insert(T* elem);
 	bool destroy(const std::string &id);
@@ -221,24 +221,24 @@ void List<T>::shiftLeft(const int pos)
 }
 
 template<class T>
-void List<T>::init(int dim)
+void List<T>::init(int newdim)
 {
 	assert(list == nullptr);
-	if (dim <= 0)
+	if (newdim <= 0)
 	{
 		list = nullptr;
 		dim = 0;
 	}
 	else 
 	{
-		list = new T*[dim];
+		list = new T*[newdim];
 
-		for (int i = 0; i < dim; i++)
+		for (int i = 0; i < newdim; i++)
 		{
 			list[i] = nullptr;
 		}
 
-		dim = dim;
+		dim = newdim;
 	}
 	counter = 0;
 }
@@ -246,7 +246,7 @@ void List<T>::init(int dim)
 template<class T>
 void List<T>::release()
 {
-	if (this->dim != 0)
+	if (dim != 0)
 	{
 		for (int i = 0; i < counter; i++)
 		{

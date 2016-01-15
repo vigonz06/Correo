@@ -128,9 +128,7 @@ void Session::readMail()
 
 void Session::sendMail()
 {
-	Mail* mail = new Mail;
-	
-	mail->newMail(user->getId(), user->getContactlist());
+	Mail* mail = GraphInter::get()->newMail(user->getId(), user->getContactlist());
 
 	if (mail == nullptr)
 	{
@@ -147,9 +145,7 @@ void Session::sendMail()
 
 void Session::answerMail(Mail* &originalMail)
 {
-	Mail* answer = new Mail;
-
-	answer->answerMail(originalMail, user->getId());
+	Mail* answer = GraphInter::get()->answerMail(originalMail, user->getId());
 
 	if (answer == nullptr)
 	{
@@ -167,9 +163,7 @@ void Session::answerMail(Mail* &originalMail)
 
 void Session::forwardMail(Mail* &originalMail)
 {
-	Mail* forward = new Mail;
-
-	forward->forward(originalMail, user->getId(), user->getContactlist());
+	Mail* forward = GraphInter::get()->forward(originalMail, user->getId(), user->getContactlist());
 
 	if (forward == nullptr)
 	{

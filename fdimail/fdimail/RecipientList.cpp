@@ -13,7 +13,8 @@ bool RecipientList::insert(std::string* elem)
 {
 	if (!full())
 	{
-		list[counter++] = elem;
+		list[counter] = elem;
+		counter++;
 		return true;
 	}
 	else return false;
@@ -54,7 +55,7 @@ bool RecipientList::load(std::ifstream &file)
 	return true;
 }
 
-void RecipientList::save(std::ofstream &file)
+void RecipientList::save(std::ofstream &file) const
 {
 	file << counter << std::endl;
 

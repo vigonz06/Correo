@@ -19,6 +19,7 @@ class GraphInter
 private:
 
 	static GraphInter* inter;
+	static Mail* error;
 
 	GraphInter() {}
 
@@ -27,6 +28,7 @@ private:
 
 	int menu(std::string elems[], int max_elems, std::string to_choose);
 
+	void send_to_multiple(Mail* mail, ContactList* contactList);
 	void tab_word(std::string word, int pos, int cont);
 	std::string tab_word(std::string word);
 	std::string pags(Session* session);
@@ -51,6 +53,10 @@ public:
 	int ChooseTray();
 	int Invert();
 	int AccountOptions();
+
+	Mail* newMail(const std::string &sender, ContactList* contactList);
+	Mail* answerMail(Mail* &originalMail, const std::string &sender);
+	Mail* forward(Mail* &originalMail, const std::string &sender, ContactList* contactList);
 
 	Mail* selectMail(Session* sesion);
 	std::string selectAlias(Session* session);

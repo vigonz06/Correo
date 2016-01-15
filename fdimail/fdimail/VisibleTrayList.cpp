@@ -108,7 +108,7 @@ void VisibleTrayList::filterByEmissor(std::string key)
 
 void VisibleTrayList::filterByRecipient(std::string key)
 {
-	filterBy([](tElemTray* a, std::string key){ for (int i = 0; i < a->mail->getRecipients()->length(); i++){ if (a->mail->getRecipients()->operator[](i)->find(key) != -1) return true; } return false; }, key);
+	filterBy([](tElemTray* a, std::string key){ for (int i = 0; i < a->mail->getRecipients().length(); i++){ if (a->mail->getRecipients().operator[](i)->find(key) != -1) return true; } return false; }, key);
 }
 
 void VisibleTrayList::filterByRead(bool is_read)
