@@ -300,13 +300,17 @@ int GraphInter::SureToEmpty(Mail* mail)
 
 		for (int k = 0; k < mail->getRecipients().length(); k++)
 		{
-			if (k == 0)
+			switch (k)
 			{
+			case 0:
+
 				display("To: " + *mail->getRecipients().operator[](k));
-			}
-			else
-			{
+				break;
+
+			default:
+
 				display("CC: " + *mail->getRecipients().operator[](k));
+				break;
 			}
 		}
 		display(linea());
@@ -413,13 +417,17 @@ Mail* GraphInter::newMail(const std::string &sender, ContactList* contactList)
 
 					for (int k = 0; k < newMail->getRecipients().length(); k++)
 					{
-						if (k == 0)
+						switch (k)
 						{
+						case 0:
+
 							display("To: " + *newMail->getRecipients().operator[](k));
-						}
-						else
-						{
+							break;
+
+						default:
+
 							display("CC: " + *newMail->getRecipients().operator[](k));
+							break;
 						}
 					}
 					display("Subject: ");
@@ -434,13 +442,17 @@ Mail* GraphInter::newMail(const std::string &sender, ContactList* contactList)
 
 					for (int k = 0; k < newMail->getRecipients().length(); k++)
 					{
-						if (k == 0)
+						switch (k)
 						{
+						case 0:
+
 							display("To: " + *newMail->getRecipients().operator[](k));
-						}
-						else
-						{
+							break;
+
+						default:
+
 							display("CC: " + *newMail->getRecipients().operator[](k));
+							break;
 						}
 					}
 					display("Subject: " + newMail->getSubject());
@@ -453,6 +465,7 @@ Mail* GraphInter::newMail(const std::string &sender, ContactList* contactList)
 
 		std::string line;
 		std::string text = "";
+
 		do
 		{
 			enter(line);
@@ -500,6 +513,7 @@ Mail* GraphInter::answerMail(Mail* &originalMail, const std::string &sender)
 
 	std::string line;
 	WhatToSay = "";
+
 	do
 	{
 		enter(line);
@@ -552,6 +566,7 @@ Mail* GraphInter::forward(Mail* &originalMail, const std::string &sender, Contac
 
 		std::string line;
 		WhatToSay = "";
+
 		do
 		{
 			enter(line);
@@ -616,22 +631,19 @@ std::string GraphInter::selectAlias(Session* session)
 
 void GraphInter::showFastNames(ContactList* contactList)
 {
-	if (contactList->length() != 0)
+	std::ostringstream alias;
+
+	alias << std::setw(10) << "Username" << std::setw(33) << "Alias";
+
+	display(alias.str());
+
+	display(linea());
+
+	for (int i = 0; i < contactList->length(); i++)
 	{
-		std::ostringstream alias;
-
-		alias << std::setw(10) << "Username" << std::setw(33) << "Alias";
-
-		display(alias.str());
-
-		display(linea());
-
-		for (int i = 0; i < contactList->length(); i++)
-		{
-			display(tab_word(contactList->operator[](i)->header()));
-		}
-		display(linea());
+		display(tab_word(contactList->operator[](i)->header()));
 	}
+	display(linea());
 }
 
 void GraphInter::drawMail(const Mail* mail)
@@ -645,19 +657,23 @@ void GraphInter::showTray(Session* session)
 	std::string title, thisMail;
 	std::ostringstream menu;
 
-	if (session->get_active_list() == 0)
+	switch (session->get_active_list())
 	{
-		title = center_word("Inbox", HORIZONTAL, "-");
-	}
-	if (session->get_active_list() == 1)
-	{
-		title = center_word("Outbox", HORIZONTAL, "-");
-	}
-	if (session->get_active_list() == 2)
-	{
-		title = center_word("Papper Bin", HORIZONTAL, "-");
-	}
+	case 0:
 
+		title = center_word("Inbox", HORIZONTAL, "-");
+		break;
+
+	case 1:
+
+		title = center_word("Outbox", HORIZONTAL, "-");
+		break;
+
+	case 2:
+
+		title = center_word("Papper Bin", HORIZONTAL, "-");
+		break;
+	}
 	display(linea());
 
 	display(title);
@@ -936,10 +952,10 @@ void GraphInter::display(char sign)
 int GraphInter::update(int key, int elem, int max_elems)
 {
 	if (key == UP) elem--;
-	else if (key == DOWN) elem++;
+	if (key == DOWN) elem++;
 
 	if (elem < 0) elem = max_elems - 1;
-	else if (elem >= max_elems) elem = 0;
+	if (elem >= max_elems) elem = 0;
 
 	if (key == ESCAPE) elem = max_elems - 1;
 	return elem;
@@ -958,13 +974,17 @@ std::string GraphInter::linea()
 
 void GraphInter::updateTray(int key, Session* session)
 {
-	if (key == RIGHT)
+	switch (key)
 	{
+	case RIGHT:
+
 		session->get_visible()->increasePage();
-	}
-	else if (key == LEFT)
-	{
+		break;
+
+	case LEFT:
+
 		session->get_visible()->decreasePage();
+		break;
 	}
 }
 
@@ -1005,26 +1025,34 @@ void GraphInter::send_to_multiple(Mail* mail, ContactList* contactList)
 		{
 			for (int j = 0; j < i; j++)
 			{
-				if (j == 0)
+				switch (j)
 				{
+				case 0:
+
 					display("To: " + *mail->getRecipients().operator[](j));
-				}
-				else
-				{
+					break;
+
+				default:
+
 					display("CC: " + *mail->getRecipients().operator[](j));
+					break;
 				}
 			}
 			display(linea());
 		}
 		std::string* recipient = new std::string;
 
-		if (i == 0)
+		switch (i)
 		{
+		case 0:
+
 			display("To (enter (ENTER) to end the recipients):");
-		}
-		else
-		{
+			break;
+
+		default:
+
 			display("CC (enter (ENTER) to end the recipients):");
+			break;
 		}
 		enter(*recipient);
 
@@ -1053,24 +1081,28 @@ void GraphInter::send_to_multiple(Mail* mail, ContactList* contactList)
 				}
 			}
 		}
-		GraphInter::get()->clearConsole();
+		clearConsole();
 	}
 
 	mail->setCounter(mail->getRecipients().length() + 1);
 
-	GraphInter::get()->display("From: " + mail->getFrom());
+	display("From: " + mail->getFrom());
 
 	if (!mail->getRecipients().empty())
 	{
 		for (int k = 0; k < mail->getRecipients().length(); k++)
 		{
-			if (k == 0)
+			switch (k)
 			{
-				GraphInter::get()->display("To: " + *mail->getRecipients().operator[](k));
-			}
-			else
-			{
-				GraphInter::get()->display("CC: " + *mail->getRecipients().operator[](k));
+			case 0:
+
+				display("To: " + *mail->getRecipients().operator[](k));
+				break;
+
+			default:
+
+				display("CC: " + *mail->getRecipients().operator[](k));
+				break;
 			}
 		}
 	}
@@ -1082,13 +1114,17 @@ std::string GraphInter::center_word(std::string word, int length, std::string ar
 	{
 		for (int i = word.size(); i < length; i++)
 		{
-			if (word.size() % 2 == 0)
+			switch (word.size() % 2)
 			{
+			case 0:
+
 				word = word + arround;
-			}
-			else if (word.size() % 2 == 1)
-			{
+				break;
+
+			case 1:
+
 				word = arround + word;
+				break;
 			}
 		}
 	}
@@ -1123,38 +1159,52 @@ std::string GraphInter::pags(Session* session)
 {
 	std::ostringstream pags;
 
-	if (session->get_visible()->getLastPage() == 0)
+	switch (session->get_visible()->getLastPage())
 	{
+	case 0:
+
 		pags << "              ";
-	}
-	else
-	{
-		if (session->get_visible()->getPage() > 0)
+		break;
+
+	default:
+
+		switch (session->get_visible()->getPage())
 		{
-			pags << "<- (prev page)";
-		}
-		else
-		{
+		case 0:
+
 			pags << "<- (last page)";
+			break;
+
+		default:
+
+			pags << "<- (prev page)";
+			break;
 		}
+		break;
 	}
 
 	pags << center_word(std::to_string(session->get_visible()->getPage() + 1) + "/" + std::to_string(session->get_visible()->getLastPage() + 1), HORIZONTAL-28, " ");
 
-	if (session->get_visible()->getLastPage() == 0)
+	switch (session->get_visible()->getLastPage())
 	{
+	case 0:
+
 		pags << "              ";
-	}
-	else
-	{
-		if (session->get_visible()->LastPage())
+		break;
+
+	default:
+
+		switch (session->get_visible()->getPage())
 		{
+		case 0:
+
 			pags << "(first page)->";
-		}
-		else
-		{
+			break;
+
+		default:
+
 			pags << "(next page) ->";
-		}
+			break;
 	}
 	return pags.str();
 }

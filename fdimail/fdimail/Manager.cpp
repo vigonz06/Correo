@@ -50,6 +50,7 @@ User* Manager::registerUser()
 	if (idUser != "@fdimail.com" && last_password != "")
 	{
 		User* user = (userList.get(idUser));
+
 		if (user != nullptr)
 		{
 			if (user->checkPassword(last_password)) return user;
@@ -98,13 +99,21 @@ User* Manager::createAccount()
 
 void Manager::deleteAccount(User* user)
 {
-	while (user->getInbox()->length() > 0)
+	while (!user->getContactlist()->empty())
 	{
-		deleteMail(user->getInbox(), user->getInbox()->operator[](0)->getId());
+		user->getContactlist()->destroy(user->getContactlist()->operator[](0)->getId());
 	}
-	while (user->getOutbox()->length() > 0)
+	while (!user->getRecycling()->empty())
+	{
+		deleteMail(user->getRecycling(), user->getRecycling()->operator[](0)->getId());
+	}
+	while (!user->getOutbox()->empty())
 	{
 		deleteMail(user->getOutbox(), user->getOutbox()->operator[](0)->getId());
+	}
+	while (!user->getInbox()->empty())
+	{
+		deleteMail(user->getInbox(), user->getInbox()->operator[](0)->getId());
 	}
 	userList.destroy(user->getId());
 }
@@ -174,28 +183,20 @@ void Manager::popMail(TrayList* box, const std::string &idMail)
 
 void Manager::loadUsers(std::string &name)
 {
-	std::string userLocation = "Hola";
-
-	while (userLocation != "" && !userList.load(name))
+	while (name != "" && !userList.load(name))
 	{
 		GraphInter::get()->display("Could not load userList");
 		GraphInter::get()->display("Enter the file url ((ENTER) for continue)");
-		GraphInter::get()->enter(userLocation);
-
-		if (userLocation != "") name = userLocation;
+		GraphInter::get()->enter(name);
 	}
 }
 
 void Manager::loadMails(std::string &name)
 {
-	std::string mailLocation = "Hola";
-
-	while (mailLocation != "" && !mailList.load(name))
+	while (name != "" && !mailList.load(name))
 	{
 		GraphInter::get()->display("Could not load mailList");
 		GraphInter::get()->display("Enter the file url ((ENTER) for continue)");
-		GraphInter::get()->enter(mailLocation);
-
-		if (mailLocation != "") name = mailLocation;
+		GraphInter::get()->enter(name);
 	}
 }
