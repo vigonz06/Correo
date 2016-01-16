@@ -14,11 +14,6 @@ void VisibleTrayList::init(TrayList* trayList)
 	{
 		filters[Filter(i)] = false;
 	}
-	/*filters[date] = false;
-	filters[body] = false;
-	filters[subject] = false;
-	filters[emissor] = false;
-	filters[recipients] = false;*/
 	
 	active_order = none;
 	inverse_order = false;

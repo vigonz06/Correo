@@ -36,16 +36,6 @@ bool TrayList::destroy(const std::string &id)
 	else return false;
 }
 
-void TrayList::save(std::ofstream &file)const
-{
-	file << counter << std::endl;
-
-	for (int i = 0; i < counter; i++)
-	{
-		list[i]->save(file);
-	}
-}
-
 void TrayList::load(std::ifstream &file)
 {
 	int n;
@@ -59,6 +49,16 @@ void TrayList::load(std::ifstream &file)
 		elem->load(file);
 
 		if (elem->mail != nullptr) insert(elem);
+	}
+}
+
+void TrayList::save(std::ofstream &file)const
+{
+	file << counter << std::endl;
+
+	for (int i = 0; i < counter; i++)
+	{
+		list[i]->save(file);
 	}
 }
 

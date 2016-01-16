@@ -51,8 +51,8 @@ public:
 	std::string& setSubject(std::string newSubject) { return subject = newSubject; }
 	void setRecipient(std::string* newRecipient) { recipients.insert(newRecipient); }
 
-	void save(std::ofstream &file)const;
 	bool load(std::ifstream &file);
+	void save(std::ofstream &file)const;
 
 	const std::string to_string() const;
 	const std::string header() const;

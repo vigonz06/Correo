@@ -3,18 +3,6 @@
 #include <iomanip>
 #include "Mail.h"
 #include "Date.h"
-#include <ctime>
-
-void Mail::save(std::ofstream &file) const
-{
-	file << id << std::endl << user_count << std::endl 
-		<< date << std::endl << from << std::endl;
-
-	recipients.save(file);
-
-	file << subject << std::endl 
-		<< body << "#" << std::endl;
-}
 
 bool Mail::load(std::ifstream &file)
 {
@@ -61,6 +49,17 @@ bool Mail::load(std::ifstream &file)
 		else return false;
 	}
 	else return false;
+}
+
+void Mail::save(std::ofstream &file) const
+{
+	file << id << std::endl << user_count << std::endl
+		<< date << std::endl << from << std::endl;
+
+	recipients.save(file);
+
+	file << subject << std::endl
+		<< body << "#" << std::endl;
 }
 
 const std::string Mail::to_string() const

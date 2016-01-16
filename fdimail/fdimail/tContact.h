@@ -23,21 +23,21 @@ struct tContact
 	std::string& getId() { return alias; }
 	std::string& getAddress() { return user; }
 
-	void save(std::ofstream &file)const
-	{
-		file << (this->user) << " " << (this->alias) << std::endl;
-	}
-
 	void load(std::ifstream &file)
 	{
-		file >> (this->user) >> (this->alias);
+		file >> user >> alias;
+	}
+
+	void save(std::ofstream &file)const
+	{
+		file << user << " " << alias << std::endl;
 	}
 
 	std::string header()
 	{
 		std::ostringstream contact;
 
-		contact << std::setw(36) << std::left << this->user << std::left << this->alias;
+		contact << std::setw(36) << std::left << user << std::left << alias;
 
 		return contact.str();
 	}
