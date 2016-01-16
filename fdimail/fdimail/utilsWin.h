@@ -22,7 +22,7 @@ int getKey()
 			key = irInBuf.Event.KeyEvent.wVirtualKeyCode;
 		}
 		else key = irInBuf.Event.KeyEvent.uChar.AsciiChar;
-	} while (key != VK_ESCAPE && key != VK_LEFT && key != VK_UP && key != VK_ESCAPE
+	} while (key != VK_ESCAPE && key != VK_LEFT && key != VK_UP
 		&& key != VK_RIGHT  && key != VK_DOWN && key != VK_RETURN);
 
 	return key;
