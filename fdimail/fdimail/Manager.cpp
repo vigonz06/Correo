@@ -50,7 +50,6 @@ User* Manager::registerUser()
 	if (idUser != "@fdimail.com" && last_password != "")
 	{
 		User* user = (userList.get(idUser));
-
 		if (user != nullptr)
 		{
 			if (user->checkPassword(last_password)) return user;
@@ -99,21 +98,13 @@ User* Manager::createAccount()
 
 void Manager::deleteAccount(User* user)
 {
-	while (!user->getContactlist()->empty())
-	{
-		user->getContactlist()->destroy(user->getContactlist()->operator[](0)->getId());
-	}
-	while (!user->getRecycling()->empty())
-	{
-		deleteMail(user->getRecycling(), user->getRecycling()->operator[](0)->getId());
-	}
-	while (!user->getOutbox()->empty())
-	{
-		deleteMail(user->getOutbox(), user->getOutbox()->operator[](0)->getId());
-	}
-	while (!user->getInbox()->empty())
+	while (user->getInbox()->length() > 0)
 	{
 		deleteMail(user->getInbox(), user->getInbox()->operator[](0)->getId());
+	}
+	while (user->getOutbox()->length() > 0)
+	{
+		deleteMail(user->getOutbox(), user->getOutbox()->operator[](0)->getId());
 	}
 	userList.destroy(user->getId());
 }
@@ -183,20 +174,28 @@ void Manager::popMail(TrayList* box, const std::string &idMail)
 
 void Manager::loadUsers(std::string &name)
 {
-	while (name != "" && !userList.load(name))
+	std::string userLocation = "Hola";
+
+	while (userLocation != "" && !userList.load(name))
 	{
 		GraphInter::get()->display("Could not load userList");
 		GraphInter::get()->display("Enter the file url ((ENTER) for continue)");
-		GraphInter::get()->enter(name);
+		GraphInter::get()->enter(userLocation);
+
+		if (userLocation != "") name = userLocation;
 	}
 }
 
 void Manager::loadMails(std::string &name)
 {
-	while (name != "" && !mailList.load(name))
+	std::string mailLocation = "Hola";
+
+	while (mailLocation != "" && !mailList.load(name))
 	{
 		GraphInter::get()->display("Could not load mailList");
 		GraphInter::get()->display("Enter the file url ((ENTER) for continue)");
-		GraphInter::get()->enter(name);
+		GraphInter::get()->enter(mailLocation);
+
+		if (mailLocation != "") name = mailLocation;
 	}
 }
