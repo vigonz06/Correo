@@ -13,14 +13,8 @@ for making us possible to take this code.
 
 class Encript
 {
-public:
-	Encript();
-	void update(const std::string &s);
-	void update(std::istream &is);
-	std::string final();
-	static std::string from_file(const std::string &filename);
-
 private:
+
 	typedef unsigned long int uint32;
 	typedef unsigned long long uint64;
 
@@ -37,6 +31,14 @@ private:
 
 	static void buffer_to_block(const std::string &buffer, uint32 block[BLOCK_BYTES]);
 	static void read(std::istream &is, std::string &s, int max);
+
+public:
+
+	Encript();
+	void update(const std::string &s);
+	void update(std::istream &is);
+	std::string final();
+	static std::string from_file(const std::string &filename);
 };
 
 std::string sha1(const std::string &string);

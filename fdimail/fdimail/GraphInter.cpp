@@ -295,19 +295,7 @@ int GraphInter::SureToEmpty(Mail* mail)
 
 	do
 	{
-		display("From: " + mail->getFrom());
-
-		for (int k = 0; k < mail->getRecipients().length(); k++)
-		{
-			if (k == 0)
-			{
-				display("To: " + *mail->getRecipients().operator[](k));
-			}
-			else
-			{
-				display("CC: " + *mail->getRecipients().operator[](k));
-			}
-		}
+		showRecipients(mail);
 		display(linea());
 		display("Are you sure you do not want this mail to have subject?");
 
@@ -408,19 +396,7 @@ Mail* GraphInter::newMail(const std::string &sender, ContactList* contactList)
 				{
 				case 0:
 
-					display("From: " + newMail->getFrom());
-
-					for (int k = 0; k < newMail->getRecipients().length(); k++)
-					{
-						if (k == 0)
-						{
-							display("To: " + *newMail->getRecipients().operator[](k));
-						}
-						else
-						{
-							display("CC: " + *newMail->getRecipients().operator[](k));
-						}
-					}
+					showRecipients(newMail);
 					display("Subject: ");
 					enter(subject);
 					newMail->setSubject(subject);
@@ -429,19 +405,7 @@ Mail* GraphInter::newMail(const std::string &sender, ContactList* contactList)
 				case 1:
 
 					subject = "No subject";
-					display("From: " + newMail->getFrom());
-
-					for (int k = 0; k < newMail->getRecipients().length(); k++)
-					{
-						if (k == 0)
-						{
-							display("To: " + *newMail->getRecipients().operator[](k));
-						}
-						else
-						{
-							display("CC: " + *newMail->getRecipients().operator[](k));
-						}
-					}
+					showRecipients(newMail);
 					display("Subject: " + newMail->getSubject());
 					break;
 				}
@@ -583,10 +547,7 @@ Mail* GraphInter::selectMail(Session* session)
 		{
 			return session->get_visible()->operator[](number)->mail;
 		}
-		else
-		{
-			return nullptr;
-		}
+		else return nullptr;
 	}
 	else
 	{
@@ -607,10 +568,7 @@ std::string GraphInter::selectAlias(Session* session)
 	{
 		return session->getUser()->getContactlist()->operator[](session->get_visible()->length() - number + 1)->user;
 	}
-	else
-	{
-		return "";
-	}
+	else return "";
 }
 
 void GraphInter::showFastNames(ContactList* contactList)
@@ -998,23 +956,9 @@ void GraphInter::send_to_multiple(Mail* mail, ContactList* contactList)
 	{
 		clearConsole();
 
-		display("From: " + mail->getFrom());
+		showRecipients(mail);
+		display(linea());
 
-		if (i > 0)
-		{
-			for (int j = 0; j < i; j++)
-			{
-				if (j == 0)
-				{
-					display("To: " + *mail->getRecipients().operator[](j));
-				}
-				else
-				{
-					display("CC: " + *mail->getRecipients().operator[](j));
-				}
-			}
-			display(linea());
-		}
 		std::string* recipient = new std::string;
 
 		if (i == 0)
@@ -1052,27 +996,12 @@ void GraphInter::send_to_multiple(Mail* mail, ContactList* contactList)
 				}
 			}
 		}
-		GraphInter::get()->clearConsole();
+		clearConsole();
 	}
 
 	mail->setCounter(mail->getRecipients().length() + 1);
 
-	GraphInter::get()->display("From: " + mail->getFrom());
-
-	if (!mail->getRecipients().empty())
-	{
-		for (int k = 0; k < mail->getRecipients().length(); k++)
-		{
-			if (k == 0)
-			{
-				GraphInter::get()->display("To: " + *mail->getRecipients().operator[](k));
-			}
-			else
-			{
-				GraphInter::get()->display("CC: " + *mail->getRecipients().operator[](k));
-			}
-		}
-	}
+	showRecipients(mail);
 }
 
 std::string GraphInter::center_word(std::string word, int length, std::string arround)
@@ -1156,4 +1085,24 @@ std::string GraphInter::pags(Session* session)
 		}
 	}
 	return pags.str();
+}
+
+void GraphInter::showRecipients(Mail* mail)
+{
+	display("From: " + mail->getFrom());
+
+	if (!mail->getRecipients().empty())
+	{
+		for (int i = 0; i < mail->getRecipients().length(); i++)
+		{
+			if (i == 0)
+			{
+				display("To: " + *mail->getRecipients().operator[](i));
+			}
+			else
+			{
+				display("CC: " + *mail->getRecipients().operator[](i));
+			}
+		}
+	}
 }

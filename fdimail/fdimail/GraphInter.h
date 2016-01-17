@@ -33,6 +33,7 @@ private:
 	void tab_word(std::string word, int pos, int cont);
 	std::string tab_word(std::string word);
 	std::string pags(Session* session);
+	void showRecipients(Mail* mail);
 
 public:
 

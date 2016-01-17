@@ -29,7 +29,6 @@ void User::save(std::ofstream &file)const
 	file << id << std::endl
 		<< password << std::endl;
 
-
 	contactList.save(file);
 	recycling.save(file);
 	outbox.save(file);

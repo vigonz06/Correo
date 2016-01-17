@@ -302,11 +302,7 @@ void Session::restoreMail()
 
 void Session::changeTray()
 {
-	int opt;
-
-	opt = GraphInter::get()->ChooseTray();
-
-	active_list = opt;
+	active_list = GraphInter::get()->ChooseTray();
 }
 
 TrayList* Session::active_tray() 
@@ -329,7 +325,7 @@ void Session::fastRead()
 {
 	if (visible.empty())
 	{
-		GraphInter::get()->display("You do not have any mail on your tray");
+		GraphInter::get()->display("You do not have any mails on your tray");
 		GraphInter::get()->pause();
 	}
 	else
@@ -632,10 +628,18 @@ void Session::chooseFilter(Filter filter)
 				char* lowdate = new char[256];
 				char* update = new char[256];
 
-				GraphInter::get()->display("Enter the lower date");
-				GraphInter::get()->enter(lowdate);
-				GraphInter::get()->display("Enter the upper date");
-				GraphInter::get()->enter(update);
+				do
+				{
+					GraphInter::get()->display("Enter the lower date");
+					GraphInter::get()->enter(lowdate);
+					GraphInter::get()->display("Enter the upper date");
+					GraphInter::get()->enter(update);
+
+					if (lowdate > update)
+					{
+						GraphInter::get()->display("The lower date cannot be higher than the upper one");
+					}
+				} while (lowdate > update);
 
 				visible.setFilterDate(lowdate, update);
 

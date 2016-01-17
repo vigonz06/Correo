@@ -2,7 +2,6 @@
 #define LIST
 
 #include "GlobalConstants.h"
-#include <assert.h>
 #include <string>
 
 /*----------------------------
@@ -43,7 +42,7 @@ public:
 	inline bool empty() const { return counter == 0; }
 	inline int length() const { return counter; }
 
-	T* operator [](int i) const { assert(0 <= i && i < counter);  return list[i]; }
+	T* operator [](int i) const { return list[i]; }
 
 	bool insert(T* elem);
 	bool destroy(const std::string &id);
@@ -80,7 +79,6 @@ bool List<T>::destroy(const std::string &id)
 	int left_key = 0, right_key = counter - 1;
 	if (search(id, pos, left_key, right_key))
 	{
-		assert(0 <= pos && pos < counter);
 		delete list[pos];
 		shiftLeft(pos);
 		counter--;
@@ -202,7 +200,6 @@ bool List<T>::load(const std::string &name)
 template<class T>
 void List<T>::shiftRight(const int pos)
 {
-	assert(!full());
 	for (int i = counter; i > pos; i--)
 	{
 		list[i] = list[i - 1];
@@ -212,7 +209,6 @@ void List<T>::shiftRight(const int pos)
 template<class T>
 void List<T>::shiftLeft(const int pos)
 {
-	assert(0 <= pos && pos < counter);
 	for (int i = pos; i < counter - 1; i++)
 	{
 		list[i] = list[i+1];
@@ -222,7 +218,6 @@ void List<T>::shiftLeft(const int pos)
 template<class T>
 void List<T>::init(int newdim)
 {
-	assert(list == nullptr);
 	if (newdim <= 0)
 	{
 		list = nullptr;

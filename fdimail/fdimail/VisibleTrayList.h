@@ -33,9 +33,9 @@ private:
 	int page;
 	int lastPage;
 
-	std::map<Filter, bool> filters;
 	Date lower;
 	Date upper;
+	std::map<Filter, bool> filters;
 	std::map<Filter, std::string> keys;
 
 public:
