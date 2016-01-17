@@ -1,7 +1,6 @@
 #include "tElemTray.h"
 #include "TrayList.h"
 #include "Manager.h"
-#include "checkML.h"
 
 tElemTray* TrayList::get(const std::string &id)
 {

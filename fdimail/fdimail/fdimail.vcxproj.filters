@@ -80,9 +80,6 @@
     <ClInclude Include="utilsWin.h">
       <Filter>Auxiliar</Filter>
     </ClInclude>
-    <ClInclude Include="checkML.h">
-      <Filter>Auxiliar</Filter>
-    </ClInclude>
     <ClInclude Include="GraphInter.h">
       <Filter>Header Files</Filter>
     </ClInclude>

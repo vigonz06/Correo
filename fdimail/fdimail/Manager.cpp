@@ -1,6 +1,5 @@
 #include "GraphInter.h"
 #include "Manager.h"
-#include "checkML.h"
 #include <sstream>
 
 Manager* Manager::manager = nullptr;
@@ -98,13 +97,17 @@ User* Manager::createAccount()
 
 void Manager::deleteAccount(User* user)
 {
-	while (user->getInbox()->length() > 0)
+	while (!user->getRecycling()->empty())
 	{
-		deleteMail(user->getInbox(), user->getInbox()->operator[](0)->getId());
+		deleteMail(user->getRecycling(), user->getRecycling()->operator[](0)->getId());
 	}
-	while (user->getOutbox()->length() > 0)
+	while (user->getOutbox()->empty())
 	{
 		deleteMail(user->getOutbox(), user->getOutbox()->operator[](0)->getId());
+	}
+	while (!user->getInbox()->empty())
+	{
+		deleteMail(user->getInbox(), user->getInbox()->operator[](0)->getId());
 	}
 	userList.destroy(user->getId());
 }
