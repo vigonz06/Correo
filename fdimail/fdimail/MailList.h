@@ -19,6 +19,7 @@ public:
 	{
 		int pos;
 		int left_key = 0, right_key = counter - 1;
+
 		if (search(id, pos, left_key, right_key))
 		{
 			list[pos]->lowerCounter();

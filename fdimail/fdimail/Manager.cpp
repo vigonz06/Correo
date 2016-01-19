@@ -44,6 +44,7 @@ User* Manager::registerUser()
 {
 	std::string idUser;
 	std::string last_password;
+
 	GraphInter::get()->logMenu(idUser, last_password);
 
 	if (idUser != "@fdimail.com" && last_password != "")
@@ -161,8 +162,6 @@ bool Manager::answer(User* user, Mail* mail)
 
 void Manager::deleteMail(TrayList* box, const std::string &idMail)
 {
-	Mail* mail = mailList.get(idMail);
-
 	box->destroy(idMail);
 
 	mailList.delete_mail(idMail);
@@ -170,35 +169,25 @@ void Manager::deleteMail(TrayList* box, const std::string &idMail)
 
 void Manager::popMail(TrayList* box, const std::string &idMail)
 {
-	Mail* mail = mailList.get(idMail);
-
 	box->pop(box->get(idMail));
 }
 
 void Manager::loadUsers(std::string &name)
 {
-	std::string userLocation = "Hola";
-
-	while (userLocation != "" && !userList.load(name))
+	while (name != "" && !userList.load(name))
 	{
 		GraphInter::get()->display("Could not load userList");
 		GraphInter::get()->display("Enter the file url ((ENTER) for continue)");
-		GraphInter::get()->enter(userLocation);
-
-		if (userLocation != "") name = userLocation;
+		GraphInter::get()->enter(name);
 	}
 }
 
 void Manager::loadMails(std::string &name)
 {
-	std::string mailLocation = "Hola";
-
-	while (mailLocation != "" && !mailList.load(name))
+	while (name != "" && !mailList.load(name))
 	{
 		GraphInter::get()->display("Could not load mailList");
 		GraphInter::get()->display("Enter the file url ((ENTER) for continue)");
-		GraphInter::get()->enter(mailLocation);
-
-		if (mailLocation != "") name = mailLocation;
+		GraphInter::get()->enter(name);
 	}
 }
