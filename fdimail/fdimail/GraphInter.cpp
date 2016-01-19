@@ -665,7 +665,7 @@ void GraphInter::showTray(Session* session)
 	display(linea());
 }
 
-int GraphInter::choosefilter(Session* session)
+int GraphInter::choosefilter()
 {
 	std::string elems[8];
 
@@ -681,7 +681,7 @@ int GraphInter::choosefilter(Session* session)
 	return menu(elems, 8, "option");
 }
 
-int GraphInter::chooseorder(Session* session)
+int GraphInter::chooseorder()
 {
 	std::string elems[2];
 

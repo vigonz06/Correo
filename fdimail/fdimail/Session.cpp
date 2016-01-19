@@ -66,7 +66,6 @@ void Session::launch()
 			break;
 		case 3:
 			changeTray();
-			visible.link(active_tray());
 			break;
 		case 4:
 			fastRead();
@@ -303,6 +302,8 @@ void Session::restoreMail()
 void Session::changeTray()
 {
 	active_list = GraphInter::get()->ChooseTray();
+
+	visible.link(active_tray());
 }
 
 TrayList* Session::active_tray() 
@@ -453,7 +454,7 @@ void Session::AddFastName()
 				{
 					for (int k = 0; k < int(newId.size()) && alias_right; k++)
 					{
-						if ('A' > newId[k] || newId[k] > 'Z' && newId[k] < 'a' || newId[k] > 'z')
+						if (('A' > newId[k] || newId[k] > 'Z') && (newId[k] < 'a' || newId[k] > 'z'))
 						{
 							character << "(" << char(newId[k]) << ")";
 
@@ -494,65 +495,59 @@ void Session::AliasOptions()
 
 		option = GraphInter::get()->AliasMenu(this);
 
-		if (option == 0)
+		switch (option)
 		{
+		case 0:
+
 			AddFastName();
-		}
-		else if (option != 3)
-		{
-			if (user->getContactlist()->empty())
+			break;
+
+		case 1:
+
+			if (user->getContactlist()->length() > 1)
 			{
-				GraphInter::get()->display("You have no alias to delete");
-				GraphInter::get()->pause();
+				std::string name = GraphInter::get()->selectAlias(this);
+
+				if (name != "")
+				{
+					if (user->getContactlist()->get(name)->alias == "Me")
+					{
+						GraphInter::get()->display("You cannot delete your self alias");
+						GraphInter::get()->pause();
+					}
+					else
+					{
+						user->getContactlist()->destroy(name);
+					}
+				}
 			}
 			else
 			{
-				if (option == 1)
-				{
-					if (user->getContactlist()->length() > 1)
-					{
-						std::string name = GraphInter::get()->selectAlias(this);
+				GraphInter::get()->display("You cannot delete your self alias");
+				GraphInter::get()->pause();
+			}
+			break;
 
-						if (name != "")
-						{
-							if (user->getContactlist()->get(name)->alias == "Me")
-							{
-								GraphInter::get()->display("You cannot delete your self alias");
-								GraphInter::get()->pause();
-							}
-							else
-							{
-								user->getContactlist()->destroy(name);
-							}
-						}
-					}
-					else
-					{
-						GraphInter::get()->display("You cannot delete your self alias");
-						GraphInter::get()->pause();
-					}
-				}
-				else if (option == 2)
-				{
-					if (user->getContactlist()->length() > 1)
-					{
-						int namelenth = user->getContactlist()->length();
+		case 2:
 
-						for (int i = namelenth - 1; i >= 0; i--)
-						{
-							if (user->getContactlist()->operator[](i)->alias != "Me")
-							{
-								user->getContactlist()->destroy(user->getContactlist()->operator[](i)->getId());
-							}
-						}
-					}
-					else
+			if (user->getContactlist()->length() > 1)
+			{
+				int namelenth = user->getContactlist()->length();
+
+				for (int i = namelenth - 1; i >= 0; i--)
+				{
+					if (user->getContactlist()->operator[](i)->alias != "Me")
 					{
-						GraphInter::get()->display("You cannot delete your self alias");
-						GraphInter::get()->pause();
+						user->getContactlist()->destroy(user->getContactlist()->operator[](i)->getId());
 					}
 				}
 			}
+			else
+			{
+				GraphInter::get()->display("You cannot delete your self alias");
+				GraphInter::get()->pause();
+			}
+			break;
 		}
 	} while (option != 3);
 }
@@ -579,10 +574,14 @@ void Session::MailOptions()
 			switch (opt)
 			{
 			case 0:
+
 				deleteMail();
 				break;
+
 			case 1:
+
 				restoreMail();
+				break;
 			}
 		}
 	}
@@ -594,17 +593,22 @@ void Session::filterOptions(Filter filter)
 
 	option = GraphInter::get()->filter();
 
-	if (option == 0)
+	switch (option)
 	{
+	case 0:
+
 		chooseOrder(filter);
-	}
-	if (option == 1)
-	{
+		break;
+
+	case 1:
+
 		chooseFilter(filter);
-	}
-	if (option == 2)
-	{
+		break;
+
+	case 2:
+
 		visible.closeFilter();
+		break;
 	}
 }
 
@@ -619,7 +623,7 @@ void Session::chooseFilter(Filter filter)
 	{
 		visible.closeFilter();
 
-		filter = Filter(GraphInter::get()->choosefilter(this));
+		filter = Filter(GraphInter::get()->choosefilter());
 
 		if (filter != none)
 		{
@@ -680,7 +684,7 @@ void Session::chooseOrder(Filter filter)
 	}
 	else
 	{
-		filter = Filter(GraphInter::get()->chooseorder(this));
+		filter = Filter(GraphInter::get()->chooseorder());
 		bool invert = true;
 
 		int select = GraphInter::get()->Invert();

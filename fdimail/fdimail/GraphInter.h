@@ -70,8 +70,8 @@ public:
 	void drawMail(const Mail* mail);
 	void showTray(Session* session);
 
-	int choosefilter(Session* session);
-	int chooseorder(Session* session);
+	int choosefilter();
+	int chooseorder();
 	int filter();
 
 	void pause();

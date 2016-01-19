@@ -29,24 +29,21 @@ public:
 	Manager(const std::string &new_domain);
 	~Manager();
 
-	void bootUp();
-	void shutDown();
-
 	static Manager* getManager(){ return manager; }
 
 	MailList* getMailList(){ return &mailList; }
 	UserList* getUserList(){ return &userList; }
 
-	std::string getDomain(){ return domain; }
+	void bootUp();
+	void shutDown();
 
 	User* registerUser();
 	User* createAccount();
 
 	void deleteAccount(User* user);
-
-	void sendMail(User* user, Mail* mail);
 	bool answer(User* user, Mail* mail);
-	void deleteMail(TrayList* box, const std::string &idMail);
+	void sendMail(User* user, Mail* mail);
 	void popMail(TrayList* box, const std::string &idMail);
+	void deleteMail(TrayList* box, const std::string &idMail);
 };
 #endif
