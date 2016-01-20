@@ -21,9 +21,8 @@ private:
 	MailList mailList;
 	UserList userList;
 
-	void bootUp();
-	void shutDown();
-	void load(std::string name, bool(*funct)(std::string));
+	void loadUsers(std::string &name);
+	void loadMails(std::string &name);
 
 public:
 
@@ -34,6 +33,9 @@ public:
 
 	MailList* getMailList(){ return &mailList; }
 	UserList* getUserList(){ return &userList; }
+
+	void bootUp();
+	void shutDown();
 
 	User* registerUser();
 	User* createAccount();
