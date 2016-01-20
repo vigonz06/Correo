@@ -26,8 +26,8 @@ void Manager::bootUp()
 	mail_file << domain << "_mails.txt";
 	user_file << domain << "_users.txt";
 
-	loadMails(mail_file.str());
-	loadUsers(user_file.str());
+	load(mail_file.str(), mailList.load);
+	load(user_file.str(), userList.load);
 }
 
 void Manager::shutDown()
@@ -172,19 +172,9 @@ void Manager::popMail(TrayList* box, const std::string &idMail)
 	box->pop(box->get(idMail));
 }
 
-void Manager::loadUsers(std::string &name)
+void Manager::load(std::string name, bool(*funct)(std::string))
 {
-	while (name != "" && !userList.load(name))
-	{
-		GraphInter::get()->display("Could not load userList");
-		GraphInter::get()->display("Enter the file url ((ENTER) for continue)");
-		GraphInter::get()->enter(name);
-	}
-}
-
-void Manager::loadMails(std::string &name)
-{
-	while (name != "" && !mailList.load(name))
+	while (name != "" && funct(name))
 	{
 		GraphInter::get()->display("Could not load mailList");
 		GraphInter::get()->display("Enter the file url ((ENTER) for continue)");
