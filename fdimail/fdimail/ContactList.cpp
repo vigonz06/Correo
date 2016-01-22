@@ -8,14 +8,18 @@ ContactList::ContactList(std::string userID): List()
 
 std::string ContactList::SearchFastName(std::string &name)
 {
-	for (int j = 0; j < name.size(); j++)
+	if (name != "")
 	{
-		if (name[j] == '@') return name;
-	}
+		for (int j = 0; j < name.size(); j++)
+		{
+			if (name[j] == '@') return name;
+		}
 
-	tContact* contact = get(name);
-	if (contact != nullptr) return contact->getAddress();
-	else return name + "@fdimail.com";
+		tContact* contact = get(name);
+		if (contact != nullptr) return contact->getAddress();
+		else return name + "@fdimail.com";
+	}
+	return name;
 }
 
 void ContactList::changeMe(std::string new_name)

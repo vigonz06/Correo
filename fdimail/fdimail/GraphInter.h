@@ -27,6 +27,12 @@ private:
 	int update(int key, int elem, int max_elems);
 	void updateTray(int key, Session* session);
 
+
+	std::string HidePassword();
+	bool mayus(std::string word);
+	bool digit(std::string word);
+	bool symbl(std::string word);
+
 	int menu(std::string elems[], int max_elems, std::string to_choose);
 
 	void send_to_multiple(Mail* mail, ContactList* contactList);
@@ -87,7 +93,6 @@ public:
 	void enter(char* str);
 
 	std::string HideLimitPassword();
-	std::string HidePassword();
 
 	void display(std::string error);
 	void display(char sign);

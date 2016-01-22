@@ -50,6 +50,7 @@ User* Manager::registerUser()
 	if (idUser != "@fdimail.com" && last_password != "")
 	{
 		User* user = (userList.get(idUser));
+
 		if (user != nullptr)
 		{
 			if (user->checkPassword(last_password)) return user;
@@ -75,6 +76,7 @@ User* Manager::createAccount()
 {
 	std::string idUser;
 	std::string last_password;
+
 	GraphInter::get()->logMenu(idUser, last_password);
 	
 	if (idUser != "@fdimail.com" && last_password != "")
@@ -102,7 +104,7 @@ void Manager::deleteAccount(User* user)
 	{
 		deleteMail(user->getRecycling(), user->getRecycling()->operator[](0)->getId());
 	}
-	while (user->getOutbox()->empty())
+	while (!user->getOutbox()->empty())
 	{
 		deleteMail(user->getOutbox(), user->getOutbox()->operator[](0)->getId());
 	}
@@ -122,16 +124,16 @@ void Manager::sendMail(User* user, Mail* mail)
 
 		user->getOutbox()->insert(elem);
 
-		for (int j = 0; j < mail->getRecipients().length(); j++)
+		for (int j = 0; j < mail->getRecipients().size(); j++)
 		{
-			if (userList.get(*mail->getRecipients().operator[](j)) != nullptr)
+			if (userList.get(mail->getRecipients()[j]) != nullptr)
 			{
-				userList.get(*mail->getRecipients().operator[](j))->getInbox()->insert(new tElemTray(mail));
+				userList.get(mail->getRecipients()[j])->getInbox()->insert(new tElemTray(mail));
 			}
 			else
 			{
 				mail->lowerCounter();
-				GraphInter::get()->display("Destinatary " + *mail->getRecipients().operator[](j) + " not found");
+				GraphInter::get()->display("Destinatary " + mail->getRecipients()[j] + " not found");
 				GraphInter::get()->display("He was not sent the mail");
 				GraphInter::get()->pause();
 			}
@@ -146,14 +148,14 @@ void Manager::sendMail(User* user, Mail* mail)
 
 bool Manager::answer(User* user, Mail* mail)
 {
-	if (userList.get(*mail->getRecipients().operator[](0)) != nullptr)
+	if (userList.get(mail->getRecipients()[0]) != nullptr)
 	{
 		mailList.insert(mail);
 
 		user->getOutbox()->insert(new tElemTray(mail));
 		user->getOutbox()->get(mail->getId())->read = true;
 
-		userList.get(*mail->getRecipients().operator[](0))->getInbox()->insert(new tElemTray(mail));
+		userList.get(mail->getRecipients()[0])->getInbox()->insert(new tElemTray(mail));
 
 		return true;
 	}

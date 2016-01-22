@@ -101,7 +101,7 @@ public:
 
 	void closeFilter()
 	{
-		for (int i = subject; i <= unread; i++)
+		for (int i = subject; i < none; i++)
 		{
 			filters[Filter(i)] = false;
 		}

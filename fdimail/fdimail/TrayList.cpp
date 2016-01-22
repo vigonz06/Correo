@@ -5,15 +5,14 @@
 tElemTray* TrayList::get(const std::string &id)
 {
 	int pos = 0;
-	if (search(id, pos)) return list[pos];
-	else return nullptr;
+	return (search(id, pos)) ? list[pos] : nullptr;
 }
 
 bool TrayList::search(const std::string &id, int &pos)
 {
 	for (pos = 0; pos < counter && list[pos]->getId() != id; pos++);
-	if (pos < counter) return true;
-	else return false;
+
+	return (pos < counter) ? true : false;
 }
 
 void TrayList::insert(tElemTray * const elem)

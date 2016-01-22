@@ -78,7 +78,6 @@
     <ClCompile Include="GraphInter.cpp" />
     <ClCompile Include="Mail.cpp" />
     <ClCompile Include="Manager.cpp" />
-    <ClCompile Include="RecipientList.cpp" />
     <ClCompile Include="Session.cpp" />
     <ClCompile Include="tElemTray.cpp" />
     <ClCompile Include="TrayList.cpp" />
@@ -95,7 +94,6 @@
     <ClInclude Include="Mail.h" />
     <ClInclude Include="MailList.h" />
     <ClInclude Include="Manager.h" />
-    <ClInclude Include="RecipientList.h" />
     <ClInclude Include="Session.h" />
     <ClInclude Include="tContact.h" />
     <ClInclude Include="tElemTray.h" />

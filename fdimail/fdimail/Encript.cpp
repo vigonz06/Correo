@@ -1,7 +1,6 @@
 #include "Encript.h"
 #include <sstream>
 #include <iomanip>
-#include <fstream>
 
 /*
 Thanks to http://www.zedwood.com/article/cpp-sha1-function

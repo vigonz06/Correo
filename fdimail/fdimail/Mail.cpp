@@ -6,6 +6,8 @@
 
 bool Mail::load(std::ifstream &file)
 {
+	std::string recipient;
+
 	file >> id;
 
 	if (id != "XXX" && !file.fail())
@@ -22,20 +24,22 @@ bool Mail::load(std::ifstream &file)
 
 				if (!file.fail())
 				{
-					if (recipients.load(file))
+					for (int i = 0; i < user_count - 1; i++)
 					{
+						file >> recipient;
+
+						recipients.push_back(recipient);
+					}
+					if (!file.fail())
+					{
+						file.ignore();
+						std::getline(file, subject);
+
 						if (!file.fail())
 						{
-							file.ignore();
-							std::getline(file, subject);
+							std::getline(file, body, '#');
 
-							if (!file.fail())
-							{
-								std::getline(file, body, '#');
-
-								if (!file.fail()) return true;
-								else return false;
-							}
+							if (!file.fail()) return true;
 							else return false;
 						}
 						else return false;
@@ -56,7 +60,10 @@ void Mail::save(std::ofstream &file) const
 	file << id << std::endl << user_count << std::endl
 		<< date << std::endl << from << std::endl;
 
-	recipients.save(file);
+	for (int i = 0; i < recipients.size(); i++)
+	{
+		file << recipients[i] << std::endl;
+	}
 
 	file << subject << std::endl
 		<< body << "#" << std::endl;
@@ -68,7 +75,7 @@ const std::string Mail::to_string() const
 
 	flow << "From: " << from << std::setw(55) << showDate(date) << std::endl;
 
-	for (int i = 0; i < recipients.length(); i++)
+	for (int i = 0; i < recipients.size(); i++)
 	{
 		flow << "To: " << recipients.operator[](i) << std::endl;
 	}

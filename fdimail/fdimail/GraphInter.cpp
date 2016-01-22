@@ -54,7 +54,7 @@ void GraphInter::logMenu(std::string &username, std::string &password)
 	{
 		display("Enter your password");
 
-		password = HideLimitPassword();
+		password = HidePassword();
 	}
 	else
 	{
@@ -261,7 +261,7 @@ int GraphInter::WhatToDelete(Session* session)
 	std::string elems[3];
 
 	elems[0] = "Choose mail";
-	elems[1] = "Delete all mails";
+	elems[1] = "All mails";
 	elems[2] = "Exit to session menu";
 
 	return trayMenu(session, elems, 3);
@@ -338,7 +338,7 @@ Mail* GraphInter::errorMail()
 {
 	std::ostringstream ID;
 	Mail* error = new Mail;
-	std::string* recipient = new std::string;
+	std::string recipient;
 
 	error->setFrom("Tecnical Service");
 	error->setDate(time(0));
@@ -347,7 +347,7 @@ Mail* GraphInter::errorMail()
 	ID << "fdimail" << "_" << error->getDate();
 	error->setId(ID.str());
 
-	*recipient = "fdimail";
+	recipient = "fdimail";
 	error->setRecipient(recipient);
 
 	error->setSubject("Mail error");
@@ -433,7 +433,7 @@ Mail* GraphInter::newMail(const std::string &sender, ContactList* contactList)
 Mail* GraphInter::answerMail(Mail* &originalMail, const std::string &sender)
 {
 	std::ostringstream ID, BODY, SUBJECT;
-	std::string* recipient = new std::string;
+	std::string recipient;
 	Mail* newMail = new Mail;
 	std::string WhatToSay;
 
@@ -442,8 +442,8 @@ Mail* GraphInter::answerMail(Mail* &originalMail, const std::string &sender)
 	newMail->setFrom(sender);
 	newMail->setDate(time(0));
 
-	*recipient = originalMail->getFrom();
-	newMail->getRecipients().insert(recipient);
+	recipient = originalMail->getFrom();
+	newMail->getRecipients().push_back(recipient);
 
 	newMail->setSubject(SUBJECT.str());
 
@@ -627,7 +627,7 @@ void GraphInter::showTray(Session* session)
 	}
 	else
 	{
-		menu << "\n" << "\n" << "R N" << std::setw(7) << "FROM" 
+		menu << "\n" << "R N" << std::setw(7) << "FROM" 
 			<< std::setw(33) << "SUBJECT" << std::setw(31) << "DATE";
 
 		display(menu.str());
@@ -827,21 +827,35 @@ void GraphInter::enter(char* str)
 std::string GraphInter::HideLimitPassword()
 {
 	std::string word;
+	bool correct;
+	int security;
+
 	do
 	{
+		security = 0;
+		correct = true;
 		word = HidePassword();
 
 		if (word.size() != 0)
 		{
-			if (word.size() < PASSWORD_MIN_LENGTH)
+			if (mayus(word)) security += 2;
+
+			if (digit(word)) security += 2;
+
+			if (symbl(word)) security += 2;
+
+			if (word.size() >= PASSWORD_MIN_LENGTH) security++;
+
+			if (word.size() >= PASSWORD_NORMAL_LENGTH) security++;
+
+			if (security < SECURITY)
 			{
 				display("");
-				std::string msg = std::string("Error, your password must contain ") + std::to_string(PASSWORD_MIN_LENGTH) + std::string(" characters or more");
-				display(msg);
+				display("Your password is not secure enought");
 				display("Enter your password");
 			}
 		}
-	} while (word.size() != 0 && word.size() < PASSWORD_MIN_LENGTH);
+	} while (word.size() != 0 && security < SECURITY);
 
 	display("");
 
@@ -878,6 +892,33 @@ std::string GraphInter::HidePassword()
 	word[i] = NULL;
 
 	return word;
+}
+
+bool GraphInter::mayus(std::string word)
+{
+	for (int i = 0; i < word.size(); i++)
+	{
+		if (word[i] >= 65 && word[i] <= 90) return true;
+	}
+	return false;
+}
+
+bool GraphInter::digit(std::string word)
+{
+	for (int i = 0; i < word.size(); i++)
+	{
+		if (isdigit(word[i])) return true;
+	}
+	return false;
+}
+
+bool GraphInter::symbl(std::string word)
+{
+	for (int i = 0; i < word.size(); i++)
+	{
+		if (word[i] < 48 || (word[i] > 57 && word[i] < 65) || (word[i] > 90 && word[i] < 97) || word[i] > 122) return true;
+	}
+	return false;
 }
 
 void GraphInter::display(std::string error)
@@ -950,18 +991,18 @@ int GraphInter::menu(std::string elems[], int max_elems, std::string to_choose)
 
 void GraphInter::send_to_multiple(Mail* mail, ContactList* contactList)
 {
-	int i;
+	bool repeat;
+	std::string recipient;
 
-	for (i = 0; i < MAX_RECIPIENTS && *mail->getRecipients().operator[](i) != "@fdimail.com"; i++)
+	do
 	{
 		clearConsole();
+		repeat = false;
 
 		showRecipients(mail);
 		display(linea());
 
-		std::string* recipient = new std::string;
-
-		if (i == 0)
+		if (mail->getRecipients().empty())
 		{
 			display("To (enter (ENTER) to end the recipients):");
 		}
@@ -969,37 +1010,30 @@ void GraphInter::send_to_multiple(Mail* mail, ContactList* contactList)
 		{
 			display("CC (enter (ENTER) to end the recipients):");
 		}
-		enter(*recipient);
+		enter(recipient);
+		recipient = contactList->SearchFastName(recipient);
 
-		*recipient = contactList->SearchFastName(*recipient);
-		mail->setRecipient(recipient);
-
-		if (*mail->getRecipients().operator[](i) == "@fdimail.com")
+		if (!recipient.empty())
 		{
-			mail->getRecipients().destroy(*mail->getRecipients().operator[](i));
-			i--;
-		}
-		else
-		{
-			bool repeat = false;
-
-			for (int j = 0; j < i && !repeat; j++)
+			for (int j = 0; j < mail->getRecipients().size() && !repeat; j++)
 			{
-				if (i != j && *mail->getRecipients().operator[](j) == *mail->getRecipients().operator[](i))
+				if (mail->getRecipients().operator[](j) == recipient)
 				{
 					display("You have already choose this destinatary, you cannot choose it again");
 					pause();
 
-					mail->getRecipients().destroy(*mail->getRecipients().operator[](i));
-					i--;
 					repeat = true;
 				}
 			}
+			if (!repeat)
+			{
+				mail->setRecipient(recipient);
+			}
 		}
 		clearConsole();
-	}
+	} while (mail->getRecipients().size() < MAX_ELEMS && !recipient.empty());
 
-	mail->setCounter(mail->getRecipients().length() + 1);
+	mail->setCounter(mail->getRecipients().size() + 1);
 
 	showRecipients(mail);
 }
@@ -1093,15 +1127,15 @@ void GraphInter::showRecipients(Mail* mail)
 
 	if (!mail->getRecipients().empty())
 	{
-		for (int i = 0; i < mail->getRecipients().length(); i++)
+		for (int i = 0; i < mail->getRecipients().size(); i++)
 		{
 			if (i == 0)
 			{
-				display("To: " + *mail->getRecipients().operator[](i));
+				display("To: " + mail->getRecipients()[i]);
 			}
 			else
 			{
-				display("CC: " + *mail->getRecipients().operator[](i));
+				display("CC: " + mail->getRecipients()[i]);
 			}
 		}
 	}

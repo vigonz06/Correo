@@ -63,9 +63,6 @@
     <ClCompile Include="Session.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RecipientList.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Date.h">
@@ -118,9 +115,6 @@
     </ClInclude>
     <ClInclude Include="Session.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RecipientList.h">
-      <Filter>Lists</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

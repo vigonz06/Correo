@@ -10,10 +10,7 @@ VisibleTrayList::VisibleTrayList() : List()
 
 void VisibleTrayList::init(TrayList* trayList)
 {
-	for (int i = subject; i <= body; i++)
-	{
-		filters[Filter(i)] = false;
-	}
+	closeFilter();
 	
 	active_order = none;
 	inverse_order = false;
@@ -45,7 +42,7 @@ void VisibleTrayList::refresh()
 	case subject:
 		orderBySubject();
 		break;
-	default:
+	case date:
 		orderByDate();
 		break;
 	}
@@ -103,7 +100,7 @@ void VisibleTrayList::filterByEmissor(std::string key)
 
 void VisibleTrayList::filterByRecipient(std::string key)
 {
-	filterBy([](tElemTray* a, std::string key){ for (int i = 0; i < a->mail->getRecipients().length(); i++){ if (a->mail->getRecipients().operator[](i)->find(key) != -1) return true; } return false; }, key);
+	filterBy([](tElemTray* a, std::string key){ for (int i = 0; i < a->mail->getRecipients().size(); i++){ if (a->mail->getRecipients()[i].find(key) != -1) return true; } return false; }, key);
 }
 
 void VisibleTrayList::filterByRead(bool is_read)
@@ -175,8 +172,7 @@ void VisibleTrayList::filterPage()
 void VisibleTrayList::insert(tElemTray* elem)
 {
 	if (full()) resize(dim*(3 / 2) + 1);
-	list[counter++] = elem;
-	
+	list[counter++] = elem;	
 }
 
 void VisibleTrayList::change(int pos1, int pos2)

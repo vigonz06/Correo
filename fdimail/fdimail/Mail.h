@@ -2,9 +2,9 @@
 #define MAIL
 
 #include "GlobalConstants.h"
-#include "RecipientList.h"
 #include <fstream>
 #include <string>
+#include <vector>
 #include "Date.h"
 
 /*----------------------------
@@ -26,7 +26,7 @@ private:
 	std::string from;
 	std::string body;
 	std::string subject;
-	RecipientList recipients;
+	std::vector<std::string> recipients;
 
 public:
 
@@ -40,7 +40,7 @@ public:
 	std::string getFrom() { return from; }
 	std::string getBody() { return body; }
 	std::string getSubject() { return subject; }
-	RecipientList getRecipients() { return recipients; }
+	std::vector<std::string> getRecipients() { return recipients; }
 
 	std::string& setId(std::string newId) { return id = newId; }
 	int& setCounter(int newCounter) { return user_count = newCounter; }
@@ -49,7 +49,7 @@ public:
 	std::string& setFrom(std::string newFrom) { return from = newFrom; }
 	std::string& setBody(std::string newBody) { return body = newBody; }
 	std::string& setSubject(std::string newSubject) { return subject = newSubject; }
-	void setRecipient(std::string* newRecipient) { recipients.insert(newRecipient); }
+	void setRecipient(std::string newRecipient) { recipients.push_back(newRecipient); }
 
 	bool load(std::ifstream &file);
 	void save(std::ofstream &file)const;

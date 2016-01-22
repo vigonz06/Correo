@@ -219,6 +219,7 @@ void Session::deleteMail()
 			else if (option == 1)
 			{
 				int counter = active_tray()->length();
+
 				for (int i = 0; i < counter; i++)
 				{
 					std::string newId = active_tray()->operator[](0)->getId();
@@ -241,6 +242,7 @@ void Session::deleteMail()
 void Session::restoreMail()
 {
 	int option;
+	bool inserted;
 
 	if (visible.empty())
 	{
@@ -262,37 +264,61 @@ void Session::restoreMail()
 			if (option == 0)
 			{
 				Mail* mail = GraphInter::get()->selectMail(this);
+				inserted = false;
 
 				if (mail != nullptr)
 				{
 					if (mail->getFrom() == user->getId())
 					{
-						user->getOutbox()->insert(active_tray()->get(mail->getId()));
+						for (int i = 0; i < active_tray()->length() && !inserted; i++)
+						{
+							if (mail == active_tray()->operator[](i)->mail)
+							{
+								user->getInbox()->insert(active_tray()->get(mail->getId()));
+								inserted = true;
+							}
+						}
+						if (!inserted)
+						{
+							user->getOutbox()->insert(active_tray()->get(mail->getId()));
+						}
 					}
 					else
 					{
 						user->getInbox()->insert(active_tray()->get(mail->getId()));
 					}
 					manager->popMail(active_tray(), mail->getId());
-					GraphInter::get()->clearConsole();
 				}
 			}
 			else if (option == 1)
 			{
 				int counter = active_tray()->length();
+
 				for (int i = 0; i < counter; i++)
 				{
 					std::string newId = active_tray()->operator[](0)->getId();
+					inserted = false;
 
-					if (active_tray() == user->getRecycling())
+					if (active_tray()->get(newId)->mail->getFrom() == user->getId())
 					{
-						manager->deleteMail(active_tray(), newId);
+						for (int i = 0; i < active_tray()->length() && !inserted; i++)
+						{
+							if (active_tray()->get(newId)->mail == active_tray()->operator[](i)->mail)
+							{
+								user->getInbox()->insert(active_tray()->get(newId));
+								inserted = true;
+							}
+						}
+						if (!inserted)
+						{
+							user->getOutbox()->insert(active_tray()->get(newId));
+						}
 					}
 					else
 					{
-						user->getRecycling()->insert(active_tray()->get(newId));
-						manager->popMail(active_tray(), newId);
+						user->getInbox()->insert(active_tray()->get(newId));
 					}
+					manager->popMail(active_tray(), newId);
 				}
 			}
 		} while (visible.length() != 0 && option != 2);

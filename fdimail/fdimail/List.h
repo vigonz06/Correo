@@ -137,15 +137,9 @@ template<class T>
 T* List<T>::get(const std::string &id)
 {
 	int pos = 0;
-	int left_key = 0, right_key = counter - 1;
-	if (search(id, pos, left_key, right_key))
-	{
-		return list[pos];
-	}
-	else
-	{
-		return nullptr;
-	}
+	int ini = 0, fin = counter - 1;
+
+	return search(id, pos, ini, fin) ? list[pos] : nullptr;
 }
 
 template<class T>
