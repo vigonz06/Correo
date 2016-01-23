@@ -57,7 +57,7 @@ User* Manager::registerUser()
 
 			else
 			{
-				GraphInter::get()->display("Wrong password");
+				GraphInter::get()->display("\nWrong password");
 				GraphInter::get()->pause();
 				return nullptr;
 			}

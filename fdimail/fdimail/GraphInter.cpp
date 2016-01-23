@@ -7,6 +7,7 @@
 #include <sstream>
 #include <iomanip>
 #include <conio.h>
+#include <vector>
 #include "Mail.h"
 
 GraphInter* GraphInter::inter = nullptr;
@@ -37,13 +38,13 @@ void GraphInter::close()
 
 int GraphInter::mainMenu()
 {
-	std::string elems[3];
+	std::vector<std::string> elems;
 
-	elems[0] = "Sign up";
-	elems[1] = "Sign in";
-	elems[2] = "Exit";
+	elems.push_back("Sign up");
+	elems.push_back("Sign in");
+	elems.push_back("Exit");
 
-	return menu(elems, 3, "option");
+	return menu(elems, "option");
 }
 
 void GraphInter::logMenu(std::string &username, std::string &password)
@@ -94,7 +95,7 @@ int GraphInter::sessionMenu(Session* session)
 	return elem;
 }
 
-int GraphInter::trayMenu(Session* session, std::string elems[], int max_elems)
+int GraphInter::trayMenu(Session* session, std::vector<std::string> elems)
 {
 	int key = UP, elem = 0;
 
@@ -107,13 +108,13 @@ int GraphInter::trayMenu(Session* session, std::string elems[], int max_elems)
 
 		display("Choose your desired option: ");
 
-		for (int i = 0; i < max_elems; i++)
+		for (int i = 0; i < elems.size(); i++)
 		{
 			tab_word(elems[i], i, elem);
 		}
 
 		key = getKey();
-		elem = update(key, elem, max_elems);
+		elem = update(key, elem, elems.size());
 		updateTray(key, session);
 
 		clearConsole();
@@ -125,13 +126,13 @@ int GraphInter::trayMenu(Session* session, std::string elems[], int max_elems)
 
 int GraphInter::mailMenu(Mail* mail)
 {
-	std::string elems[3];
+	std::vector<std::string> elems;
 
-	elems[0] = "Answer";
-	elems[1] = "Forward";
-	elems[2] = "Exit to session menu";
+	elems.push_back("Answer");
+	elems.push_back("Forward");
+	elems.push_back("Exit to session menu");
 
-	return menumail(mail, elems, 3, "option");
+	return menumail(mail, elems, "option");
 }
 
 int GraphInter::mailMenu(Session* session)
@@ -208,7 +209,7 @@ int GraphInter::aliasMenu(Session* session)
 	return elem;
 }
 
-int GraphInter::menumail(Mail* mail, std::string elems[], int max_elems, std::string to_choose)
+int GraphInter::menumail(Mail* mail, std::vector<std::string> elems, std::string to_choose)
 {
 	int key = UP, elem = 0;
 
@@ -218,13 +219,13 @@ int GraphInter::menumail(Mail* mail, std::string elems[], int max_elems, std::st
 
 		display("Choose your desired " + to_choose + ": ");
 
-		for (int i = 0; i < max_elems; i++)
+		for (int i = 0; i < elems.size(); i++)
 		{
 			tab_word(elems[i], i, elem);
 		}
 
 		key = getKey();
-		elem = update(key, elem, max_elems);
+		elem = update(key, elem, elems.size());
 
 		clearConsole();
 
@@ -258,35 +259,35 @@ int GraphInter::AliasMenu(Session* session)
 
 int GraphInter::WhatToDelete(Session* session)
 {
-	std::string elems[3];
+	std::vector<std::string> elems;
 
-	elems[0] = "Choose mail";
-	elems[1] = "All mails";
-	elems[2] = "Exit to session menu";
+	elems.push_back("Choose mail");
+	elems.push_back("All mails");
+	elems.push_back("Exit to session menu");
 
-	return trayMenu(session, elems, 3);
+	return trayMenu(session, elems);
 }
 
 int GraphInter::MailOptions()
 {
-	std::string elems[3];
+	std::vector<std::string> elems;
 
-	elems[0] = "Delete mail";
-	elems[1] = "Restore mail";
-	elems[2] = "Back";
+	elems.push_back("Delete mail");
+	elems.push_back("Restore mail");
+	elems.push_back("Back");
 
-	return menu(elems, 3, "option");
+	return menu(elems, "option");
 }
 
 int GraphInter::ChooseTray()
 {
-	std::string elems[3];
+	std::vector<std::string> elems;
 
-	elems[0] = "See Inbox";
-	elems[1] = "See Outbox";
-	elems[2] = "See Papper Bin";
+	elems.push_back("See Inbox");
+	elems.push_back("See Outbox");
+	elems.push_back("See Papper Bin");
 
-	return menu(elems, 3, "tray");
+	return menu(elems, "tray");
 }
 
 int GraphInter::SureToEmpty(Mail* mail)
@@ -314,24 +315,24 @@ int GraphInter::SureToEmpty(Mail* mail)
 
 int GraphInter::Invert()
 {
-	std::string elems[2];
+	std::vector<std::string> elems;
 
-	elems[0] = "Order list";
-	elems[1] = "Invert list";
+	elems.push_back("Order list");
+	elems.push_back("Invert list");
 
-	return menu(elems, 2, "option");
+	return menu(elems, "option");
 }
 
 int GraphInter::AccountOptions()
 {
-	std::string elems[4];
+	std::vector<std::string> elems;
 
-	elems[0] = "Change username";
-	elems[1] = "Change password";
-	elems[2] = "Delete account";
-	elems[3] = "Exit to session menu";
+	elems.push_back("Change username");
+	elems.push_back("Change password");
+	elems.push_back("Delete account");
+	elems.push_back("Exit to session menu");
 
-	return menu(elems, 4, "option");
+	return menu(elems, "option");
 }
 
 Mail* GraphInter::errorMail()
@@ -627,7 +628,7 @@ void GraphInter::showTray(Session* session)
 	}
 	else
 	{
-		menu << "\n" << "R N" << std::setw(7) << "FROM" 
+		menu << std::endl << "R N" << std::setw(7) << "FROM" 
 			<< std::setw(33) << "SUBJECT" << std::setw(31) << "DATE";
 
 		display(menu.str());
@@ -667,40 +668,40 @@ void GraphInter::showTray(Session* session)
 
 int GraphInter::choosefilter()
 {
-	std::string elems[8];
+	std::vector<std::string> elems;
 
-	elems[0] = "Subject";
-	elems[1] = "Date";
-	elems[2] = "Emissor";
-	elems[3] = "Recipients";
-	elems[4] = "Body";
-	elems[5] = "Read";
-	elems[6] = "Unread";
-	elems[7] = "Exit to session menu";
+	elems.push_back("Subject");
+	elems.push_back("Date");
+	elems.push_back("Emissor");
+	elems.push_back("Recipients");
+	elems.push_back("Body");
+	elems.push_back("Read");
+	elems.push_back("Unread");
+	elems.push_back("Exit to session menu");
 
-	return menu(elems, 8, "option");
+	return menu(elems, "option");
 }
 
 int GraphInter::chooseorder()
 {
-	std::string elems[2];
+	std::vector<std::string> elems;
 
-	elems[0] = "Subject";
-	elems[1] = "Date";
+	elems.push_back("Subject");
+	elems.push_back("Date");
 
-	return menu(elems, 2, "option");
+	return menu(elems, "option");
 }
 
 int GraphInter::filter()
 {
-	std::string elems[4];
+	std::vector<std::string> elems;
 
-	elems[0] = "Change order";
-	elems[1] = "Change filter";
-	elems[2] = "Quit filter";
-	elems[3] = "Exit to session menu";
+	elems.push_back("Change order");
+	elems.push_back("Change filter");
+	elems.push_back("Quit filter");
+	elems.push_back("Exit to session menu");
 
-	return menu(elems, 4, "option");
+	return menu(elems, "option");
 }
 
 void GraphInter::pause()
@@ -711,13 +712,13 @@ void GraphInter::pause()
 
 void GraphInter::clearConsole() { system("cls"); }
 
-void GraphInter::checkUsername(std::string& username)
+void GraphInter::checkUsername(std::string &username)
 {
 	std::string newUsername;
 
 	display("Confirm your new username: ");
 
-	newUsername = valid_user();
+	enter(newUsername);
 
 	while (newUsername != username)
 	{
@@ -728,7 +729,7 @@ void GraphInter::checkUsername(std::string& username)
 
 		display("Confirm your username:");
 
-		newUsername = valid_user();
+		enter(newUsername);
 	}
 }
 
@@ -966,7 +967,7 @@ void GraphInter::updateTray(int key, Session* session)
 	}
 }
 
-int GraphInter::menu(std::string elems[], int max_elems, std::string to_choose)
+int GraphInter::menu(std::vector<std::string> elems, std::string to_choose)
 {
 	int key = UP, elem = 0;
 
@@ -974,13 +975,13 @@ int GraphInter::menu(std::string elems[], int max_elems, std::string to_choose)
 	{
 		display("Choose your desired " + to_choose + ": ");
 
-		for (int i = 0; i < max_elems; i++)
+		for (int i = 0; i < elems.size(); i++)
 		{
 			tab_word(elems[i], i, elem);
 		}
 
 		key = getKey();
-		elem = update(key, elem, max_elems);
+		elem = update(key, elem, elems.size());
 
 		clearConsole();
 
@@ -1031,7 +1032,7 @@ void GraphInter::send_to_multiple(Mail* mail, ContactList* contactList)
 			}
 		}
 		clearConsole();
-	} while (mail->getRecipients().size() < MAX_ELEMS && !recipient.empty());
+	} while (mail->getRecipients().size() <= MAX_ELEMS && !recipient.empty());
 
 	mail->setCounter(mail->getRecipients().size() + 1);
 

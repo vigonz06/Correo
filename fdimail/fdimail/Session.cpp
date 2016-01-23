@@ -10,23 +10,23 @@ manager(manager)
 	int option;
 	do
 	{
+		GraphInter::get()->clearConsole();
 		option = GraphInter::get()->mainMenu();
+		GraphInter::get()->clearConsole();
+
 		if (option == 0)
 		{
-			GraphInter::get()->clearConsole();
+			
 			user = manager->createAccount();
 		}
-		else if (option == 1)
+		if (option == 1)
 		{
-			GraphInter::get()->clearConsole();
 			user = manager->registerUser();
 		}
 		if (user != nullptr && option != 2)
 		{
-			GraphInter::get()->clearConsole();
 			launch();
 		}
-		GraphInter::get()->clearConsole();
 	} while (option != 2);
 }
 
@@ -242,6 +242,7 @@ void Session::deleteMail()
 void Session::restoreMail()
 {
 	int option;
+	int repetidos;
 	bool inserted;
 
 	if (visible.empty())
@@ -270,17 +271,28 @@ void Session::restoreMail()
 				{
 					if (mail->getFrom() == user->getId())
 					{
-						for (int i = 0; i < active_tray()->length() && !inserted; i++)
+						if (!active_tray()->get(mail->getId())->read)
 						{
-							if (mail == active_tray()->operator[](i)->mail)
-							{
-								user->getInbox()->insert(active_tray()->get(mail->getId()));
-								inserted = true;
-							}
+							user->getInbox()->insert(active_tray()->get(mail->getId()));
 						}
-						if (!inserted)
+						else
 						{
-							user->getOutbox()->insert(active_tray()->get(mail->getId()));
+							repetidos = 0;
+
+							for (int i = 0; i < active_tray()->length() && !inserted; i++)
+							{
+								if (mail == active_tray()->operator[](i)->mail) repetidos++;
+
+								if (repetidos > 1)
+								{
+									user->getInbox()->insert(active_tray()->get(mail->getId()));
+									inserted = true;
+								}
+							}
+							if (!inserted)
+							{
+								user->getOutbox()->insert(active_tray()->get(mail->getId()));
+							}
 						}
 					}
 					else
@@ -301,17 +313,28 @@ void Session::restoreMail()
 
 					if (active_tray()->get(newId)->mail->getFrom() == user->getId())
 					{
-						for (int i = 0; i < active_tray()->length() && !inserted; i++)
+						if (!active_tray()->get(newId)->read)
 						{
-							if (active_tray()->get(newId)->mail == active_tray()->operator[](i)->mail)
-							{
-								user->getInbox()->insert(active_tray()->get(newId));
-								inserted = true;
-							}
+							user->getInbox()->insert(active_tray()->get(newId));
 						}
-						if (!inserted)
+						else
 						{
-							user->getOutbox()->insert(active_tray()->get(newId));
+							repetidos = 0;
+
+							for (int i = 0; i < active_tray()->length() && !inserted; i++)
+							{
+								if (active_tray()->get(newId)->mail == active_tray()->operator[](i)->mail) repetidos++;
+
+								if (repetidos > 1)
+								{
+									user->getInbox()->insert(active_tray()->get(newId));
+									inserted = true;
+								}
+							}
+							if (!inserted)
+							{
+								user->getOutbox()->insert(active_tray()->get(newId));
+							}
 						}
 					}
 					else
@@ -711,16 +734,8 @@ void Session::chooseOrder(Filter filter)
 	else
 	{
 		filter = Filter(GraphInter::get()->chooseorder());
-		bool invert = true;
+		bool invert = GraphInter::get()->Invert();
 
-		int select = GraphInter::get()->Invert();
-
-		switch (select)
-		{
-		case 0:
-			invert = false;
-			break;
-		}
 		visible.setInvert(invert);
 		visible.changeOrder(filter);
 	}
@@ -733,9 +748,9 @@ void Session::changeUsername()
 
 	do
 	{
-		GraphInter::get()->clearConsole();
-
 		name_ok = true;
+
+		GraphInter::get()->clearConsole();
 
 		data = GraphInter::get()->valid_user();
 
