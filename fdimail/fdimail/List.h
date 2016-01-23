@@ -256,7 +256,7 @@ void List<T>::resize(int newdim)
 
 		for (int i = 0; i < counter; i++)
 		{
-			newlist[i] = this->list[i];
+			newlist[i] = list[i];
 		}
 		for (int i = counter; i < newdim; i++)
 		{

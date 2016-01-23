@@ -443,8 +443,7 @@ Mail* GraphInter::answerMail(Mail* &originalMail, const std::string &sender)
 	newMail->setFrom(sender);
 	newMail->setDate(time(0));
 
-	recipient = originalMail->getFrom();
-	newMail->getRecipients().push_back(recipient);
+	newMail->setRecipient(originalMail->getFrom());
 
 	newMail->setSubject(SUBJECT.str());
 
@@ -456,7 +455,7 @@ Mail* GraphInter::answerMail(Mail* &originalMail, const std::string &sender)
 
 	display("From: " + sender);
 
-	display("To: " + originalMail->getFrom());
+	display("To: " + newMail->getRecipients()[0]);
 
 	display("Subject: " + newMail->getSubject());
 
@@ -618,8 +617,8 @@ void GraphInter::showTray(Session* session)
 	}
 	else
 	{
-		menu << std::endl << "R N" << std::setw(7) << "FROM" 
-			<< std::setw(33) << "SUBJECT" << std::setw(31) << "DATE";
+		menu << std::endl << " R N" << std::setw(7) << "FROM" 
+			<< std::setw(33) << "SUBJECT" << std::setw(30) << "DATE";
 
 		display(menu.str());
 
@@ -631,11 +630,11 @@ void GraphInter::showTray(Session* session)
 
 			if (!session->get_visible()->operator[](i)->read)
 			{
-				show << "*";
+				show << " *";
 			}
 			else
 			{
-				show << " ";
+				show << "  ";
 			}
 
 			Mail* mail = session->get_visible()->operator[](i)->mail;
