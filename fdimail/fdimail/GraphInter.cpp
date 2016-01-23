@@ -851,7 +851,6 @@ std::string GraphInter::HideLimitPassword()
 
 			if (security < SECURITY)
 			{
-				display("");
 				display("Your password is not secure enought");
 				display("Enter your password");
 			}
@@ -891,6 +890,7 @@ std::string GraphInter::HidePassword()
 	}
 
 	word[i] = NULL;
+	display("");
 
 	return word;
 }
