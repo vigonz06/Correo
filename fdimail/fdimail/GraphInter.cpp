@@ -43,7 +43,7 @@ int GraphInter::mainMenu()
 	elems[1] = "Sign in";
 	elems[2] = "Exit";
 
-	return menu(elems, 3, "option");
+	return menu(elems, "option");
 }
 
 void GraphInter::logMenu(std::string &username, std::string &password)
@@ -94,7 +94,7 @@ int GraphInter::sessionMenu(Session* session)
 	return elem;
 }
 
-int GraphInter::trayMenu(Session* session, std::string elems[], int max_elems)
+int GraphInter::trayMenu(Session* session, std::string elems[])
 {
 	int key = UP, elem = 0;
 
@@ -107,13 +107,13 @@ int GraphInter::trayMenu(Session* session, std::string elems[], int max_elems)
 
 		display("Choose your desired option: ");
 
-		for (int i = 0; i < max_elems; i++)
+		for (int i = 0; i < elems->size(); i++)
 		{
 			tab_word(elems[i], i, elem);
 		}
 
 		key = getKey();
-		elem = update(key, elem, max_elems);
+		elem = update(key, elem, elems->size());
 		updateTray(key, session);
 
 		clearConsole();
@@ -131,7 +131,7 @@ int GraphInter::mailMenu(Mail* mail)
 	elems[1] = "Forward";
 	elems[2] = "Exit to session menu";
 
-	return menumail(mail, elems, 3, "option");
+	return menumail(mail, elems, "option");
 }
 
 int GraphInter::mailMenu(Session* session)
@@ -208,7 +208,7 @@ int GraphInter::aliasMenu(Session* session)
 	return elem;
 }
 
-int GraphInter::menumail(Mail* mail, std::string elems[], int max_elems, std::string to_choose)
+int GraphInter::menumail(Mail* mail, std::string elems[], std::string to_choose)
 {
 	int key = UP, elem = 0;
 
@@ -218,13 +218,13 @@ int GraphInter::menumail(Mail* mail, std::string elems[], int max_elems, std::st
 
 		display("Choose your desired " + to_choose + ": ");
 
-		for (int i = 0; i < max_elems; i++)
+		for (int i = 0; i < elems->size(); i++)
 		{
 			tab_word(elems[i], i, elem);
 		}
 
 		key = getKey();
-		elem = update(key, elem, max_elems);
+		elem = update(key, elem, elems->size());
 
 		clearConsole();
 
@@ -264,7 +264,7 @@ int GraphInter::WhatToDelete(Session* session)
 	elems[1] = "All mails";
 	elems[2] = "Exit to session menu";
 
-	return trayMenu(session, elems, 3);
+	return trayMenu(session, elems);
 }
 
 int GraphInter::MailOptions()
@@ -275,7 +275,7 @@ int GraphInter::MailOptions()
 	elems[1] = "Restore mail";
 	elems[2] = "Back";
 
-	return menu(elems, 3, "option");
+	return menu(elems, "option");
 }
 
 int GraphInter::ChooseTray()
@@ -286,7 +286,7 @@ int GraphInter::ChooseTray()
 	elems[1] = "See Outbox";
 	elems[2] = "See Papper Bin";
 
-	return menu(elems, 3, "tray");
+	return menu(elems, "tray");
 }
 
 int GraphInter::SureToEmpty(Mail* mail)
@@ -319,7 +319,7 @@ int GraphInter::Invert()
 	elems[0] = "Order list";
 	elems[1] = "Invert list";
 
-	return menu(elems, 2, "option");
+	return menu(elems, "option");
 }
 
 int GraphInter::AccountOptions()
@@ -331,7 +331,7 @@ int GraphInter::AccountOptions()
 	elems[2] = "Delete account";
 	elems[3] = "Exit to session menu";
 
-	return menu(elems, 4, "option");
+	return menu(elems, "option");
 }
 
 Mail* GraphInter::errorMail()
@@ -678,7 +678,7 @@ int GraphInter::choosefilter()
 	elems[6] = "Unread";
 	elems[7] = "Exit to session menu";
 
-	return menu(elems, 8, "option");
+	return menu(elems, "option");
 }
 
 int GraphInter::chooseorder()
@@ -688,7 +688,7 @@ int GraphInter::chooseorder()
 	elems[0] = "Subject";
 	elems[1] = "Date";
 
-	return menu(elems, 2, "option");
+	return menu(elems, "option");
 }
 
 int GraphInter::filter()
@@ -700,7 +700,7 @@ int GraphInter::filter()
 	elems[2] = "Quit filter";
 	elems[3] = "Exit to session menu";
 
-	return menu(elems, 4, "option");
+	return menu(elems, "option");
 }
 
 void GraphInter::pause()
@@ -966,7 +966,7 @@ void GraphInter::updateTray(int key, Session* session)
 	}
 }
 
-int GraphInter::menu(std::string elems[], int max_elems, std::string to_choose)
+int GraphInter::menu(std::string elems[], std::string to_choose)
 {
 	int key = UP, elem = 0;
 
@@ -974,13 +974,13 @@ int GraphInter::menu(std::string elems[], int max_elems, std::string to_choose)
 	{
 		display("Choose your desired " + to_choose + ": ");
 
-		for (int i = 0; i < max_elems; i++)
+		for (int i = 0; i < elems->size(); i++)
 		{
 			tab_word(elems[i], i, elem);
 		}
 
 		key = getKey();
-		elem = update(key, elem, max_elems);
+		elem = update(key, elem, elems->size());
 
 		clearConsole();
 
