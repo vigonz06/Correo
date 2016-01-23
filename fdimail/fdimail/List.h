@@ -44,7 +44,7 @@ public:
 
 	T* operator [](int i) const { return list[i]; }
 
-	bool insert(T* elem);
+	void insert(T* elem);
 	bool destroy(const std::string &id);
 	bool pop(T* elem);
 
@@ -58,7 +58,7 @@ public:
 };
 
 template<class T>
-bool List<T>::insert(T* elem)
+void List<T>::insert(T* elem)
 {
 	if (full()) resize(dim + 1);
 
@@ -69,7 +69,6 @@ bool List<T>::insert(T* elem)
 	shiftRight(pos);
 	list[pos] = elem;
 	counter++;
-	return true;
 }
 
 template<class T>

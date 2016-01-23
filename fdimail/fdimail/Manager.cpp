@@ -117,32 +117,27 @@ void Manager::deleteAccount(User* user)
 
 void Manager::sendMail(User* user, Mail* mail)
 {
-	if (mailList.insert(mail))
+	mailList.insert(mail);
+
+	tElemTray* elem = new tElemTray(mail);
+	elem->read = true;
+
+	user->getOutbox()->insert(elem);
+
+	for (int j = 0; j < mail->getRecipients().size(); j++)
 	{
-		tElemTray* elem = new tElemTray(mail);
-		elem->read = true;
-
-		user->getOutbox()->insert(elem);
-
-		for (int j = 0; j < mail->getRecipients().size(); j++)
+		if (userList.get(mail->getRecipients()[j]) != nullptr)
 		{
-			if (userList.get(mail->getRecipients()[j]) != nullptr)
-			{
-				userList.get(mail->getRecipients()[j])->getInbox()->insert(new tElemTray(mail));
-			}
-			else
-			{
-				mail->lowerCounter();
-				GraphInter::get()->display("Destinatary " + mail->getRecipients()[j] + " not found");
-				GraphInter::get()->display("He was not sent the mail");
-				GraphInter::get()->pause();
-			}
+			userList.get(mail->getRecipients()[j])->getInbox()->insert(new tElemTray(mail));
 		}
-	}
-	else
-	{
-		GraphInter::get()->display("MailList full");
-		GraphInter::get()->pause();
+		else
+		{
+			GraphInter::get()->display("Destinatary " + mail->getRecipients()[j] + " not found");
+			GraphInter::get()->display("He was not sent the mail");
+			GraphInter::get()->pause();
+
+			mail->lowerCounter();
+		}
 	}
 }
 
