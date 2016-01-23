@@ -17,7 +17,7 @@ bool TrayList::search(const std::string &id, int &pos)
 
 void TrayList::insert(tElemTray * const elem)
 {
-	if (full()) resize(dim*(3/2)+1);
+	if (full()) resize(dim + 1);
 	list[counter++] = elem;
 }
 

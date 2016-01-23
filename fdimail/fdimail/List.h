@@ -60,7 +60,7 @@ public:
 template<class T>
 bool List<T>::insert(T* elem)
 {
-	if (full()) resize(dim*3/2+1);
+	if (full()) resize(dim + 1);
 
 	int pos;
 	int left_key = 0, right_key = counter - 1;

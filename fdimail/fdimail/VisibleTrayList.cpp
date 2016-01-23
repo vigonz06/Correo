@@ -171,7 +171,7 @@ void VisibleTrayList::filterPage()
 
 void VisibleTrayList::insert(tElemTray* elem)
 {
-	if (full()) resize(dim*(3 / 2) + 1);
+	if (full()) resize(dim + 1);
 	list[counter++] = elem;	
 }
 
