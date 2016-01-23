@@ -186,8 +186,6 @@ void Session::deleteMail()
 	{
 		do
 		{
-			option = 0;
-
 			visible.refresh();
 			GraphInter::get()->clearConsole();
 
