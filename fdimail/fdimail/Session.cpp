@@ -212,8 +212,6 @@ void Session::deleteMail()
 			}
 			else if (option == 1)
 			{
-				int counter = active_tray()->length();
-
 				do
 				{
 					std::string newId = active_tray()->operator[](0)->getId();
@@ -236,9 +234,7 @@ void Session::deleteMail()
 void Session::restoreMail()
 {
 	int option;
-	int counter;
 	int repetidos;
-	bool inserted;
 
 	if (visible.empty())
 	{
@@ -257,7 +253,6 @@ void Session::restoreMail()
 			if (option == 0)
 			{
 				Mail* mail = GraphInter::get()->selectMail(this);
-				inserted = false;
 
 				if (mail != nullptr)
 				{
