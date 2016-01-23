@@ -98,7 +98,6 @@ void Session::readMail()
 	{
 		GraphInter::get()->display("You have no mails to read");
 		GraphInter::get()->pause();
-		GraphInter::get()->clearConsole();
 	}
 	else
 	{
@@ -138,7 +137,6 @@ void Session::sendMail()
 	{
 		manager->sendMail(user, mail);
 	}
-	GraphInter::get()->clearConsole();
 }
 
 void Session::answerMail(Mail* &originalMail)
@@ -156,7 +154,6 @@ void Session::answerMail(Mail* &originalMail)
 		manager->answer(user, answer);
 	}
 	GraphInter::get()->pause();
-	GraphInter::get()->clearConsole();
 }
 
 void Session::forwardMail(Mail* &originalMail)
@@ -174,7 +171,6 @@ void Session::forwardMail(Mail* &originalMail)
 		manager->sendMail(user, forward);
 	}
 	GraphInter::get()->pause();
-	GraphInter::get()->clearConsole();
 }
 
 void Session::deleteMail()
@@ -185,7 +181,6 @@ void Session::deleteMail()
 	{
 		GraphInter::get()->display("You have no mails to delete");
 		GraphInter::get()->pause();
-		GraphInter::get()->clearConsole();
 	}
 	else
 	{
@@ -213,7 +208,6 @@ void Session::deleteMail()
 						user->getRecycling()->insert(active_tray()->get(mail->getId()));
 						manager->popMail(active_tray(), mail->getId());
 					}
-					GraphInter::get()->clearConsole();
 				}
 			}
 			else if (option == 1)
@@ -249,14 +243,11 @@ void Session::restoreMail()
 	{
 		GraphInter::get()->display("You have no mails to delete");
 		GraphInter::get()->pause();
-		GraphInter::get()->clearConsole();
 	}
 	else
 	{
 		do
 		{
-			option = 0;
-
 			visible.refresh();
 			GraphInter::get()->clearConsole();
 

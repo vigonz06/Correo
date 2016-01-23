@@ -33,7 +33,7 @@ private:
 	bool digit(std::string word);
 	bool symbl(std::string word);
 
-	int menu(std::vector<std::string> elems, std::string to_choose);
+	int menu(std::vector<std::string> elems);
 
 	void send_to_multiple(Mail* mail, ContactList* contactList);
 	void tab_word(std::string word, int pos, int cont);
@@ -54,7 +54,7 @@ public:
 	int mailMenu(Session* session);
 	int mailMenu(Mail* mail);
 	int aliasMenu(Session* session);
-	int menumail(Mail* mail, std::vector<std::string> elems, std::string to_choose);
+	int menumail(Mail* mail, std::vector<std::string> elems);
 	int AliasMenu(Session* session);
 	int WhatToDelete(Session* session);
 	int MailOptions();

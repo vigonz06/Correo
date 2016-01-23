@@ -44,7 +44,7 @@ int GraphInter::mainMenu()
 	elems.push_back("Sign in");
 	elems.push_back("Exit");
 
-	return menu(elems, "option");
+	return menu(elems);
 }
 
 void GraphInter::logMenu(std::string &username, std::string &password)
@@ -132,7 +132,7 @@ int GraphInter::mailMenu(Mail* mail)
 	elems.push_back("Forward");
 	elems.push_back("Exit to session menu");
 
-	return menumail(mail, elems, "option");
+	return menumail(mail, elems);
 }
 
 int GraphInter::mailMenu(Session* session)
@@ -209,7 +209,7 @@ int GraphInter::aliasMenu(Session* session)
 	return elem;
 }
 
-int GraphInter::menumail(Mail* mail, std::vector<std::string> elems, std::string to_choose)
+int GraphInter::menumail(Mail* mail, std::vector<std::string> elems)
 {
 	int key = UP, elem = 0;
 
@@ -217,7 +217,7 @@ int GraphInter::menumail(Mail* mail, std::vector<std::string> elems, std::string
 	{
 		drawMail(mail);
 
-		display("Choose your desired " + to_choose + ": ");
+		display("Which one do you choose?: ");
 
 		for (int i = 0; i < elems.size(); i++)
 		{
@@ -276,7 +276,7 @@ int GraphInter::MailOptions()
 	elems.push_back("Restore mail");
 	elems.push_back("Back");
 
-	return menu(elems, "option");
+	return menu(elems);
 }
 
 int GraphInter::ChooseTray()
@@ -287,7 +287,7 @@ int GraphInter::ChooseTray()
 	elems.push_back("See Outbox");
 	elems.push_back("See Papper Bin");
 
-	return menu(elems, "tray");
+	return menu(elems);
 }
 
 int GraphInter::SureToEmpty(Mail* mail)
@@ -320,7 +320,7 @@ int GraphInter::Invert()
 	elems.push_back("Order list");
 	elems.push_back("Invert list");
 
-	return menu(elems, "option");
+	return menu(elems);
 }
 
 int GraphInter::AccountOptions()
@@ -332,7 +332,7 @@ int GraphInter::AccountOptions()
 	elems.push_back("Delete account");
 	elems.push_back("Exit to session menu");
 
-	return menu(elems, "option");
+	return menu(elems);
 }
 
 Mail* GraphInter::errorMail()
@@ -540,23 +540,13 @@ Mail* GraphInter::selectMail(Session* session)
 {
 	int number;
 
-	if (session->get_visible()->length() != 0)
-	{
-		number = mailMenu(session);
+	number = mailMenu(session);
 
-		if (number != session->get_visible()->length())
-		{
-			return session->get_visible()->operator[](number)->mail;
-		}
-		else return nullptr;
-	}
-	else
+	if (number != session->get_visible()->length())
 	{
-		display("The active tray is empty");
-		pause();
-
-		return nullptr;
+		return session->get_visible()->operator[](number)->mail;
 	}
+	else return nullptr;
 }
 
 std::string GraphInter::selectAlias(Session* session)
@@ -679,7 +669,7 @@ int GraphInter::choosefilter()
 	elems.push_back("Unread");
 	elems.push_back("Exit to session menu");
 
-	return menu(elems, "option");
+	return menu(elems);
 }
 
 int GraphInter::chooseorder()
@@ -689,7 +679,7 @@ int GraphInter::chooseorder()
 	elems.push_back("Subject");
 	elems.push_back("Date");
 
-	return menu(elems, "option");
+	return menu(elems);
 }
 
 int GraphInter::filter()
@@ -701,7 +691,7 @@ int GraphInter::filter()
 	elems.push_back("Quit filter");
 	elems.push_back("Exit to session menu");
 
-	return menu(elems, "option");
+	return menu(elems);
 }
 
 void GraphInter::pause()
@@ -743,7 +733,6 @@ void GraphInter::checkPassword(std::string &password)
 
 	while (newPassword != password)
 	{
-		display("");
 		display("Error, passwords are not the same");
 		display("Enter your new passwords:");
 
@@ -757,6 +746,7 @@ void GraphInter::checkPassword(std::string &password)
 
 std::string GraphInter::valid_user()
 {
+	std::ostringstream character;
 	std::string id;
 	bool id_right;
 
@@ -778,9 +768,7 @@ std::string GraphInter::valid_user()
 		}
 		else
 		{
-			std::ostringstream character;
-
-			for (int i = 0; i < int(id.size()) && id_right; i++)
+			for (int i = 0; i < id.size() && id_right; i++)
 			{
 				if ('A' > id[i] || id[i] > 'Z' && id[i] < 'a' || id[i] > 'z')
 				{
@@ -935,10 +923,10 @@ void GraphInter::display(char sign)
 int GraphInter::update(int key, int elem, int max_elems)
 {
 	if (key == UP) elem--;
-	else if (key == DOWN) elem++;
+	if (key == DOWN) elem++;
 
 	if (elem < 0) elem = max_elems - 1;
-	else if (elem >= max_elems) elem = 0;
+	if (elem >= max_elems) elem = 0;
 
 	if (key == ESCAPE) elem = max_elems - 1;
 	return elem;
@@ -961,19 +949,19 @@ void GraphInter::updateTray(int key, Session* session)
 	{
 		session->get_visible()->increasePage();
 	}
-	else if (key == LEFT)
+	if (key == LEFT)
 	{
 		session->get_visible()->decreasePage();
 	}
 }
 
-int GraphInter::menu(std::vector<std::string> elems, std::string to_choose)
+int GraphInter::menu(std::vector<std::string> elems)
 {
 	int key = UP, elem = 0;
 
 	do
 	{
-		display("Choose your desired " + to_choose + ": ");
+		display("Which one do you choose?: ");
 
 		for (int i = 0; i < elems.size(); i++)
 		{
