@@ -444,11 +444,13 @@ Mail* GraphInter::answerMail(Mail* &originalMail, const std::string &sender)
 	newMail->setDate(time(0));
 
 	newMail->setRecipient(originalMail->getFrom());
+	newMail->setCounter(2);
 
 	newMail->setSubject(SUBJECT.str());
 
 	ID << sender << "_" << newMail->getDate();
 	newMail->setId(ID.str());
+
 	display(center_word("Answered mail", HORIZONTAL, " "));
 
 	display("");
