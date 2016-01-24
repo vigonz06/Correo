@@ -13,9 +13,10 @@ struct tElemTray
 {
 	Mail* mail;
 	bool read;
+	bool box;
 
 	tElemTray() {}
-	tElemTray(Mail* mail) : mail(mail), read(false) {}
+	tElemTray(Mail* mail) : mail(mail), read(false), box(false) {}
 
 	std::string getId() const { return mail->getId(); }
 
