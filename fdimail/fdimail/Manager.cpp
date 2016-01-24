@@ -123,12 +123,14 @@ void Manager::sendMail(User* user, Mail* mail)
 	elem->read = true;
 
 	user->getOutbox()->insert(elem);
+	user->getOutbox()->get(elem->getId())->box = false;
 
 	for (int j = 0; j < mail->getRecipients().size(); j++)
 	{
 		if (userList.get(mail->getRecipients()[j]) != nullptr)
 		{
 			userList.get(mail->getRecipients()[j])->getInbox()->insert(new tElemTray(mail));
+			userList.get(mail->getRecipients()[j])->getInbox()->get(mail->getId())->box = true;
 		}
 		else
 		{
@@ -149,8 +151,10 @@ bool Manager::answer(User* user, Mail* mail)
 
 		user->getOutbox()->insert(new tElemTray(mail));
 		user->getOutbox()->get(mail->getId())->read = true;
+		user->getOutbox()->get(mail->getId())->box = false;
 
 		userList.get(mail->getRecipients()[0])->getInbox()->insert(new tElemTray(mail));
+		userList.get(mail->getRecipients()[0])->getInbox()->get(mail->getId())->box = true;
 
 		return true;
 	}
