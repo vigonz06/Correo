@@ -16,7 +16,6 @@ manager(manager)
 
 		if (option == 0)
 		{
-			
 			user = manager->createAccount();
 		}
 		if (option == 1)
@@ -225,7 +224,7 @@ void Session::deleteMail()
 					}
 				} while (!active_tray()->empty());
 			}
-		} while (!visible.empty() && option != 2);
+		} while (!active_tray()->empty() && option != 2);
 	}
 }
 
@@ -371,7 +370,7 @@ void Session::restoreMail()
 					}
 				} while (!active_tray()->empty());
 			}
-		} while (!visible.empty() && option != 2);
+		} while (!active_tray()->empty() && option != 2);
 	}
 }
 
