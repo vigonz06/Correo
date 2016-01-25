@@ -297,7 +297,7 @@ void Session::restoreMail()
 							}
 							else
 							{
-								user->getOutbox()->insert(active_tray()->get(mail->getId()));
+								user->getInbox()->insert(active_tray()->get(mail->getId()));
 								manager->popMail(active_tray(), mail->getId());
 							}
 						}
@@ -358,7 +358,7 @@ void Session::restoreMail()
 							}
 							else
 							{
-								user->getOutbox()->insert(active_tray()->get(newId));
+								user->getInbox()->insert(active_tray()->get(newId));
 								manager->popMail(active_tray(), newId);
 							}
 						}
