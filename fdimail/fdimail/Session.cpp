@@ -261,22 +261,8 @@ void Session::restoreMail()
 					}
 					if (repetidos > 1)
 					{
-						if (!active_tray()->get(mail->getId())->read)
-						{
-							user->getInbox()->insert(active_tray()->get(mail->getId()));
-							manager->popMail(active_tray(), mail->getId());
-
-							user->getOutbox()->insert(active_tray()->get(mail->getId()));
-							manager->popMail(active_tray(), mail->getId());
-						}
-						else
-						{
-							user->getOutbox()->insert(active_tray()->get(mail->getId()));
-							manager->popMail(active_tray(), mail->getId());
-
-							user->getInbox()->insert(active_tray()->get(mail->getId()));
-							manager->popMail(active_tray(), mail->getId());
-						}
+						user->getInbox()->insert(active_tray()->get(mail->getId()));
+						manager->popMail(active_tray(), mail->getId());
 					}
 					else
 					{
@@ -322,22 +308,8 @@ void Session::restoreMail()
 					}
 					if (repetidos > 1)
 					{
-						if (!active_tray()->operator[](0)->read)
-						{
-							user->getInbox()->insert(active_tray()->operator[](0));
-							manager->popMail(active_tray(), active_tray()->operator[](0)->getId());
-
-							user->getOutbox()->insert(active_tray()->get(newId));
-							manager->popMail(active_tray(), newId);
-						}
-						else
-						{
-							user->getOutbox()->insert(active_tray()->operator[](0));
-							manager->popMail(active_tray(), active_tray()->operator[](0)->getId());
-
-							user->getInbox()->insert(active_tray()->get(newId));
-							manager->popMail(active_tray(), newId);
-						}
+						user->getInbox()->insert(active_tray()->operator[](0));
+						manager->popMail(active_tray(), active_tray()->operator[](0)->getId());
 					}
 					else
 					{
