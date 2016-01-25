@@ -261,8 +261,16 @@ void Session::restoreMail()
 					}
 					if (repetidos > 1)
 					{
-						user->getInbox()->insert(active_tray()->get(mail->getId()));
-						manager->popMail(active_tray(), mail->getId());
+						if (!active_tray()->get(mail->getId())->read)
+						{
+							user->getInbox()->insert(active_tray()->get(mail->getId()));
+							manager->popMail(active_tray(), mail->getId());
+						}
+						else
+						{
+							user->getOutbox()->insert(active_tray()->get(mail->getId()));
+							manager->popMail(active_tray(), mail->getId());
+						}
 					}
 					else
 					{
@@ -308,8 +316,16 @@ void Session::restoreMail()
 					}
 					if (repetidos > 1)
 					{
-						user->getInbox()->insert(active_tray()->operator[](0));
-						manager->popMail(active_tray(), active_tray()->operator[](0)->getId());
+						if (!active_tray()->operator[](0)->read)
+						{
+							user->getInbox()->insert(active_tray()->get(newId));
+							manager->popMail(active_tray(), newId);
+						}
+						else
+						{
+							user->getOutbox()->insert(active_tray()->get(newId));
+							manager->popMail(active_tray(), newId);
+						}
 					}
 					else
 					{
@@ -499,7 +515,7 @@ void Session::AddFastName()
 				}
 				else
 				{
-					for (int k = 0; k < int(newId.size()) && alias_right; k++)
+					for (int k = 0; k < newId.size() && alias_right; k++)
 					{
 						if (('A' > newId[k] || newId[k] > 'Z') && (newId[k] < 'a' || newId[k] > 'z'))
 						{
