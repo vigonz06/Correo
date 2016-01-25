@@ -254,11 +254,13 @@ void Session::restoreMail()
 
 				if (mail != nullptr)
 				{
+					repetidos = 0;
+
 					for (int j = 0; j < active_tray()->length(); j++)
 					{
 						if (mail == active_tray()->operator[](j)->mail) repetidos++;
 					}
-					if (repetidos > 0)
+					if (repetidos > 1)
 					{
 						if (!active_tray()->get(mail->getId())->read)
 						{
@@ -281,8 +283,24 @@ void Session::restoreMail()
 					{
 						if (mail->getFrom() == user->getId())
 						{
-							user->getOutbox()->insert(active_tray()->get(mail->getId()));
-							manager->popMail(active_tray(), mail->getId());
+							if (active_tray()->get(mail->getId())->read)
+							{
+								if (user->getInbox()->get(mail->getId()) != nullptr)
+								{
+									user->getOutbox()->insert(active_tray()->get(mail->getId()));
+									manager->popMail(active_tray(), mail->getId());
+								}
+								else
+								{
+									user->getInbox()->insert(active_tray()->get(mail->getId()));
+									manager->popMail(active_tray(), mail->getId());
+								}
+							}
+							else
+							{
+								user->getOutbox()->insert(active_tray()->get(mail->getId()));
+								manager->popMail(active_tray(), mail->getId());
+							}
 						}
 						else
 						{
@@ -326,8 +344,24 @@ void Session::restoreMail()
 					{
 						if ((active_tray()->get(newId)->mail->getFrom() == user->getId()))
 						{
-							user->getOutbox()->insert(active_tray()->get(newId));
-							manager->popMail(active_tray(), newId);
+							if (active_tray()->get(newId)->read)
+							{
+								if (user->getInbox()->get(newId) != nullptr)
+								{
+									user->getOutbox()->insert(active_tray()->get(newId));
+									manager->popMail(active_tray(), newId);
+								}
+								else
+								{
+									user->getInbox()->insert(active_tray()->get(newId));
+									manager->popMail(active_tray(), newId);
+								}
+							}
+							else
+							{
+								user->getOutbox()->insert(active_tray()->get(newId));
+								manager->popMail(active_tray(), newId);
+							}
 						}
 						else
 						{
