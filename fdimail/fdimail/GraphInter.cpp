@@ -838,11 +838,9 @@ std::string GraphInter::HidePassword()
 	int i = 0;
 	char word[50];
 
-	std::cout.flush();
-
 	do
 	{
-		word[i] = (unsigned char)_getch();
+		word[i] = unsigned char(_getch());
 		std::cout.flush();
 
 		if (word[i] != 13)
@@ -854,9 +852,9 @@ std::string GraphInter::HidePassword()
 			}
 			else if (i > 0)
 			{
-				display((char)8);
-				display((char)32);
-				display((char)8);
+				display(char(8));
+				display(char(32));
+				display(char(8));
 				i--;
 			}
 		}
