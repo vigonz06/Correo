@@ -122,10 +122,8 @@ void Manager::sendMail(User* user, Mail* mail)
 
 	for (int j = 0; j < mail->getRecipients().size(); j++)
 	{
-		if (userList.get(mail->getRecipients()[j]) != nullptr)
-		{
-			userList.get(mail->getRecipients()[j])->getInbox()->insert(new tElemTray(mail));
-		}
+		if (userList.get(mail->getRecipients()[j]) != nullptr) userList.get(mail->getRecipients()[j])->getInbox()->insert(new tElemTray(mail));
+
 		else
 		{
 			GraphInter::get()->display("Destinatary " + mail->getRecipients()[j] + " not found");

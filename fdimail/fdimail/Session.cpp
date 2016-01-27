@@ -8,23 +8,26 @@ manager(manager)
 	GraphInter::load();
 
 	int option;
+
 	do
 	{
 		GraphInter::get()->clearConsole();
 		option = GraphInter::get()->mainMenu();
 		GraphInter::get()->clearConsole();
 
-		if (option == 0)
+		switch (option)
 		{
+		case 0:
+
 			user = manager->createAccount();
-		}
-		if (option == 1)
-		{
+			if (user != nullptr) launch();
+			break;
+
+		case 1:
+
 			user = manager->registerUser();
-		}
-		if (user != nullptr && option != 2)
-		{
-			launch();
+			if (user != nullptr) launch();
+			break;
 		}
 	} while (option != 2);
 }
@@ -55,27 +58,42 @@ void Session::launch()
 		switch (opt)
 		{
 		case 0:
+
 			readMail();
 			break;
+
 		case 1:
+
 			sendMail();
 			break;
+
 		case 2:
+
 			deleteMail();
 			break;
+
 		case 3:
+
 			changeTray();
 			break;
+
 		case 4:
+
 			fastRead();
 			break;
+
 		case 5:
+
 			AccountOptions(opt);
 			break;
+
 		case 6:
+
 			AliasOptions();
 			break;
+
 		case 7:
+
 			filterOptions(filter);
 			break;
 		}
@@ -108,13 +126,17 @@ void Session::readMail()
 
 			GraphInter::get()->clearConsole();
 
-			if (option == 0)
+			switch (option)
 			{
+			case 0:
+
 				answerMail(mail);
-			}
-			else if (option == 1)
-			{
+				break;
+
+			case 1:
+
 				forwardMail(mail);
+				break;
 			}
 		}
 	}
@@ -130,10 +152,7 @@ void Session::sendMail()
 		GraphInter::get()->pause();
 		delete mail;
 	}
-	else
-	{
-		manager->sendMail(user, mail);
-	}
+	else manager->sendMail(user, mail);
 }
 
 void Session::answerMail(Mail* &originalMail)
@@ -146,11 +165,7 @@ void Session::answerMail(Mail* &originalMail)
 		GraphInter::get()->pause();
 		delete answer;
 	}
-	else
-	{
-		manager->answer(user, answer);
-	}
-	GraphInter::get()->pause();
+	else manager->answer(user, answer);
 }
 
 void Session::forwardMail(Mail* &originalMail)
@@ -163,11 +178,7 @@ void Session::forwardMail(Mail* &originalMail)
 		GraphInter::get()->pause();
 		delete forward;
 	}
-	else
-	{
-		manager->sendMail(user, forward);
-	}
-	GraphInter::get()->pause();
+	else manager->sendMail(user, forward);
 }
 
 void Session::deleteMail()
@@ -188,16 +199,16 @@ void Session::deleteMail()
 
 			option = GraphInter::get()->WhatToDelete(this);
 
-			if (option == 0)
+			switch (option)
+			{
+			case 0:
 			{
 				Mail* mail = GraphInter::get()->selectMail(this);
 
-				if (mail != nullptr)
-				{
-					manager->deleteMail(active_tray(), mail->getId());
-				}
+				if (mail != nullptr) manager->deleteMail(active_tray(), mail->getId());
+				break;
 			}
-			else if (option == 1)
+			case 1:
 			{
 				do
 				{
@@ -206,6 +217,8 @@ void Session::deleteMail()
 					manager->deleteMail(active_tray(), newId);
 
 				} while (!active_tray()->empty());
+				break;
+			}
 			}
 		} while (!active_tray()->empty() && option != 2);
 	}
@@ -252,18 +265,23 @@ void Session::AccountOptions(int &option)
 
 		menu = GraphInter::get()->AccountOptions();
 
-		if (menu == 0)
+		switch (menu)
 		{
+		case 0:
+
 			changeUsername();
-		}
-		else if (menu == 1)
-		{
+			break;
+
+		case 1:
+
 			changePassword();
-		}
-		else if (menu == 2)
-		{
+			break;
+
+		case 2:
+
 			manager->deleteAccount(user);
 			option = 8;
+			break;
 		}
 	} while (menu != 3 && option != 8);
 }
@@ -297,7 +315,7 @@ void Session::AddFastName()
 
 					name_right = false;
 				}
-				else if (idUser == user->getId())
+				if (idUser == user->getId())
 				{
 					GraphInter::get()->display("There is already an asigned alias for your own username");
 					GraphInter::get()->pause();
@@ -339,7 +357,7 @@ void Session::AddFastName()
 
 					alias_right = false;
 				}
-				else if (newId == "Me")
+				if (newId == "Me")
 				{
 					GraphInter::get()->display("Error, this is a default alias, you cannot asign it");
 					GraphInter::get()->pause();
@@ -411,10 +429,7 @@ void Session::AliasOptions()
 						GraphInter::get()->display("You cannot delete your self alias");
 						GraphInter::get()->pause();
 					}
-					else
-					{
-						user->getContactlist()->destroy(name);
-					}
+					else user->getContactlist()->destroy(name);
 				}
 			}
 			else
@@ -432,10 +447,7 @@ void Session::AliasOptions()
 
 				for (int i = namelenth - 1; i >= 0; i--)
 				{
-					if (user->getContactlist()->operator[](i)->alias != "Me")
-					{
-						user->getContactlist()->destroy(user->getContactlist()->operator[](i)->getId());
-					}
+					if (user->getContactlist()->operator[](i)->alias != "Me") user->getContactlist()->destroy(user->getContactlist()->operator[](i)->getId());
 				}
 			}
 			else
@@ -486,52 +498,59 @@ void Session::chooseFilter(Filter filter)
 
 		filter = Filter(GraphInter::get()->choosefilter());
 
-		if (filter != none)
+		switch (filter)
 		{
-			if (filter == date)
-			{
-				char* lowdate = new char[256];
-				char* update = new char[256];
+		case none:
+			break;
 
-				do
+		case date:
+		{
+			char* lowdate = new char[256];
+			char* update = new char[256];
+
+			do
+			{
+				GraphInter::get()->display("Enter the lower date");
+				GraphInter::get()->enter(lowdate);
+				GraphInter::get()->display("Enter the upper date");
+				GraphInter::get()->enter(update);
+
+				if (lowdate > update)
 				{
-					GraphInter::get()->display("Enter the lower date");
-					GraphInter::get()->enter(lowdate);
-					GraphInter::get()->display("Enter the upper date");
-					GraphInter::get()->enter(update);
-
-					if (lowdate > update)
-					{
-						GraphInter::get()->display("The lower date cannot be higher than the upper one");
-					}
-				} while (lowdate > update);
-
-				visible.setFilterDate(lowdate, update);
-
-				delete lowdate;
-				delete update;
-			}
-			else if (filter == read)
-			{
-				visible.setFilterRead();
-			}
-			else if (filter == unread)
-			{
-				visible.setFilterUnread();
-			}
-			else
-			{
-				std::string reference;
-
-				GraphInter::get()->display("Enter your reference word");
-				GraphInter::get()->enter(reference);
-
-				for (int i = 0; i < int(reference.size()); i++)
-				{
-					reference[i] = tolower(reference[i]);
+					GraphInter::get()->display("The lower date cannot be higher than the upper one");
 				}
-				visible.setFilter(reference, filter);
+			} while (lowdate > update);
+
+			visible.setFilterDate(lowdate, update);
+
+			delete lowdate;
+			delete update;
+			break;
+		}
+		case read:
+
+			visible.setFilterRead();
+			break;
+
+		case unread:
+
+			visible.setFilterUnread();
+			break;
+		
+		default:
+		{
+			std::string reference;
+
+			GraphInter::get()->display("Enter your reference word");
+			GraphInter::get()->enter(reference);
+
+			for (int i = 0; i < int(reference.size()); i++)
+			{
+				reference[i] = tolower(reference[i]);
 			}
+			visible.setFilter(reference, filter);
+			break;
+		}
 		}
 	}
 }
