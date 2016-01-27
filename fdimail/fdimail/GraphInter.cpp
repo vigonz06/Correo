@@ -65,34 +65,19 @@ void GraphInter::logMenu(std::string &username, std::string &password)
 
 int GraphInter::sessionMenu(Session* session)
 {
-	int key = UP, elem = 0;
-	do
-	{
-		display("Mail of " + session->getUser()->getId());
+	std::vector<std::string> elems;
 
-		session->get_visible()->refresh();
-		showTray(session);
+	elems.push_back("Read mail");
+	elems.push_back("Send mail");
+	elems.push_back("Delete mail");
+	elems.push_back("Change Tray");
+	elems.push_back("Fast read of unread mails");
+	elems.push_back("Account options");
+	elems.push_back("Alias options");
+	elems.push_back("Filter options");
+	elems.push_back("Sign out");
 
-		display("Choose your desired option: ");
-		tab_word("Read mail", 0, elem);
-		tab_word("Send mail", 1, elem);
-		tab_word("Delete mail", 2, elem);
-		tab_word("Change Tray", 3, elem);
-		tab_word("Fast read of unread mails", 4, elem);
-		tab_word("Account options", 5, elem);
-		tab_word("Alias options", 6, elem);
-		tab_word("Filter options", 7, elem);
-		tab_word("Sign out", 8, elem);
-
-		key = getKey();
-		elem = update(key, elem, 9);
-		updateTray(key, session);
-
-		clearConsole();
-
-	} while (key != ENTER && key != ESCAPE);
-
-	return elem;
+	return trayMenu(session, elems);
 }
 
 int GraphInter::trayMenu(Session* session, std::vector<std::string> elems)
@@ -101,6 +86,8 @@ int GraphInter::trayMenu(Session* session, std::vector<std::string> elems)
 
 	do
 	{
+		display("Mail of " + session->getUser()->getId());
+
 		session->get_visible()->refresh();
 		showTray(session);
 
