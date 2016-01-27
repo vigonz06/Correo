@@ -16,14 +16,18 @@ class TrayList: public List<tElemTray>
 {
 public:
 
-	tElemTray* get(const std::string &id);
-	bool search(const std::string &id, int &pos);
+	tElemTray* get(const tElemTray* id);
+	bool search(const tElemTray* id, int &pos);
+
+	tElemTray* get(const std::string id);
+	bool search(const std::string id, int &pos);
+
 	void insert(tElemTray * const elem);
-	bool destroy(const std::string &id);
+	bool destroy(const std::string id);
 
 	void save(std::ofstream &file)const;
 	void load(std::ifstream &file);
 
-	bool readMail(const std::string &idMail);
+	bool readMail(const tElemTray* idMail);
 };
 #endif
