@@ -46,6 +46,7 @@ public:
 	void link(TrayList* trayList);
 	void refresh();
 	void sync();
+	void close();
 
 	void changeOrder(Filter order){ active_order = order; }
 

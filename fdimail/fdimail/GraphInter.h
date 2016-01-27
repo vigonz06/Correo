@@ -58,7 +58,6 @@ public:
 	int AliasMenu(Session* session);
 	int WhatToDelete(Session* session);
 	int MailOptions();
-	int ChooseTray();
 	int Invert();
 	int AccountOptions();
 

@@ -21,7 +21,6 @@ private:
 
 	TrayList inbox;
 	TrayList outbox;
-	TrayList recycling;
 	ContactList contactList;
 
 public:
@@ -37,7 +36,6 @@ public:
 
 	TrayList* getInbox() { return &inbox; }
 	TrayList* getOutbox() { return &outbox; }
-	TrayList* getRecycling() { return &recycling; }
 	ContactList* getContactlist() { return &contactList; }
 
 	void save(std::ofstream &file)const;

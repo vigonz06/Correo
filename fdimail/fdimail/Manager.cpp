@@ -100,10 +100,6 @@ User* Manager::createAccount()
 
 void Manager::deleteAccount(User* user)
 {
-	while (!user->getRecycling()->empty())
-	{
-		deleteMail(user->getRecycling(), user->getRecycling()->operator[](0)->getId());
-	}
 	while (!user->getOutbox()->empty())
 	{
 		deleteMail(user->getOutbox(), user->getOutbox()->operator[](0)->getId());
@@ -162,11 +158,6 @@ void Manager::deleteMail(TrayList* box, const std::string &idMail)
 	box->destroy(idMail);
 
 	mailList.delete_mail(idMail);
-}
-
-void Manager::popMail(TrayList* box, const std::string &idMail)
-{
-	box->pop(box->get(idMail));
 }
 
 void Manager::loadUsers(std::string &name)

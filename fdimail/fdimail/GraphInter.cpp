@@ -195,12 +195,9 @@ int GraphInter::aliasMenu(Session* session)
 		tab_word("Back", session->get_visible()->length(), elem);
 
 		display(linea());
-		display(pags(session));
-		display(linea());
 
 		key = getKey();
-		elem = update(key, elem, session->get_visible()->length() + 1);
-		updateTray(key, session);
+		elem = update(key, elem, session->getUser()->getContactlist()->length() + 1);
 
 		clearConsole();
 
@@ -275,17 +272,6 @@ int GraphInter::MailOptions()
 	elems.push_back("Delete mail");
 	elems.push_back("Restore mail");
 	elems.push_back("Back");
-
-	return menu(elems);
-}
-
-int GraphInter::ChooseTray()
-{
-	std::vector<std::string> elems;
-
-	elems.push_back("See Inbox");
-	elems.push_back("See Outbox");
-	elems.push_back("See Papper Bin");
 
 	return menu(elems);
 }
@@ -594,17 +580,13 @@ void GraphInter::showTray(Session* session)
 	std::string title, thisMail;
 	std::ostringstream menu;
 
-	if (session->get_active_list() == 0)
+	if (session->get_active_list())
 	{
 		title = center_word("Inbox", HORIZONTAL, "-");
 	}
-	if (session->get_active_list() == 1)
+	if (!session->get_active_list())
 	{
 		title = center_word("Outbox", HORIZONTAL, "-");
-	}
-	if (session->get_active_list() == 2)
-	{
-		title = center_word("Papper Bin", HORIZONTAL, "-");
 	}
 
 	display(linea());
@@ -630,13 +612,13 @@ void GraphInter::showTray(Session* session)
 		{
 			std::ostringstream show;
 
-			if (!session->get_visible()->operator[](i)->read)
+			if (session->get_visible()->operator[](i)->read)
 			{
-				show << " *";
+				show << "  ";
 			}
 			else
 			{
-				show << "  ";
+				show << " *";
 			}
 
 			Mail* mail = session->get_visible()->operator[](i)->mail;
@@ -853,30 +835,32 @@ std::string GraphInter::HideLimitPassword()
 
 std::string GraphInter::HidePassword()
 {
-	std::cout.flush();
-	int i;
+	int i = 0;
 	char word[50];
 
-	i = 0;
-	word[i] = (unsigned char)_getch();
 	std::cout.flush();
 
-	while (word[i] != 13)
+	do
 	{
-		if (word[i] != 8)
-		{
-			display('*');
-			i++;
-		}
-		else if (i > 0)
-		{
-			std::cout << (char)8 << (char)32 << (char)8;
-			i--;
-		}
-
 		word[i] = (unsigned char)_getch();
 		std::cout.flush();
-	}
+
+		if (word[i] != 13)
+		{
+			if (word[i] != 8)
+			{
+				display('*');
+				i++;
+			}
+			else if (i > 0)
+			{
+				display((char)8);
+				display((char)32);
+				display((char)8);
+				i--;
+			}
+		}
+	} while (word[i] != 13);
 
 	word[i] = NULL;
 	display("");

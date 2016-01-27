@@ -61,7 +61,7 @@ void Session::launch()
 			sendMail();
 			break;
 		case 2:
-			MailOptions();
+			deleteMail();
 			break;
 		case 3:
 			changeTray();
@@ -80,10 +80,8 @@ void Session::launch()
 			break;
 		}
 	} while (opt != 8);
-	visible.closeFilter();
-	visible.refresh();
-	visible.erase();
-	visible.link(nullptr);
+
+	visible.close();
 	user = nullptr;
 }
 
@@ -196,15 +194,7 @@ void Session::deleteMail()
 
 				if (mail != nullptr)
 				{
-					if (active_tray() == user->getRecycling())
-					{
-						manager->deleteMail(active_tray(), mail->getId());
-					}
-					else
-					{
-						user->getRecycling()->insert(active_tray()->get(mail->getId()));
-						manager->popMail(active_tray(), mail->getId());
-					}
+					manager->deleteMail(active_tray(), mail->getId());
 				}
 			}
 			else if (option == 1)
@@ -213,149 +203,8 @@ void Session::deleteMail()
 				{
 					std::string newId = active_tray()->operator[](0)->getId();
 
-					if (active_tray() == user->getRecycling())
-					{
-						manager->deleteMail(active_tray(), newId);
-					}
-					else
-					{
-						user->getRecycling()->insert(active_tray()->get(newId));
-						manager->popMail(active_tray(), newId);
-					}
-				} while (!active_tray()->empty());
-			}
-		} while (!active_tray()->empty() && option != 2);
-	}
-}
+					manager->deleteMail(active_tray(), newId);
 
-void Session::restoreMail()
-{
-	int option;
-	int repetidos;
-
-	if (visible.empty())
-	{
-		GraphInter::get()->display("You have no mails to delete");
-		GraphInter::get()->pause();
-	}
-	else
-	{
-		do
-		{
-			visible.refresh();
-			GraphInter::get()->clearConsole();
-
-			option = GraphInter::get()->WhatToDelete(this);
-
-			if (option == 0)
-			{
-				Mail* mail = GraphInter::get()->selectMail(this);
-
-				if (mail != nullptr)
-				{
-					repetidos = 0;
-
-					for (int j = 0; j < active_tray()->length(); j++)
-					{
-						if (mail == active_tray()->operator[](j)->mail) repetidos++;
-					}
-					if (repetidos > 1)
-					{
-						if (!active_tray()->get(mail->getId())->read)
-						{
-							user->getInbox()->insert(active_tray()->get(mail->getId()));
-							manager->popMail(active_tray(), mail->getId());
-						}
-						else
-						{
-							user->getOutbox()->insert(active_tray()->get(mail->getId()));
-							manager->popMail(active_tray(), mail->getId());
-						}
-					}
-					else
-					{
-						if (mail->getFrom() == user->getId())
-						{
-							if (active_tray()->get(mail->getId())->read)
-							{
-								if (user->getInbox()->get(mail->getId()) != nullptr)
-								{
-									user->getOutbox()->insert(active_tray()->get(mail->getId()));
-									manager->popMail(active_tray(), mail->getId());
-								}
-								else
-								{
-									user->getInbox()->insert(active_tray()->get(mail->getId()));
-									manager->popMail(active_tray(), mail->getId());
-								}
-							}
-							else
-							{
-								user->getInbox()->insert(active_tray()->get(mail->getId()));
-								manager->popMail(active_tray(), mail->getId());
-							}
-						}
-						else
-						{
-							user->getInbox()->insert(active_tray()->get(mail->getId()));
-							manager->popMail(active_tray(), mail->getId());
-						}
-					}
-				}
-			}
-			if (option == 1)
-			{
-				do
-				{
-					std::string newId = active_tray()->operator[](0)->mail->getId();
-					repetidos = 0;
-
-					for (int j = 0; j < active_tray()->length(); j++)
-					{
-						if (active_tray()->operator[](0)->mail == active_tray()->operator[](j)->mail) repetidos++;
-					}
-					if (repetidos > 1)
-					{
-						if (!active_tray()->operator[](0)->read)
-						{
-							user->getInbox()->insert(active_tray()->get(newId));
-							manager->popMail(active_tray(), newId);
-						}
-						else
-						{
-							user->getOutbox()->insert(active_tray()->get(newId));
-							manager->popMail(active_tray(), newId);
-						}
-					}
-					else
-					{
-						if ((active_tray()->get(newId)->mail->getFrom() == user->getId()))
-						{
-							if (active_tray()->get(newId)->read)
-							{
-								if (user->getInbox()->get(newId) != nullptr)
-								{
-									user->getOutbox()->insert(active_tray()->get(newId));
-									manager->popMail(active_tray(), newId);
-								}
-								else
-								{
-									user->getInbox()->insert(active_tray()->get(newId));
-									manager->popMail(active_tray(), newId);
-								}
-							}
-							else
-							{
-								user->getInbox()->insert(active_tray()->get(newId));
-								manager->popMail(active_tray(), newId);
-							}
-						}
-						else
-						{
-							user->getInbox()->insert(active_tray()->get(newId));
-							manager->popMail(active_tray(), newId);
-						}
-					}
 				} while (!active_tray()->empty());
 			}
 		} while (!active_tray()->empty() && option != 2);
@@ -364,25 +213,9 @@ void Session::restoreMail()
 
 void Session::changeTray()
 {
-	active_list = GraphInter::get()->ChooseTray();
+	active_list = !active_list;
 
 	visible.link(active_tray());
-}
-
-TrayList* Session::active_tray() 
-{
-	switch (active_list)
-	{
-	case 0:
-		return user->getInbox();
-		break;
-	case 1:
-		return user->getOutbox();
-		break;
-	case 2:
-		return user->getRecycling();
-		break;
-	}
 }
 
 void Session::fastRead()
@@ -613,41 +446,6 @@ void Session::AliasOptions()
 			break;
 		}
 	} while (option != 3);
-}
-
-void Session::MailOptions()
-{
-	int opt;
-
-	if (visible.empty())
-	{
-		GraphInter::get()->display("You have no mails to manipulate");
-		GraphInter::get()->pause();
-	}
-	else
-	{
-		if (active_tray() != user->getRecycling())
-		{
-			deleteMail();
-		}
-		else
-		{
-			opt = GraphInter::get()->MailOptions();
-
-			switch (opt)
-			{
-			case 0:
-
-				deleteMail();
-				break;
-
-			case 1:
-
-				restoreMail();
-				break;
-			}
-		}
-	}
 }
 
 void Session::filterOptions(Filter filter)
