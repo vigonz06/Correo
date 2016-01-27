@@ -62,14 +62,6 @@ void VisibleTrayList::sync()
 	}
 }
 
-void VisibleTrayList::close()
-{
-	closeFilter();
-	refresh();
-	erase();
-	link(nullptr);
-}
-
 template<typename Funct, typename K>
 void VisibleTrayList::filterBy(Funct filter, K key)
 {

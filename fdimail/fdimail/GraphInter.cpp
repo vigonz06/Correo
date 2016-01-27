@@ -184,6 +184,8 @@ int GraphInter::aliasMenu(Session* session)
 
 	do
 	{
+		session->get_visible()->refresh();
+
 		display("Choose your desired alias: ");
 
 		for (int i = 0; i < session->getUser()->getContactlist()->length(); i++)
@@ -193,9 +195,12 @@ int GraphInter::aliasMenu(Session* session)
 		tab_word("Back", session->get_visible()->length(), elem);
 
 		display(linea());
+		display(pags(session));
+		display(linea());
 
 		key = getKey();
-		elem = update(key, elem, session->getUser()->getContactlist()->length() + 1);
+		elem = update(key, elem, session->get_visible()->length() + 1);
+		updateTray(key, session);
 
 		clearConsole();
 
@@ -532,7 +537,7 @@ Mail* GraphInter::forward(Mail* &originalMail, const std::string &sender, Contac
 	}
 }
 
-tElemTray* GraphInter::selectMail(Session* session)
+Mail* GraphInter::selectMail(Session* session)
 {
 	int number;
 
@@ -540,7 +545,7 @@ tElemTray* GraphInter::selectMail(Session* session)
 
 	if (number != session->get_visible()->length())
 	{
-		return session->get_visible()->operator[](number);
+		return session->get_visible()->operator[](number)->mail;
 	}
 	else return nullptr;
 }
@@ -848,32 +853,30 @@ std::string GraphInter::HideLimitPassword()
 
 std::string GraphInter::HidePassword()
 {
-	int i = 0;
+	std::cout.flush();
+	int i;
 	char word[50];
-	
+
+	i = 0;
+	word[i] = (unsigned char)_getch();
 	std::cout.flush();
 
-	do
+	while (word[i] != 13)
 	{
+		if (word[i] != 8)
+		{
+			display('*');
+			i++;
+		}
+		else if (i > 0)
+		{
+			std::cout << (char)8 << (char)32 << (char)8;
+			i--;
+		}
+
 		word[i] = (unsigned char)_getch();
 		std::cout.flush();
-
-		if (word[i] != 13)
-		{
-			if (word[i] != 8)
-			{
-				display('*');
-				i++;
-			}
-			else if (i > 0)
-			{
-				display((char)8);
-				display((char)32);
-				display((char)8);
-				i--;
-			}
-		}
-	} while (word[i] != 13);
+	}
 
 	word[i] = NULL;
 	display("");

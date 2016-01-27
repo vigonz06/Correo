@@ -66,7 +66,7 @@ public:
 	Mail* answerMail(Mail* &originalMail, const std::string &sender);
 	Mail* forward(Mail* &originalMail, const std::string &sender, ContactList* contactList);
 
-	tElemTray* selectMail(Session* sesion);
+	Mail* selectMail(Session* sesion);
 	std::string selectAlias(Session* session);
 
 	std::string center_word(std::string word, int length, std::string arround);

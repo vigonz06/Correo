@@ -27,11 +27,4 @@ int getKey()
 
 	return key;
 }
-
-/*void warning(std::string word, )
-{
-	HWND hwnd;
-
-	MessageBox(hwnd, "Could not load large icon!", "Error", MB_OK | MB_ICONERROR);
-}*/
 #endif
