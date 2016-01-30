@@ -43,6 +43,6 @@ public:
 	void deleteAccount(User* user);
 	bool answer(User* user, Mail* mail);
 	void sendMail(User* user, Mail* mail);
-	void deleteMail(TrayList* box, const std::string &idMail);
+	void deleteMail(TrayList* box, const std::string &idMail, const std::string &idElem);
 };
 #endif

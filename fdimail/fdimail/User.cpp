@@ -14,6 +14,7 @@ bool User::load(std::ifstream &file)
 		if (!file.fail())
 		{
 			contactList.load(file);
+			recycling.load(file);
 			outbox.load(file);
 			inbox.load(file);
 			return true;
@@ -29,6 +30,7 @@ void User::save(std::ofstream &file)const
 		<< password << std::endl;
 
 	contactList.save(file);
+	recycling.save(file);
 	outbox.save(file);
 	inbox.save(file);
 }

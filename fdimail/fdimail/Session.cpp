@@ -116,13 +116,13 @@ void Session::readMail()
 	}
 	else
 	{
-		Mail* mail = GraphInter::get()->selectMail(this);
+		tElemTray* elem = GraphInter::get()->selectMail(this);
 
-		if (mail != nullptr)
+		if (elem != nullptr)
 		{
-			active_tray()->readMail(mail->getId());
+			active_tray()->readMail(elem->getId());
 
-			int option = GraphInter::get()->mailMenu(mail);
+			int option = GraphInter::get()->mailMenu(elem->mail);
 
 			GraphInter::get()->clearConsole();
 
@@ -130,12 +130,12 @@ void Session::readMail()
 			{
 			case 0:
 
-				answerMail(mail);
+				answerMail(elem->mail);
 				break;
 
 			case 1:
 
-				forwardMail(mail);
+				forwardMail(elem->mail);
 				break;
 			}
 		}
@@ -203,19 +203,35 @@ void Session::deleteMail()
 			{
 			case 0:
 			{
-				Mail* mail = GraphInter::get()->selectMail(this);
+				tElemTray* elem = GraphInter::get()->selectMail(this);
 
-				if (mail != nullptr) manager->deleteMail(active_tray(), mail->getId());
+				if (elem != nullptr)
+				{
+					if (active_tray() == user->getRecycling())
+					{
+						manager->deleteMail(active_tray(), elem->mail->getId(), elem->getId());
+					}
+					else
+					{
+						user->getRecycling()->insert(elem);
+						active_tray()->pop(elem);
+					}
+				}
 				break;
 			}
 			case 1:
 			{
 				do
 				{
-					std::string newId = active_tray()->operator[](0)->getId();
-
-					manager->deleteMail(active_tray(), newId);
-
+					if (active_tray() == user->getRecycling())
+					{
+						manager->deleteMail(active_tray(), active_tray()->operator[](0)->mail->getId(), active_tray()->operator[](0)->getId());
+					}
+					else
+					{
+						user->getRecycling()->insert(active_tray()->operator[](0));
+						active_tray()->pop(active_tray()->operator[](0));
+					}
 				} while (!active_tray()->empty());
 				break;
 			}
@@ -224,9 +240,91 @@ void Session::deleteMail()
 	}
 }
 
+void Session::restoreMail()
+{
+	int option;
+
+	if (visible.empty())
+	{
+		GraphInter::get()->display("You have no mails to restore");
+		GraphInter::get()->pause();
+	}
+	else
+	{
+		do
+		{
+			visible.refresh();
+			GraphInter::get()->clearConsole();
+
+			option = GraphInter::get()->WhatToDelete(this);
+
+			switch (option)
+			{
+			case 0:
+			{
+				tElemTray* elem = GraphInter::get()->selectMail(this);
+
+				if (elem != nullptr)
+				{
+					if (elem->box == Inbox)
+					{
+						user->getInbox()->insert(elem);
+						active_tray()->pop(elem);
+					}
+					if (elem->box == Outbox)
+					{
+						user->getOutbox()->insert(elem);
+						active_tray()->pop(elem);
+					}
+				}
+				break;
+			}
+			case 1:
+			{
+				do
+				{
+					if (active_tray()->operator[](0)->box == Inbox)
+					{
+						user->getInbox()->insert(active_tray()->operator[](0));
+						active_tray()->pop(active_tray()->operator[](0));
+					}
+					if (active_tray()->operator[](0)->box == Outbox)
+					{
+						user->getOutbox()->insert(active_tray()->operator[](0));
+						active_tray()->pop(active_tray()->operator[](0));
+					}
+				} while (!active_tray()->empty());
+				break;
+			}
+			}
+		} while (!active_tray()->empty() && option != 2);
+	}
+}
+
+TrayList* Session::active_tray()
+{ 
+	switch (active_list)
+	{
+	case 0:
+
+		return user->getInbox();
+		break;
+
+	case 1:
+
+		return user->getOutbox();
+		break;
+
+	case 2:
+
+		return user->getRecycling();
+		break;
+	}
+}
+
 void Session::changeTray()
 {
-	active_list = !active_list;
+	active_list = GraphInter::get()->chooseTray();
 
 	visible.link(active_tray());
 }

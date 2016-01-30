@@ -58,6 +58,7 @@ public:
 	int AliasMenu(Session* session);
 	int WhatToDelete(Session* session);
 	int MailOptions();
+	int chooseTray();
 	int Invert();
 	int AccountOptions();
 
@@ -65,7 +66,7 @@ public:
 	Mail* answerMail(Mail* &originalMail, const std::string &sender);
 	Mail* forward(Mail* &originalMail, const std::string &sender, ContactList* contactList);
 
-	Mail* selectMail(Session* sesion);
+	tElemTray* selectMail(Session* sesion);
 	std::string selectAlias(Session* session);
 
 	std::string center_word(std::string word, int length, std::string arround);

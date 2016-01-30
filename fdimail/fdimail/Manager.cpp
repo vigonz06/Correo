@@ -100,13 +100,17 @@ User* Manager::createAccount()
 
 void Manager::deleteAccount(User* user)
 {
+	while (!user->getRecycling()->empty())
+	{
+		deleteMail(user->getRecycling(), user->getRecycling()->operator[](0)->getId(), user->getRecycling()->operator[](0)->mail->getId());
+	}
 	while (!user->getOutbox()->empty())
 	{
-		deleteMail(user->getOutbox(), user->getOutbox()->operator[](0)->getId());
+		deleteMail(user->getOutbox(), user->getOutbox()->operator[](0)->getId(), user->getOutbox()->operator[](0)->mail->getId());
 	}
 	while (!user->getInbox()->empty())
 	{
-		deleteMail(user->getInbox(), user->getInbox()->operator[](0)->getId());
+		deleteMail(user->getInbox(), user->getInbox()->operator[](0)->getId(), user->getOutbox()->operator[](0)->mail->getId());
 	}
 	userList.destroy(user->getId());
 }
@@ -115,14 +119,13 @@ void Manager::sendMail(User* user, Mail* mail)
 {
 	mailList.insert(mail);
 
-	tElemTray* elem = new tElemTray(mail);
-	elem->read = true;
+	tElemTray* elem = new tElemTray(mail, Outbox, true);
 
 	user->getOutbox()->insert(elem);
 
 	for (int j = 0; j < mail->getRecipients().size(); j++)
 	{
-		if (userList.get(mail->getRecipients()[j]) != nullptr) userList.get(mail->getRecipients()[j])->getInbox()->insert(new tElemTray(mail));
+		if (userList.get(mail->getRecipients()[j]) != nullptr) userList.get(mail->getRecipients()[j])->getInbox()->insert(new tElemTray(mail, Inbox, false));
 
 		else
 		{
@@ -141,19 +144,18 @@ bool Manager::answer(User* user, Mail* mail)
 	{
 		mailList.insert(mail);
 
-		user->getOutbox()->insert(new tElemTray(mail));
-		user->getOutbox()->get(mail->getId())->read = true;
+		user->getOutbox()->insert(new tElemTray(mail, Outbox, true));
 
-		userList.get(mail->getRecipients()[0])->getInbox()->insert(new tElemTray(mail));
+		userList.get(mail->getRecipients()[0])->getInbox()->insert(new tElemTray(mail, Inbox, false));
 
 		return true;
 	}
 	else return false;
 }
 
-void Manager::deleteMail(TrayList* box, const std::string &idMail)
+void Manager::deleteMail(TrayList* box, const std::string &idMail, const std::string &idElem)
 {
-	box->destroy(idMail);
+	box->destroy(idElem);
 
 	mailList.delete_mail(idMail);
 }

@@ -20,7 +20,7 @@ private:
 	Manager* manager;
 	User* user;
 
-	bool active_list;
+	int active_list;
 	void changeTray();
 
 	void launch();
@@ -49,10 +49,10 @@ public:
 	Session(Manager* manager);
 	~Session();
 	
-	TrayList* active_tray() { return (active_list) ? user->getInbox() : user->getOutbox(); }
 	VisibleTrayList* get_visible(){ return &visible; }
 	int get_active_list(){ return active_list; }
 	Manager* getManager(){ return manager; }
 	User* getUser(){ return user; }
+	TrayList* active_tray();
 };
 #endif

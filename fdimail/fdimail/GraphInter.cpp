@@ -253,6 +253,17 @@ int GraphInter::MailOptions()
 	return menu(elems);
 }
 
+int GraphInter::chooseTray()
+{
+	std::vector<std::string> elems;
+
+	elems.push_back("Inbox");
+	elems.push_back("Outbox");
+	elems.push_back("Paper Bin");
+
+	return menu(elems);
+}
+
 int GraphInter::SureToEmpty(Mail* mail)
 {
 	int key = UP, elem = 0;
@@ -494,13 +505,13 @@ Mail* GraphInter::forward(Mail* &originalMail, const std::string &sender, Contac
 	}
 }
 
-Mail* GraphInter::selectMail(Session* session)
+tElemTray* GraphInter::selectMail(Session* session)
 {
 	int number;
 
 	number = mailMenu(session);
 
-	if (number != session->get_visible()->length()) return session->get_visible()->operator[](number)->mail;
+	if (number != session->get_visible()->length()) return session->get_visible()->operator[](number);
 
 	else return nullptr;
 }
@@ -547,13 +558,17 @@ void GraphInter::showTray(Session* session)
 	std::string title, thisMail;
 	std::ostringstream menu;
 
-	if (session->get_active_list())
+	if (session->get_active_list() == 0)
 	{
 		title = center_word("Inbox", HORIZONTAL, "-");
 	}
-	if (!session->get_active_list())
+	if (session->get_active_list() == 1)
 	{
 		title = center_word("Outbox", HORIZONTAL, "-");
+	}
+	if (session->get_active_list() == 2)
+	{
+		title = center_word("Paper Bin", HORIZONTAL, "-");
 	}
 
 	display(linea());
@@ -963,9 +978,9 @@ std::string GraphInter::center_word(std::string word, int length, std::string ar
 	{
 		for (int i = word.size(); i < length; i++)
 		{
-			if (!word.size() % 2) word = word + arround;
+			if (word.size() % 2) word = word + arround;
 
-			if (word.size() % 2) word = arround + word;
+			else word = arround + word;
 		}
 	}
 	return word;
