@@ -69,7 +69,7 @@ void Session::launch()
 
 		case 2:
 
-			deleteMail();
+			mailOptions();
 			break;
 
 		case 3:
@@ -298,6 +298,33 @@ void Session::restoreMail()
 			}
 			}
 		} while (!active_tray()->empty() && option != 2);
+	}
+}
+
+void Session::mailOptions()
+{
+	if (active_tray() == user->getRecycling())
+	{
+		int option;
+		
+		option = Graph<Inter::get()->MailOptions();
+		
+		switch(option)
+		{
+		case 0:
+		
+			deleteMail();
+			break;
+			
+		case 1:
+		
+			restoreMail();
+			break;
+		}
+	}
+	else
+	{
+		deleteMail();
 	}
 }
 
