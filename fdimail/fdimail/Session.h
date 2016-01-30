@@ -31,6 +31,7 @@ private:
 	void forwardMail(Mail* &originalMail);
 	void deleteMail();
 	void restoreMail();
+	void mailOptions();
 	void fastRead();
 
 	void AccountOptions(int &option);
