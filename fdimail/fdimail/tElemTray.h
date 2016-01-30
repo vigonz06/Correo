@@ -21,7 +21,7 @@ struct tElemTray
 	tElemTray() {}
 	tElemTray(Mail* mail, Box box, bool read) : mail(mail), box(box), read(read) { setId(); }
 
-	std::string getId() const { return id; }
+	const std::string& getId() const { return id; }
 
 	void setId();
 

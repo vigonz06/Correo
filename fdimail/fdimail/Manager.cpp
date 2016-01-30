@@ -102,15 +102,15 @@ void Manager::deleteAccount(User* user)
 {
 	while (!user->getRecycling()->empty())
 	{
-		deleteMail(user->getRecycling(), user->getRecycling()->operator[](0)->getId(), user->getRecycling()->operator[](0)->mail->getId());
+		deleteMail(user->getRecycling(), user->getRecycling()->operator[](0));
 	}
 	while (!user->getOutbox()->empty())
 	{
-		deleteMail(user->getOutbox(), user->getOutbox()->operator[](0)->getId(), user->getOutbox()->operator[](0)->mail->getId());
+		deleteMail(user->getOutbox(), user->getOutbox()->operator[](0));
 	}
 	while (!user->getInbox()->empty())
 	{
-		deleteMail(user->getInbox(), user->getInbox()->operator[](0)->getId(), user->getOutbox()->operator[](0)->mail->getId());
+		deleteMail(user->getInbox(), user->getInbox()->operator[](0));
 	}
 	userList.destroy(user->getId());
 }
@@ -153,11 +153,11 @@ bool Manager::answer(User* user, Mail* mail)
 	else return false;
 }
 
-void Manager::deleteMail(TrayList* box, const std::string &idMail, const std::string &idElem)
+void Manager::deleteMail(TrayList* box, const tElemTray* elem)
 {
-	box->destroy(idElem);
+	box->destroy(elem->getId());
 
-	mailList.delete_mail(idMail);
+	mailList.delete_mail(elem->mail->getId());
 }
 
 void Manager::loadUsers(std::string &name)

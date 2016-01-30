@@ -209,12 +209,12 @@ void Session::deleteMail()
 				{
 					if (active_tray() == user->getRecycling())
 					{
-						manager->deleteMail(active_tray(), elem->mail->getId(), elem->getId());
+						manager->deleteMail(active_tray(), elem);
 					}
 					else
 					{
 						user->getRecycling()->insert(elem);
-						active_tray()->pop(elem);
+						active_tray()->pop(elem->getId());
 					}
 				}
 				break;
@@ -225,12 +225,12 @@ void Session::deleteMail()
 				{
 					if (active_tray() == user->getRecycling())
 					{
-						manager->deleteMail(active_tray(), active_tray()->operator[](0)->mail->getId(), active_tray()->operator[](0)->getId());
+						manager->deleteMail(active_tray(), active_tray()->operator[](0));
 					}
 					else
 					{
 						user->getRecycling()->insert(active_tray()->operator[](0));
-						active_tray()->pop(active_tray()->operator[](0));
+						active_tray()->pop(active_tray()->operator[](0)->getId());
 					}
 				} while (!active_tray()->empty());
 				break;
@@ -244,7 +244,7 @@ void Session::restoreMail()
 {
 	int option;
 
-	if (visible.empty())
+	if (active_tray()->empty())
 	{
 		GraphInter::get()->display("You have no mails to restore");
 		GraphInter::get()->pause();
@@ -269,12 +269,12 @@ void Session::restoreMail()
 					if (elem->box == Inbox)
 					{
 						user->getInbox()->insert(elem);
-						active_tray()->pop(elem);
+						active_tray()->pop(elem->getId());
 					}
 					if (elem->box == Outbox)
 					{
 						user->getOutbox()->insert(elem);
-						active_tray()->pop(elem);
+						active_tray()->pop(elem->getId());
 					}
 				}
 				break;
@@ -286,12 +286,12 @@ void Session::restoreMail()
 					if (active_tray()->operator[](0)->box == Inbox)
 					{
 						user->getInbox()->insert(active_tray()->operator[](0));
-						active_tray()->pop(active_tray()->operator[](0));
+						active_tray()->pop(active_tray()->operator[](0)->getId());
 					}
 					if (active_tray()->operator[](0)->box == Outbox)
 					{
 						user->getOutbox()->insert(active_tray()->operator[](0));
-						active_tray()->pop(active_tray()->operator[](0));
+						active_tray()->pop(active_tray()->operator[](0)->getId());
 					}
 				} while (!active_tray()->empty());
 				break;
@@ -307,7 +307,7 @@ void Session::mailOptions()
 	{
 		int option;
 		
-		option = Graph<Inter::get()->MailOptions();
+		option = GraphInter::get()->MailOptions();
 		
 		switch(option)
 		{
@@ -723,7 +723,7 @@ void Session::changeUsername()
 	{
 		GraphInter::get()->checkUsername(data);
 
-		manager->getUserList()->pop(user);
+		manager->getUserList()->pop(user->getId());
 
 		user->setId(data);
 		user->getContactlist()->changeMe(data);

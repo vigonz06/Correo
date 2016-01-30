@@ -46,7 +46,7 @@ public:
 
 	void insert(T* elem);
 	bool destroy(const std::string &id);
-	bool pop(T* elem);
+	bool pop(const std::string &id);
 
 	void erase();
 
@@ -80,21 +80,20 @@ bool List<T>::destroy(const std::string &id)
 	{
 		delete list[pos];
 		shiftLeft(pos);
-		counter--;
 		return true;
 	}
 	else return false;
 }
 
 template<class T>
-bool List<T>::pop(T* elem)
+bool List<T>::pop(const std::string &id)
 {
 	int pos;
 	int left_key = 0, right_key = counter - 1;
-	if (search(elem->getId(), pos, left_key, right_key))
+	if (search(id, pos, left_key, right_key))
 	{
+		list[pos] = nullptr;
 		shiftLeft(pos);
-		counter--;
 		return true;
 	}
 	else return false;
@@ -204,8 +203,9 @@ void List<T>::shiftLeft(const int pos)
 {
 	for (int i = pos; i < counter - 1; i++)
 	{
-		list[i] = list[i+1];
+		list[i] = list[i + 1];
 	}
+	counter--;
 }
 
 template<class T>
