@@ -5,9 +5,9 @@
 Session::Session(Manager* manager) :
 manager(manager)
 {
-	GraphInter::load();
-
 	int option;
+
+	GraphInter::load();
 
 	do
 	{
@@ -43,10 +43,11 @@ Session::~Session()
 
 void Session::launch()
 {
-	active_list = false;
-	visible.init(active_tray());
-	Filter filter = none;
 	int opt;
+
+	active_list = false;
+	Filter filter = none;
+	visible.init(active_tray());
 
 	do
 	{
@@ -322,10 +323,7 @@ void Session::mailOptions()
 			break;
 		}
 	}
-	else
-	{
-		deleteMail();
-	}
+	else deleteMail();
 }
 
 TrayList* Session::active_tray()
