@@ -271,7 +271,7 @@ void Session::restoreMail()
 						user->getInbox()->insert(elem);
 						active_tray()->pop(elem->getId());
 					}
-					if (elem->box == Outbox)
+					else
 					{
 						user->getOutbox()->insert(elem);
 						active_tray()->pop(elem->getId());
@@ -288,7 +288,7 @@ void Session::restoreMail()
 						user->getInbox()->insert(active_tray()->operator[](0));
 						active_tray()->pop(active_tray()->operator[](0)->getId());
 					}
-					if (active_tray()->operator[](0)->box == Outbox)
+					else
 					{
 						user->getOutbox()->insert(active_tray()->operator[](0));
 						active_tray()->pop(active_tray()->operator[](0)->getId());

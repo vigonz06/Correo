@@ -155,9 +155,9 @@ bool Manager::answer(User* user, Mail* mail)
 
 void Manager::deleteMail(TrayList* box, const tElemTray* elem)
 {
-	box->destroy(elem->getId());
-
 	mailList.delete_mail(elem->mail->getId());
+
+	box->destroy(elem->getId());
 }
 
 void Manager::loadUsers(std::string &name)

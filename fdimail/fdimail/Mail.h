@@ -34,7 +34,7 @@ public:
 
 	const std::string& getId() const { return id; }
 	int getCounter() const { return user_count; }
-	int lowerCounter(){ return --user_count; }
+	int lowerCounter(){ return user_count--; }
 
 	Date getDate() { return date; }
 	std::string getFrom() { return from; }
