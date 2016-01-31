@@ -28,7 +28,18 @@ bool TrayList::destroy(const std::string &id)
 	{
 		delete list[pos];
 		shiftLeft(pos);
-		counter--;
+		return true;
+	}
+	else return false;
+}
+
+bool TrayList::pop(const std::string id)
+{
+	int pos;
+	if (search(id, pos))
+	{
+		list[pos] = nullptr;
+		shiftLeft(pos);
 		return true;
 	}
 	else return false;

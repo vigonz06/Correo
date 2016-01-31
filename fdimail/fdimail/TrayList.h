@@ -20,6 +20,7 @@ public:
 	bool search(const std::string &id, int &pos);
 	void insert(tElemTray * const elem);
 	bool destroy(const std::string &id);
+	bool pop(const std::string id);
 
 	void save(std::ofstream &file)const;
 	void load(std::ifstream &file);

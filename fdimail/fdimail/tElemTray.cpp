@@ -8,9 +8,13 @@ void tElemTray::setId()
 
 void tElemTray::load(std::ifstream &file)
 {
+	int number;
 	std::string idMail;
-	file >> idMail >> read >> std::to_string(box);
+
+	file >> idMail >> read >> number;
+
 	mail = Manager::getManager()->getMailList()->get(idMail);
+	box = Box(number);
 	setId();
 }
 
