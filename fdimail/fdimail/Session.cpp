@@ -1,4 +1,5 @@
 #include "GraphInter.h"
+#include "utilsWin.h"
 #include "Session.h"
 #include "Mail.h"
 
@@ -112,8 +113,7 @@ void Session::readMail()
 {
 	if (visible.empty())
 	{
-		GraphInter::get()->display("You have no mails to read");
-		GraphInter::get()->pause();
+		message("You have no mails to read");
 	}
 	else
 	{
@@ -149,8 +149,7 @@ void Session::sendMail()
 
 	if (mail == nullptr)
 	{
-		GraphInter::get()->display("Mail not sent");
-		GraphInter::get()->pause();
+		message("Mail not sent");
 		delete mail;
 	}
 	else manager->sendMail(user, mail);
@@ -162,8 +161,7 @@ void Session::answerMail(Mail* &originalMail)
 
 	if (answer == nullptr)
 	{
-		GraphInter::get()->display("Mail not sent");
-		GraphInter::get()->pause();
+		message("Mail not sent");
 		delete answer;
 	}
 	else manager->answer(user, answer);
@@ -175,8 +173,7 @@ void Session::forwardMail(Mail* &originalMail)
 
 	if (forward == nullptr)
 	{
-		GraphInter::get()->display("Mail not sent");
-		GraphInter::get()->pause();
+		message("Mail not sent");
 		delete forward;
 	}
 	else manager->sendMail(user, forward);
@@ -188,8 +185,7 @@ void Session::deleteMail()
 
 	if (visible.empty())
 	{
-		GraphInter::get()->display("You have no mails to delete");
-		GraphInter::get()->pause();
+		message("You have no mails to delete");
 	}
 	else
 	{
@@ -247,8 +243,7 @@ void Session::restoreMail()
 
 	if (active_tray()->empty())
 	{
-		GraphInter::get()->display("You have no mails to restore");
-		GraphInter::get()->pause();
+		message("You have no mails to restore");
 	}
 	else
 	{
@@ -304,26 +299,33 @@ void Session::restoreMail()
 
 void Session::mailOptions()
 {
-	if (active_tray() == user->getRecycling())
+	if (active_tray()->empty())
 	{
-		int option;
-		
-		option = GraphInter::get()->MailOptions();
-		
-		switch(option)
-		{
-		case 0:
-		
-			deleteMail();
-			break;
-			
-		case 1:
-		
-			restoreMail();
-			break;
-		}
+		message("You have no mails to manipulate");
 	}
-	else deleteMail();
+	else
+	{
+		if (active_tray() == user->getRecycling())
+		{
+			int option;
+
+			option = GraphInter::get()->MailOptions();
+
+			switch (option)
+			{
+			case 0:
+
+				deleteMail();
+				break;
+
+			case 1:
+
+				restoreMail();
+				break;
+			}
+		}
+		else deleteMail();
+	}
 }
 
 TrayList* Session::active_tray()
@@ -358,8 +360,7 @@ void Session::fastRead()
 {
 	if (visible.empty())
 	{
-		GraphInter::get()->display("You do not have any mails on your tray");
-		GraphInter::get()->pause();
+		message("You do not have any mails on your tray");
 	}
 	else
 	{
@@ -413,8 +414,7 @@ void Session::AddFastName()
 {
 	if (user->getContactlist()->full())
 	{
-		GraphInter::get()->display("You cannot asign more alias");
-		GraphInter::get()->pause();
+		message("You cannot asign more alias");
 	}
 	else
 	{
@@ -433,15 +433,13 @@ void Session::AddFastName()
 			{
 				if (manager->getUserList()->get(idUser) == nullptr)
 				{
-					GraphInter::get()->display("This user does not exist");
-					GraphInter::get()->pause();
+					message("This user does not exist");
 
 					name_right = false;
 				}
 				if (idUser == user->getId())
 				{
-					GraphInter::get()->display("There is already an asigned alias for your own username");
-					GraphInter::get()->pause();
+					message("There is already an asigned alias for your own username");
 
 					name_right = false;
 				}
@@ -451,8 +449,7 @@ void Session::AddFastName()
 					{
 						if (idUser == user->getContactlist()->operator[](i)->user)
 						{
-							GraphInter::get()->display("This username already has an alias asigned");
-							GraphInter::get()->pause();
+							message("This username already has an alias asigned");
 
 							name_right = false;
 						}
@@ -475,15 +472,13 @@ void Session::AddFastName()
 
 				if (newId.size() == 0)
 				{
-					GraphInter::get()->display("Error, the alias cannot be empty");
-					GraphInter::get()->pause();
+					message("Error, the alias cannot be empty");
 
 					alias_right = false;
 				}
 				if (newId == "Me")
 				{
-					GraphInter::get()->display("Error, this is a default alias, you cannot asign it");
-					GraphInter::get()->pause();
+					message("Error, this is a default alias, you cannot asign it");
 
 					alias_right = false;
 				}
@@ -493,10 +488,9 @@ void Session::AddFastName()
 					{
 						if (('A' > newId[k] || newId[k] > 'Z') && (newId[k] < 'a' || newId[k] > 'z'))
 						{
-							character << "(" << char(newId[k]) << ")";
+							char* error = "Error, your id cannot contain the character ";
 
-							GraphInter::get()->display("Error, your id cannot contain the character " + character.str());
-							GraphInter::get()->pause();
+							message(error + '(' + char(newId[k]) + ')');
 
 							alias_right = false;
 						}
@@ -506,8 +500,7 @@ void Session::AddFastName()
 					{
 						if (newId == user->getContactlist()->operator[](j)->getId())
 						{
-							GraphInter::get()->display("This alias is already asigned to an user");
-							GraphInter::get()->pause();
+							message("This alias is already asigned to an user");
 
 							alias_right = false;
 						}
@@ -549,16 +542,14 @@ void Session::AliasOptions()
 				{
 					if (user->getContactlist()->get(name)->alias == "Me")
 					{
-						GraphInter::get()->display("You cannot delete your self alias");
-						GraphInter::get()->pause();
+						message("You cannot delete your self alias");
 					}
 					else user->getContactlist()->destroy(name);
 				}
 			}
 			else
 			{
-				GraphInter::get()->display("You cannot delete your self alias");
-				GraphInter::get()->pause();
+				message("You cannot delete your self alias");
 			}
 			break;
 
@@ -575,8 +566,7 @@ void Session::AliasOptions()
 			}
 			else
 			{
-				GraphInter::get()->display("You cannot delete your self alias");
-				GraphInter::get()->pause();
+				message("You cannot delete your self alias");
 			}
 			break;
 		}
@@ -612,8 +602,7 @@ void Session::chooseFilter(Filter filter)
 {
 	if (visible.empty())
 	{
-		GraphInter::get()->display("You have no mails to filter");
-		GraphInter::get()->pause();
+		message("You have no mails to filter");
 	}
 	else
 	{
@@ -640,7 +629,7 @@ void Session::chooseFilter(Filter filter)
 
 				if (lowdate > update)
 				{
-					GraphInter::get()->display("The lower date cannot be higher than the upper one");
+					message("The lower date cannot be higher than the upper one");
 				}
 			} while (lowdate > update);
 
@@ -682,8 +671,7 @@ void Session::chooseOrder(Filter filter)
 {
 	if (visible.empty())
 	{
-		GraphInter::get()->display("You have no mails to filter");
-		GraphInter::get()->pause();
+		message("You have no mails to filter");
 	}
 	else
 	{
@@ -710,8 +698,7 @@ void Session::changeUsername()
 
 		if (manager->getUserList()->get(data) != nullptr)
 		{
-			GraphInter::get()->display("This username already exists");
-			GraphInter::get()->pause();
+			message("This username already exists");
 
 			name_ok = false;
 		}

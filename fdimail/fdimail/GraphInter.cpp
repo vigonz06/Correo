@@ -721,8 +721,7 @@ std::string GraphInter::valid_user()
 
 		if (id.size() > 15)
 		{
-			display("Error, your id cannot be longer than 15 characters ");
-			pause();
+			message("Error, your id cannot be longer than 15 characters ");
 
 			id_right = false;
 		}
@@ -732,10 +731,9 @@ std::string GraphInter::valid_user()
 			{
 				if ('A' > id[i] || id[i] > 'Z' && id[i] < 'a' || id[i] > 'z')
 				{
-					character << "(" << char(id[i]) << ")";
+					char* error = "Error, your id cannot contain the character ";
 
-					display("Error, your id cannot contain the character " + character.str());
-					pause();
+					message(error + '(' + char(id[i]) + ')');
 
 					id_right = false;
 				}

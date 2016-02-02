@@ -1,4 +1,5 @@
 #include "GraphInter.h"
+#include "utilsWin.h"
 #include "Manager.h"
 #include <sstream>
 
@@ -12,7 +13,7 @@ domain(new_domain)
 		manager = this;
 		bootUp();
 	}
-	else GraphInter::get()->display("Manager cannot be instantiated twice!");
+	else message("Manager cannot be instantiated twice!");
 }
 
 Manager::~Manager()
@@ -57,15 +58,13 @@ User* Manager::registerUser()
 
 			else
 			{
-				GraphInter::get()->display("Wrong password");
-				GraphInter::get()->pause();
+				message("Wrong password");
 				return nullptr;
 			}
 		}
 		else
 		{
-			GraphInter::get()->display("User does not exist");
-			GraphInter::get()->pause();
+			message("User does not exist");
 			return nullptr;
 		}
 	}
@@ -90,8 +89,7 @@ User* Manager::createAccount()
 		}
 		else
 		{
-			GraphInter::get()->display("This username already exists");
-			GraphInter::get()->pause();
+			message("This username already exists");
 			return nullptr;
 		}
 	}
@@ -129,8 +127,8 @@ void Manager::sendMail(User* user, Mail* mail)
 
 		else
 		{
-			GraphInter::get()->display("Destinatary " + mail->getRecipients()[j] + " not found");
-			GraphInter::get()->display("He was not sent the mail");
+			GraphInter::get()->display("Destinatary" + mail->getRecipients()[j] + " not found");
+			GraphInter::get()->display("He was not send the mail");
 			GraphInter::get()->pause();
 
 			mail->lowerCounter();
