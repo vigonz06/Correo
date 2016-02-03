@@ -52,7 +52,7 @@ void GraphInter::logMenu(std::string &username, std::string &password)
 	{
 		display("Enter your password");
 
-		password = HidePassword();
+		password = HideLimitPassword();
 	}
 	else password = "";
 }
@@ -395,11 +395,11 @@ Mail* GraphInter::newMail(const std::string &sender, ContactList* contactList)
 		{
 			enter(line);
 			text += line + "\n";
-		} while (line != "");
+		} while (!line.empty());
 
 		newMail->setBody(text);
 
-		if (newMail->getBody() == "" || newMail->getBody() == "\n") return nullptr;
+		if (newMail->getBody().empty() || newMail->getBody() == "\n") return nullptr;
 
 		else return newMail;
 	}
@@ -443,9 +443,9 @@ Mail* GraphInter::answerMail(Mail* &originalMail, const std::string &sender)
 	{
 		enter(line);
 		WhatToSay += line + "\n";
-	} while (line != "");
+	} while (!line.empty());
 
-	if (WhatToSay == "" || WhatToSay == "\n") WhatToSay = "No body";
+	if (WhatToSay.empty() || WhatToSay == "\n") WhatToSay = "No body";
 
 	BODY << WhatToSay << std::endl << linea()
 		<< std::endl << originalMail->to_string();
@@ -492,9 +492,9 @@ Mail* GraphInter::forward(Mail* &originalMail, const std::string &sender, Contac
 		{
 			enter(line);
 			WhatToSay += line + "\n";
-		} while (line != "");
+		} while (!line.empty());
 
-		if (WhatToSay == "" || WhatToSay == "\n") WhatToSay = "No body";
+		if (WhatToSay.empty() || WhatToSay == "\n") WhatToSay = "No body";
 
 		BODY << WhatToSay << std::endl << linea()
 			<< std::endl << originalMail->to_string();
@@ -771,13 +771,11 @@ void GraphInter::enter(char* str)
 std::string GraphInter::HideLimitPassword()
 {
 	std::string word;
-	bool correct;
 	int security;
 
 	do
 	{
 		security = 0;
-		correct = true;
 		word = HidePassword();
 
 		if (word.size() != 0)
@@ -799,8 +797,6 @@ std::string GraphInter::HideLimitPassword()
 			}
 		}
 	} while (word.size() != 0 && security < SECURITY);
-
-	display("");
 
 	return word;
 }
@@ -976,7 +972,7 @@ std::string GraphInter::center_word(std::string word, int length, std::string ar
 	{
 		for (int i = word.size(); i < length; i++)
 		{
-			if (word.size() % 2) word = word + arround;
+			if (word.size() % 2) word += arround;
 
 			else word = arround + word;
 		}

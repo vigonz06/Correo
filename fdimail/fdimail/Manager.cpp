@@ -27,8 +27,8 @@ void Manager::bootUp()
 	mail_file << domain << "_mails.txt";
 	user_file << domain << "_users.txt";
 
-	loadMails(mail_file.str());
-	loadUsers(user_file.str());
+	if (!userList.load(mail_file.str())) message("Could not load userList");
+	if (!mailList.load(user_file.str())) message("Could not load mailList");
 }
 
 void Manager::shutDown()
@@ -156,24 +156,4 @@ void Manager::deleteMail(TrayList* box, const tElemTray* elem)
 	mailList.delete_mail(elem->mail->getId());
 
 	box->destroy(elem->getId());
-}
-
-void Manager::loadUsers(std::string &name)
-{
-	while (name != "" && !userList.load(name))
-	{
-		GraphInter::get()->display("Could not load userList");
-		GraphInter::get()->display("Enter the file url ((ENTER) for continue)");
-		GraphInter::get()->enter(name);
-	}
-}
-
-void Manager::loadMails(std::string &name)
-{
-	while (name != "" && !mailList.load(name))
-	{
-		GraphInter::get()->display("Could not load mailList");
-		GraphInter::get()->display("Enter the file url ((ENTER) for continue)");
-		GraphInter::get()->enter(name);
-	}
 }
