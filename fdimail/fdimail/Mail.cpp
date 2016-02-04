@@ -60,9 +60,9 @@ void Mail::save(std::ofstream &file) const
 	file << id << std::endl << user_count << std::endl
 		<< date << std::endl << from << std::endl;
 
-	for (int i = 0; i < recipients.size(); i++)
+	for (auto i: recipients)
 	{
-		file << recipients[i] << std::endl;
+		file << i << std::endl;
 	}
 
 	file << subject << std::endl
@@ -75,9 +75,9 @@ const std::string Mail::to_string() const
 
 	flow << "From: " << from << std::setw(55) << showDate(date) << std::endl;
 
-	for (int i = 0; i < recipients.size(); i++)
+	for (auto i: recipients)
 	{
-		flow << "To: " << recipients.operator[](i) << std::endl;
+		flow << "To: " << i << std::endl;
 	}
 	flow << std::endl << "Subject: " << subject << std::endl
 		<< std::endl << body;

@@ -1,11 +1,6 @@
 #include "tElemTray.h"
 #include "Manager.h"
 
-void tElemTray::setId()
-{
-	id = mail->getId() + "_" + std::to_string(box);
-}
-
 void tElemTray::load(std::ifstream &file)
 {
 	int number;

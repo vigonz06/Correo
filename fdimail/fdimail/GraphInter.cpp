@@ -836,27 +836,27 @@ std::string GraphInter::HidePassword()
 
 bool GraphInter::mayus(std::string word)
 {
-	for (int i = 0; i < word.size(); i++)
+	for (auto i: word)
 	{
-		if (word[i] >= 65 && word[i] <= 90) return true;
+		if (i >= 65 && i <= 90) return true;
 	}
 	return false;
 }
 
 bool GraphInter::digit(std::string word)
 {
-	for (int i = 0; i < word.size(); i++)
+	for (auto i: word)
 	{
-		if (isdigit(word[i])) return true;
+		if (isdigit(i)) return true;
 	}
 	return false;
 }
 
 bool GraphInter::symbl(std::string word)
 {
-	for (int i = 0; i < word.size(); i++)
+	for (auto i: word)
 	{
-		if (word[i] < 48 || (word[i] > 57 && word[i] < 65) || (word[i] > 90 && word[i] < 97) || word[i] > 122) return true;
+		if (i < 48 || (i > 57 && i < 65) || (i > 90 && i < 97) || i > 122) return true;
 	}
 	return false;
 }
