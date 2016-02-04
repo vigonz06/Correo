@@ -27,8 +27,8 @@ void Manager::bootUp()
 	mail_file << domain << "_mails.txt";
 	user_file << domain << "_users.txt";
 
-	if (!userList.load(mail_file.str())) message("Could not load userList");
-	if (!mailList.load(user_file.str())) message("Could not load mailList");
+	if (!mailList.load(mail_file.str())) message("Could not load Maillist");
+	if (!userList.load(user_file.str())) message("Could not load Userlist");
 }
 
 void Manager::shutDown()
