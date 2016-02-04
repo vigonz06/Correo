@@ -670,17 +670,29 @@ void GraphInter::checkUsername(std::string &username)
 
 	enter(newUsername);
 
-	while (newUsername != username)
+	newUsername += "@fdimail.com";
+
+	if (newUsername != "@fdimail.com")
 	{
-		display("Error, usernames are not the same");
-		display("Enter your new username:");
+		while (newUsername != username)
+		{
+			display("Error, usernames are not the same");
+			pause();
 
-		username = valid_user();
+			username = valid_user();
 
-		display("Confirm your username:");
+			if (username != "@fdimail.com")
+			{
+				display("Confirm your username:");
 
-		enter(newUsername);
+				enter(newUsername);
+
+				newUsername += "@fdimail.com";
+			}
+			else newUsername = "@fdimail.com";
+		}
 	}
+	else username = "@fdimail.com";
 }
 
 void GraphInter::checkPassword(std::string &password)
@@ -712,9 +724,8 @@ std::string GraphInter::valid_user()
 
 	do
 	{
-		id_right = true;
-
 		clearConsole();
+		id_right = true;
 
 		display("Enter your id: ");
 		enter(id);
@@ -727,9 +738,9 @@ std::string GraphInter::valid_user()
 		}
 		else
 		{
-			for (int i = 0; i < id.size() && id_right; i++)
+			for (auto i: id)
 			{
-				if ('A' > id[i] || id[i] > 'Z' && id[i] < 'a' || id[i] > 'z')
+				if ('A' > i || i > 'Z' && i < 'a' || i > 'z')
 				{
 					char* error = "Error, your id cannot contain the character ";
 
@@ -737,7 +748,7 @@ std::string GraphInter::valid_user()
 
 					id_right = false;
 				}
-				else id[i] = tolower(id[i]);
+				else i = tolower(i);
 			}
 		}
 	} while (!id_right);
@@ -771,11 +782,13 @@ void GraphInter::enter(char* str)
 std::string GraphInter::HideLimitPassword()
 {
 	std::string word;
+	bool correct;
 	int security;
 
 	do
 	{
 		security = 0;
+		correct = true;
 		word = HidePassword();
 
 		if (word.size() != 0)
@@ -946,9 +959,9 @@ void GraphInter::send_to_multiple(Mail* mail, ContactList* contactList)
 
 		if (!recipient.empty())
 		{
-			for (int j = 0; j < mail->getRecipients().size() && !repeat; j++)
+			for (auto j: mail->getRecipients())
 			{
-				if (mail->getRecipients().operator[](j) == recipient)
+				if (j == recipient)
 				{
 					display("You have already choose this destinatary, you cannot choose it again");
 					pause();
@@ -958,7 +971,6 @@ void GraphInter::send_to_multiple(Mail* mail, ContactList* contactList)
 			}
 			if (!repeat) mail->setRecipient(recipient);
 		}
-		clearConsole();
 	} while (mail->getRecipients().size() <= MAX_ELEMS && !recipient.empty());
 
 	mail->setCounter(mail->getRecipients().size() + 1);
@@ -972,7 +984,7 @@ std::string GraphInter::center_word(std::string word, int length, std::string ar
 	{
 		for (int i = word.size(); i < length; i++)
 		{
-			if (word.size() % 2) word += arround;
+			if (word.size() % 2) word = word + arround;
 
 			else word = arround + word;
 		}

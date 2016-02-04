@@ -484,9 +484,9 @@ void Session::AddFastName()
 				}
 				else
 				{
-					for (int k = 0; k < newId.size() && alias_right; k++)
+					for (auto k: newId)
 					{
-						if (('A' > newId[k] || newId[k] > 'Z') && (newId[k] < 'a' || newId[k] > 'z'))
+						if (('A' > k || k > 'Z') && (k < 'a' || k > 'z'))
 						{
 							char* error = "Error, your id cannot contain the character ";
 
@@ -650,7 +650,7 @@ void Session::chooseFilter(Filter filter)
 			break;
 		
 		default:
-		{
+
 			std::string reference;
 
 			GraphInter::get()->display("Enter your reference word");
@@ -662,7 +662,6 @@ void Session::chooseFilter(Filter filter)
 			}
 			visible.setFilter(reference, filter);
 			break;
-		}
 		}
 	}
 }
@@ -708,11 +707,14 @@ void Session::changeUsername()
 	{
 		GraphInter::get()->checkUsername(data);
 
-		manager->getUserList()->pop(user->getId());
+		if (data != "@fdimail.com")
+		{
+			manager->getUserList()->pop(user->getId());
 
-		user->setId(data);
-		user->getContactlist()->changeMe(data);
-		manager->getUserList()->insert(user);
+			user->setId(data);
+			user->getContactlist()->changeMe(data);
+			manager->getUserList()->insert(user);
+		}
 	}
 }
 
@@ -726,7 +728,6 @@ void Session::changePassword()
 
 	if (data.size() != 0)
 	{
-		GraphInter::get()->display("");
 		GraphInter::get()->checkPassword(data);
 
 		user->setPassword(data);

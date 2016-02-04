@@ -121,13 +121,13 @@ void Manager::sendMail(User* user, Mail* mail)
 
 	user->getOutbox()->insert(elem);
 
-	for (int j = 0; j < mail->getRecipients().size(); j++)
+	for (auto j: mail->getRecipients())
 	{
-		if (userList.get(mail->getRecipients()[j]) != nullptr) userList.get(mail->getRecipients()[j])->getInbox()->insert(new tElemTray(mail, Inbox, false));
+		if (userList.get(j) != nullptr) userList.get(j)->getInbox()->insert(new tElemTray(mail, Inbox, false));
 
 		else
 		{
-			GraphInter::get()->display("Destinatary" + mail->getRecipients()[j] + " not found");
+			GraphInter::get()->display("Destinatary" + j + " not found");
 			GraphInter::get()->display("He was not send the mail");
 			GraphInter::get()->pause();
 
