@@ -742,9 +742,7 @@ std::string GraphInter::valid_user()
 			{
 				if ('A' > i || i > 'Z' && i < 'a' || i > 'z')
 				{
-					char* error = "Error, your id cannot contain the character ";
-
-					message(error + '(' + char(id[i]) + ')');
+					message("Error, your id must contain only leters");
 
 					id_right = false;
 				}
