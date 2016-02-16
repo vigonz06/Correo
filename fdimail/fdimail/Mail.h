@@ -54,6 +54,7 @@ public:
 	bool load(std::ifstream &file);
 	void save(std::ofstream &file)const;
 
+	const std::string subSubject();
 	const std::string to_string() const;
 	const std::string header() const;
 };

@@ -69,6 +69,15 @@ void Mail::save(std::ofstream &file) const
 		<< body << "#" << std::endl;
 }
 
+const std::string Mail::subSubject()
+{
+	while (subject.substr(0, 4) == "Re: ")
+	{
+		subject = subject.substr(4);
+	}
+	return subject;
+}
+
 const std::string Mail::to_string() const
 {
 	std::ostringstream flow;

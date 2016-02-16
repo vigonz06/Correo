@@ -488,7 +488,7 @@ void Session::AddFastName()
 					{
 						if (('A' > k || k > 'Z') && (k < 'a' || k > 'z'))
 						{
-							message("Error, your id must contain only leters");
+							message("Error, the alias cannot contain symbols or numbers, only leters");
 
 							alias_right = false;
 						}
