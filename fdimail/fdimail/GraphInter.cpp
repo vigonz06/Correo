@@ -522,7 +522,7 @@ std::string GraphInter::selectAlias(Session* session)
 
 	number = aliasMenu(session);
 
-	if (number < session->getUser()->getContactlist()->length()) return session->getUser()->getContactlist()->operator[](session->get_visible()->length() - number + 1)->user;
+	if (number < session->getUser()->getContactlist()->length()) return session->getUser()->getContactlist()->operator[](session->get_visible()->length() - number + 1)->getAddress();
 
 	else return "";
 }
@@ -973,6 +973,8 @@ void GraphInter::send_to_multiple(Mail* mail, ContactList* contactList)
 
 	mail->setCounter(mail->getRecipients().size() + 1);
 
+	clearConsole();
+
 	showRecipients(mail);
 }
 
@@ -982,7 +984,7 @@ std::string GraphInter::center_word(std::string word, int length, std::string ar
 	{
 		for (int i = word.size(); i < length; i++)
 		{
-			if (word.size() % 2) word = word + arround;
+			if (word.size() % 2) word += arround;
 
 			else word = arround + word;
 		}
@@ -1036,15 +1038,20 @@ std::string GraphInter::pags(Session* session)
 
 void GraphInter::showRecipients(Mail* mail)
 {
+	bool repeat = false;
+
 	display("From: " + mail->getFrom());
 
 	if (!mail->getRecipients().empty())
 	{
-		for (int i = 0; i < mail->getRecipients().size(); i++)
+		for (auto i: mail->getRecipients())
 		{
-			if (i == 0) display("To: " + mail->getRecipients()[i]);
-
-			else display("CC: " + mail->getRecipients()[i]);
+			if (!repeat)
+			{
+				display("To: " + i);
+				repeat = true;
+			}
+			else display("CC: " + i);
 		}
 	}
 }

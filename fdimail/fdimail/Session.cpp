@@ -3,7 +3,7 @@
 #include "Session.h"
 #include "Mail.h"
 
-Session::Session(Manager* manager) :
+Session::Session(Manager* manager) : 
 manager(manager)
 {
 	int option;
@@ -111,10 +111,8 @@ void Session::launch()
 
 void Session::readMail()
 {
-	if (visible.empty())
-	{
-		message("You have no mails to read");
-	}
+	if (visible.empty()) message("You have no mails to read");
+
 	else
 	{
 		tElemTray* elem = GraphInter::get()->selectMail(this);
@@ -183,10 +181,8 @@ void Session::deleteMail()
 {
 	int option;
 
-	if (visible.empty())
-	{
-		message("You have no mails to delete");
-	}
+	if (visible.empty()) message("You have no mails to delete");
+	
 	else
 	{
 		do
@@ -241,10 +237,8 @@ void Session::restoreMail()
 {
 	int option;
 
-	if (active_tray()->empty())
-	{
-		message("You have no mails to restore");
-	}
+	if (active_tray()->empty()) message("You have no mails to restore");
+
 	else
 	{
 		do
@@ -262,36 +256,25 @@ void Session::restoreMail()
 
 				if (elem != nullptr)
 				{
-					if (elem->box == Inbox)
-					{
-						user->getInbox()->insert(elem);
-						active_tray()->pop(elem->getId());
-					}
-					else
-					{
-						user->getOutbox()->insert(elem);
-						active_tray()->pop(elem->getId());
-					}
+					if (elem->box == Inbox) user->getInbox()->insert(elem);
+
+					else user->getOutbox()->insert(elem);
+
+					active_tray()->pop(elem->getId());
 				}
 				break;
 			}
 			case 1:
-			{
+
 				do
 				{
-					if (active_tray()->operator[](0)->box == Inbox)
-					{
-						user->getInbox()->insert(active_tray()->operator[](0));
-						active_tray()->pop(active_tray()->operator[](0)->getId());
-					}
-					else
-					{
-						user->getOutbox()->insert(active_tray()->operator[](0));
-						active_tray()->pop(active_tray()->operator[](0)->getId());
-					}
+					if (active_tray()->operator[](0)->box == Inbox) user->getInbox()->insert(active_tray()->operator[](0));
+
+					else user->getOutbox()->insert(active_tray()->operator[](0));
+
+					active_tray()->pop(active_tray()->operator[](0)->getId());
 				} while (!active_tray()->empty());
 				break;
-			}
 			}
 		} while (!active_tray()->empty() && option != 2);
 	}
@@ -299,10 +282,8 @@ void Session::restoreMail()
 
 void Session::mailOptions()
 {
-	if (active_tray()->empty())
-	{
-		message("You have no mails to manipulate");
-	}
+	if (active_tray()->empty()) message("You have no mails to manipulate");
+	
 	else
 	{
 		if (active_tray() == user->getRecycling())
@@ -358,10 +339,8 @@ void Session::changeTray()
 
 void Session::fastRead()
 {
-	if (visible.empty())
-	{
-		message("You do not have any mails on your tray");
-	}
+	if (visible.empty()) message("You do not have any mails on your tray");
+
 	else
 	{
 		visible.filterByRead(false);
@@ -412,10 +391,8 @@ void Session::AccountOptions(int &option)
 
 void Session::AddFastName()
 {
-	if (user->getContactlist()->full())
-	{
-		message("You cannot asign more alias");
-	}
+	if (user->getContactlist()->full()) message("You cannot asign more alias");
+
 	else
 	{
 		bool name_right, alias_right;
@@ -447,7 +424,7 @@ void Session::AddFastName()
 				{
 					for (int i = 0; i < user->getContactlist()->length() && name_right; i++)
 					{
-						if (idUser == user->getContactlist()->operator[](i)->user)
+						if (idUser == user->getContactlist()->operator[](i)->getAddress())
 						{
 							message("This username already has an alias asigned");
 
@@ -538,17 +515,12 @@ void Session::AliasOptions()
 
 				if (name != "")
 				{
-					if (user->getContactlist()->get(name)->alias == "Me")
-					{
-						message("You cannot delete your self alias");
-					}
+					if (user->getContactlist()->get(name)->getId() == "Me") message("You cannot delete your self alias");
+
 					else user->getContactlist()->destroy(name);
 				}
 			}
-			else
-			{
-				message("You cannot delete your self alias");
-			}
+			else message("You cannot delete your self alias");
 			break;
 
 		case 2:
@@ -559,13 +531,10 @@ void Session::AliasOptions()
 
 				for (int i = namelenth - 1; i >= 0; i--)
 				{
-					if (user->getContactlist()->operator[](i)->alias != "Me") user->getContactlist()->destroy(user->getContactlist()->operator[](i)->getId());
+					if (user->getContactlist()->operator[](i)->getId() != "Me") user->getContactlist()->destroy(user->getContactlist()->operator[](i)->getId());
 				}
 			}
-			else
-			{
-				message("You cannot delete your self alias");
-			}
+			else message("You cannot delete your self alias");
 			break;
 		}
 	} while (option != 3);
@@ -598,10 +567,8 @@ void Session::filterOptions(Filter filter)
 
 void Session::chooseFilter(Filter filter)
 {
-	if (visible.empty())
-	{
-		message("You have no mails to filter");
-	}
+	if (visible.empty()) message("You have no mails to filter");
+	
 	else
 	{
 		visible.closeFilter();
@@ -625,10 +592,8 @@ void Session::chooseFilter(Filter filter)
 				GraphInter::get()->display("Enter the upper date");
 				GraphInter::get()->enter(update);
 
-				if (lowdate > update)
-				{
-					message("The lower date cannot be higher than the upper one");
-				}
+				if (lowdate > update) message("The lower date cannot be higher than the upper one");
+				
 			} while (lowdate > update);
 
 			visible.setFilterDate(lowdate, update);
@@ -654,9 +619,9 @@ void Session::chooseFilter(Filter filter)
 			GraphInter::get()->display("Enter your reference word");
 			GraphInter::get()->enter(reference);
 
-			for (int i = 0; i < int(reference.size()); i++)
+			for (auto i: reference)
 			{
-				reference[i] = tolower(reference[i]);
+				i = tolower(i);
 			}
 			visible.setFilter(reference, filter);
 			break;
@@ -666,10 +631,8 @@ void Session::chooseFilter(Filter filter)
 
 void Session::chooseOrder(Filter filter)
 {
-	if (visible.empty())
-	{
-		message("You have no mails to filter");
-	}
+	if (visible.empty()) message("You have no mails to filter");
+	
 	else
 	{
 		filter = Filter(GraphInter::get()->chooseorder());

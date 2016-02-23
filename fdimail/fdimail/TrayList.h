@@ -16,8 +16,8 @@ class TrayList: public List<tElemTray>
 {
 public:
 
-	tElemTray* get(const std::string &id);
 	bool search(const std::string &id, int &pos);
+	tElemTray* get(const std::string &id);
 	void insert(tElemTray * const elem);
 	bool destroy(const std::string &id);
 	bool pop(const std::string id);

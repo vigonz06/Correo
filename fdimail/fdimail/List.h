@@ -29,9 +29,9 @@ protected:
 	void shiftRight(const int pos);
 	void shiftLeft(const int pos);
 
+	void resize(int dim);
 	void init(int dim);
 	void release();
-	void resize(int dim);
 
 public:
 
@@ -44,9 +44,9 @@ public:
 
 	T* operator [](int i) const { return list[i]; }
 
-	void insert(T* elem);
 	bool destroy(const std::string &id);
 	bool pop(const std::string &id);
+	void insert(T* elem);
 
 	void erase();
 

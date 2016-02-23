@@ -24,7 +24,7 @@ std::string ContactList::SearchFastName(std::string &name)
 
 void ContactList::changeMe(std::string new_name)
 {
-	get("Me")->user = new_name;
+	get("Me")->setAddress(new_name);
 }
 
 void ContactList::load(std::ifstream &file)

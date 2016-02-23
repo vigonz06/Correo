@@ -23,11 +23,11 @@ class VisibleTrayList: public List<tElemTray>
 {
 private:
 
-	void insert(tElemTray* elem);
 	void change(int pos1, int pos2);
+	void insert(tElemTray* elem);
 
-	TrayList* trayList;
 	Filter active_order;
+	TrayList* trayList;
 	bool inverse_order;
 
 	int page;
@@ -45,24 +45,25 @@ public:
 	void init(TrayList* trayList);
 	void link(TrayList* trayList);
 	void refresh();
-	void sync();
 	void close();
+	void sync();
 
 	void changeOrder(Filter order){ active_order = order; }
 
 	template<typename Funct, typename K>
 	void filterBy(Funct filter, K key);
+
 	void filterByDate(Date lower, Date upper);
+	void filterByRecipient(std::string key);
+	void filterByEmissor(std::string key);
 	void filterBySubject(std::string key);
 	void filterByBody(std::string key);
-	void filterByEmissor(std::string key);
-	void filterByRecipient(std::string key);
 	void filterByRead(bool is_read);
 
 	template<typename Funct>
 	void orderBy(Funct order);
-	void orderByDate();
 	void orderBySubject();
+	void orderByDate();
 
 	void reverse();
 
@@ -108,10 +109,11 @@ public:
 		}
 	}
 
+	void increasePage(){ page++; }
+	void decreasePage(){ page--; }
+
 	int getPage(){ return page; }
 	int getLastPage(){ return lastPage; }
 	bool LastPage(){ return page == lastPage; }
-	void increasePage(){ page++; }
-	void decreasePage(){ page--; }
 };
 #endif

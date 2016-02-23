@@ -27,11 +27,10 @@ private:
 	int update(int key, int elem, int max_elems);
 	void updateTray(int key, Session* session);
 
-
-	std::string HidePassword();
 	bool mayus(std::string word);
 	bool digit(std::string word);
 	bool symbl(std::string word);
+	std::string HidePassword();
 
 	int menu(std::vector<std::string> elems);
 
@@ -44,30 +43,31 @@ private:
 public:
 
 	static GraphInter* get();
-	static void load();
 	static void close();
+	static void load();
 
 	int mainMenu();
-	void logMenu(std::string &username, std::string &password);
-	int sessionMenu(Session* sesion);
 	int trayMenu(Session* session, std::vector<std::string> elems);
+	void logMenu(std::string &username, std::string &password);
+	int menumail(Mail* mail, std::vector<std::string> elems);
+	int WhatToDelete(Session* session);
+	int sessionMenu(Session* sesion);
+	int aliasMenu(Session* session);
+	int AliasMenu(Session* session);
 	int mailMenu(Session* session);
 	int mailMenu(Mail* mail);
-	int aliasMenu(Session* session);
-	int menumail(Mail* mail, std::vector<std::string> elems);
-	int AliasMenu(Session* session);
-	int WhatToDelete(Session* session);
+	
+	int AccountOptions();
 	int MailOptions();
 	int chooseTray();
 	int Invert();
-	int AccountOptions();
 
+	Mail* forward(Mail* &originalMail, const std::string &sender, ContactList* contactList);
 	Mail* newMail(const std::string &sender, ContactList* contactList);
 	Mail* answerMail(Mail* &originalMail, const std::string &sender);
-	Mail* forward(Mail* &originalMail, const std::string &sender, ContactList* contactList);
 
-	tElemTray* selectMail(Session* sesion);
 	std::string selectAlias(Session* session);
+	tElemTray* selectMail(Session* sesion);
 
 	std::string center_word(std::string word, int length, std::string arround);
 	void showFastNames(ContactList* contactList);
@@ -80,9 +80,9 @@ public:
 	int chooseorder();
 	int filter();
 
-	void pause();
 	std::string linea();
 	void clearConsole();
+	void pause();
 
 	void checkUsername(std::string &password);
 	void checkPassword(std::string &password);

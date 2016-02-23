@@ -12,16 +12,21 @@ the id of an user and its associated alias;
 it also turns an user and its alias to string
 ------------------------------*/
 
-struct tContact
+class tContact
 {
+private:
+
 	std::string user;
 	std::string alias;
+
+public:
 
 	tContact(std::string realName, std::string fastName) : user(realName), alias(fastName) {}
 	tContact() {}
 	
 	std::string& getId() { return alias; }
 	std::string& getAddress() { return user; }
+	std::string& setAddress(std::string newUser) { return user = newUser; }
 
 	void load(std::ifstream &file)
 	{

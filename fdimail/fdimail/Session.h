@@ -21,22 +21,23 @@ private:
 	User* user;
 
 	int active_list;
+
 	void changeTray();
 
 	void launch();
 
-	void readMail();
-	void sendMail();
-	void answerMail(Mail* &originalMail);
 	void forwardMail(Mail* &originalMail);
-	void deleteMail();
+	void answerMail(Mail* &originalMail);
 	void restoreMail();
 	void mailOptions();
+	void deleteMail();
+	void readMail();
+	void sendMail();	
 	void fastRead();
 
 	void AccountOptions(int &option);
-	void AddFastName();
 	void AliasOptions();
+	void AddFastName();
 
 	void filterOptions(Filter filter);
 	void chooseFilter(Filter filter);

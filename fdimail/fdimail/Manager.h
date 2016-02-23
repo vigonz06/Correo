@@ -21,8 +21,8 @@ private:
 	MailList mailList;
 	UserList userList;
 
-	void bootUp();
 	void shutDown();
+	void bootUp();
 
 public:
 
@@ -37,9 +37,9 @@ public:
 	User* registerUser();
 	User* createAccount();
 
-	void deleteAccount(User* user);
-	bool answer(User* user, Mail* mail);
-	void sendMail(User* user, Mail* mail);
 	void deleteMail(TrayList* box, const tElemTray* elem);
+	void sendMail(User* user, Mail* mail);
+	bool answer(User* user, Mail* mail);
+	void deleteAccount(User* user);
 };
 #endif

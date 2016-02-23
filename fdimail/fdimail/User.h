@@ -29,11 +29,11 @@ public:
 	User(const std::string idUser, const std::string password);
 	User() : contactList(){}
 
-	const std::string& getId() const { return id; }
-
 	std::string& setId(std::string newId) { return id = newId; }
 	std::string& setPassword(std::string newPassword) { return password = sha1(newPassword); }
 	bool checkPassword(const std::string &possible_password) const { return password == sha1(possible_password); }
+
+	const std::string& getId() const { return id; }
 
 	TrayList* getInbox() { return &inbox; }
 	TrayList* getOutbox() { return &outbox; }
