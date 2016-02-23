@@ -29,13 +29,13 @@ public:
 	Manager(const std::string &new_domain);
 	~Manager();
 
-	static Manager* getManager(){ return manager; }
+	static Manager* getManager() { return manager; }
 
-	MailList* getMailList(){ return &mailList; }
-	UserList* getUserList(){ return &userList; }
+	MailList* getMailList() { return &mailList; }
+	UserList* getUserList() { return &userList; }
 
-	User* registerUser();
 	User* createAccount();
+	User* registerUser();
 
 	void deleteMail(TrayList* box, const tElemTray* elem);
 	void sendMail(User* user, Mail* mail);

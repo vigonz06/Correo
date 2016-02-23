@@ -20,7 +20,7 @@ class Mail
 private:
 
 	std::string id;
-	int user_count;
+	int counter;
 
 	Date date;
 	std::string from;
@@ -30,11 +30,11 @@ private:
 
 public:
 
-	Mail() : user_count(0) {}
+	Mail() : counter(0) {}
 
+	int lowerCounter() { return counter--; }
+	int getCounter() const { return counter; }
 	const std::string& getId() const { return id; }
-	int getCounter() const { return user_count; }
-	int lowerCounter(){ return user_count--; }
 
 	Date getDate() { return date; }
 	std::string getFrom() { return from; }
@@ -43,7 +43,7 @@ public:
 	std::vector<std::string> getRecipients() { return recipients; }
 
 	std::string& setId(std::string newId) { return id = newId; }
-	int& setCounter(int newCounter) { return user_count = newCounter; }
+	int& setCounter(int newCounter) { return counter = newCounter; }
 
 	Date& setDate(Date newDate) { return date = newDate; }
 	std::string& setFrom(std::string newFrom) { return from = newFrom; }

@@ -1,5 +1,10 @@
 #include "utilsWin.h"
 
+void message(char* word)
+{
+	MessageBox(NULL, word, "Error", MB_OK | MB_ICONERROR);
+}
+
 int getKey()
 {
 	int key; DWORD cNumRead; INPUT_RECORD irInBuf;
@@ -21,9 +26,4 @@ int getKey()
 		&& key != RIGHT  && key != DOWN && key != ENTER);
 
 	return key;
-}
-
-void message(char* word)
-{
-	MessageBox(NULL, word, "Error", MB_OK | MB_ICONERROR);
 }

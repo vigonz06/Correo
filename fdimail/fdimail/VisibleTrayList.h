@@ -48,7 +48,7 @@ public:
 	void close();
 	void sync();
 
-	void changeOrder(Filter order){ active_order = order; }
+	void changeOrder(Filter order) { active_order = order; }
 
 	template<typename Funct, typename K>
 	void filterBy(Funct filter, K key);

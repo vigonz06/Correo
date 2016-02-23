@@ -38,7 +38,7 @@ public:
 	List() : counter(0), list(nullptr) { init(START_ELEM); }
 	~List() { release(); }
 
-	inline bool full() const  { return counter == dim; }
+	inline bool full()  const { return counter == dim; }
 	inline bool empty() const { return counter == 0; }
 	inline int length() const { return counter; }
 

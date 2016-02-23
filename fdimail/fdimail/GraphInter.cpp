@@ -15,21 +15,44 @@ Mail* GraphInter::error = nullptr;
 
 GraphInter* GraphInter::get() {	return inter; }
 
+Mail* GraphInter::errorMail()
+{
+	std::ostringstream ID;
+	Mail* error = new Mail;
+	std::string recipient;
+
+	error->setFrom("Tecnical Service");
+	error->setDate(time(0));
+	error->setCounter(2);
+
+	ID << "fdimail" << "_" << error->getDate();
+	error->setId(ID.str());
+
+	recipient = "fdimail";
+	error->setRecipient(recipient);
+
+	error->setSubject("Mail error");
+
+	error->setBody("It seems that this mail does not exist");
+
+	return error;
+}
+
+void GraphInter::close()
+{
+	if (inter != nullptr)
+	{
+		delete inter;
+		delete error;
+	}
+}
+
 void GraphInter::load()
 {
 	if (inter == nullptr)
 	{
 		inter = new GraphInter;
 		error = errorMail();
-	}
-}
-
-void GraphInter::close()
-{
-	if (inter != nullptr) 
-	{
-		delete inter;
-		delete error;
 	}
 }
 
@@ -307,29 +330,6 @@ int GraphInter::AccountOptions()
 	elems.push_back("Exit to session menu");
 
 	return menu(elems);
-}
-
-Mail* GraphInter::errorMail()
-{
-	std::ostringstream ID;
-	Mail* error = new Mail;
-	std::string recipient;
-
-	error->setFrom("Tecnical Service");
-	error->setDate(time(0));
-	error->setCounter(2);
-
-	ID << "fdimail" << "_" << error->getDate();
-	error->setId(ID.str());
-
-	recipient = "fdimail";
-	error->setRecipient(recipient);
-
-	error->setSubject("Mail error");
-
-	error->setBody("It seems that this mail does not exist");
-
-	return error;
 }
 
 Mail* GraphInter::newMail(const std::string &sender, ContactList* contactList)
