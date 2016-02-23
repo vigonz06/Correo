@@ -102,31 +102,31 @@ bool List<T>::pop(const std::string &id)
 template<class T>
 void List<T>::erase()
 {
-	for (auto i: list)
+	for (int i = 0; i < counter; i++)
 	{
-		i = nullptr;
+		list[i] = nullptr;
 	}
 	counter = 0;
 }
 
 template<class T>
-bool List<T>::search(const std::string &id, int &pos, int &ini, int &fin) const
+bool List<T>::search(const std::string &id, int &pos, int &left_key, int &right_key) const
 {
-	if (ini <= fin)
+	if (left_key <= right_key)
 	{
-		pos = (ini + fin) / 2;
+		pos = (left_key + right_key) / 2;
 
 		if (list[pos]->getId() == id) return true;
 		
-		if (list[pos]->getId() < id) ini = pos + 1;
+		if (list[pos]->getId() < id) left_key = pos + 1;
 
-		if (list[pos]->getId() > id) fin = pos - 1;
+		if (list[pos]->getId() > id) right_key = pos - 1;
 
-		return search(id, pos, ini, fin);
+		return search(id, pos, left_key, right_key);
 	}
 	else
 	{
-		pos = ini;
+		pos = left_key;
 		return false;
 	}
 }
@@ -147,9 +147,9 @@ void List<T>::save(const std::string &name)
 
 	file.open(name);
 
-	for (auto i: list)
+	for (int i = 0; i < counter; i++)
 	{
-		i->save(file);
+		list[i]->save(file);
 	}
 
 	file << "XXX";
@@ -170,7 +170,7 @@ bool List<T>::load(const std::string &name)
 	{
 		right = true;
 
-		do
+		for (int i = 0; right; i++)
 		{
 			elem = new T;
 
@@ -180,7 +180,7 @@ bool List<T>::load(const std::string &name)
 				right = false;
 			}
 			else insert(elem);
-		} while (right);
+		}
 
 		file.close();
 
@@ -211,14 +211,22 @@ void List<T>::shiftLeft(const int pos)
 template<class T>
 void List<T>::init(int newdim)
 {
-	list = new T*[newdim];
-
-	for (auto i: list)
+	if (newdim <= 0)
 	{
-		i = nullptr;
+		list = nullptr;
+		dim = 0;
 	}
+	else 
+	{
+		list = new T*[newdim];
 
-	dim = newdim;
+		for (int i = 0; i < newdim; i++)
+		{
+			list[i] = nullptr;
+		}
+
+		dim = newdim;
+	}
 	counter = 0;
 }
 
@@ -227,10 +235,10 @@ void List<T>::release()
 {
 	if (dim != 0)
 	{
-		for (auto i: list)
+		for (int i = 0; i < counter; i++)
 		{
-			delete i;
-			i = nullptr;
+			delete list[i];
+			list[i] = nullptr;
 		}
 		delete[] list;
 		list = nullptr;
