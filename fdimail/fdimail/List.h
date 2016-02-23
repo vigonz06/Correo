@@ -3,6 +3,7 @@
 
 #include "GlobalConstants.h"
 #include <string>
+#include <vector>
 
 /*----------------------------
 This is a base class for all the lists this program has
@@ -23,26 +24,12 @@ class List
 {
 protected:
 
-	int counter, dim;
-	T** list;
-
-	void shiftRight(const int pos);
-	void shiftLeft(const int pos);
-
-	void init(int dim);
-	void release();
-	void resize(int dim);
+	std::vector<T*>* list;
 
 public:
 
-	List() : counter(0), list(nullptr) { init(START_ELEM); }
+	List() : list(nullptr) {}
 	~List() { release(); }
-
-	inline bool full() const  { return counter == dim; }
-	inline bool empty() const { return counter == 0; }
-	inline int length() const { return counter; }
-
-	T* operator [](int i) const { return list[i]; }
 
 	void insert(T* elem);
 	bool destroy(const std::string &id);
@@ -66,9 +53,7 @@ void List<T>::insert(T* elem)
 	int left_key = 0, right_key = counter - 1;
 
 	search(elem->getId(), pos, left_key, right_key);
-	shiftRight(pos);
-	list[pos] = elem;
-	counter++;
+	list->insert(pos, elem);
 }
 
 template<class T>
@@ -78,8 +63,7 @@ bool List<T>::destroy(const std::string &id)
 	int left_key = 0, right_key = counter - 1;
 	if (search(id, pos, left_key, right_key))
 	{
-		delete list[pos];
-		shiftLeft(pos);
+		list->erase(pos);
 		return true;
 	}
 	else return false;
@@ -187,47 +171,6 @@ bool List<T>::load(const std::string &name)
 		return true;
 	}
 	else return false;
-}
-
-template<class T>
-void List<T>::shiftRight(const int pos)
-{
-	for (int i = counter; i > pos; i--)
-	{
-		list[i] = list[i - 1];
-	}
-}
-
-template<class T>
-void List<T>::shiftLeft(const int pos)
-{
-	for (int i = pos; i < counter - 1; i++)
-	{
-		list[i] = list[i + 1];
-	}
-	counter--;
-}
-
-template<class T>
-void List<T>::init(int newdim)
-{
-	if (newdim <= 0)
-	{
-		list = nullptr;
-		dim = 0;
-	}
-	else 
-	{
-		list = new T*[newdim];
-
-		for (int i = 0; i < newdim; i++)
-		{
-			list[i] = nullptr;
-		}
-
-		dim = newdim;
-	}
-	counter = 0;
 }
 
 template<class T>
