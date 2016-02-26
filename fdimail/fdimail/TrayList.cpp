@@ -10,14 +10,15 @@ tElemTray* TrayList::get(const std::string &id)
 
 bool TrayList::search(const std::string &id, int &pos)
 {
-	for (pos = 0; pos < list->size() && list[pos]->getId() != id; pos++);
+	for (pos = 0; pos < counter && list[pos]->getId() != id; pos++);
 
-	return (pos < list->size()) ? true : false;
+	return (pos < counter) ? true : false;
 }
 
 void TrayList::insert(tElemTray * const elem)
 {
-	list->push_back(elem);
+	if (full()) resize(dim + 1);
+	list[counter++] = elem;
 }
 
 bool TrayList::destroy(const std::string &id)
@@ -62,11 +63,11 @@ void TrayList::load(std::ifstream &file)
 
 void TrayList::save(std::ofstream &file)const
 {
-	file << list->size()<< std::endl;
+	file << counter << std::endl;
 
-	for (auto i: list)
+	for (int i = 0; i < counter; i++)
 	{
-		i->save(file);
+		list[i]->save(file);
 	}
 }
 

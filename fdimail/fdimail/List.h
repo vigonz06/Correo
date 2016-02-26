@@ -3,7 +3,6 @@
 
 #include "GlobalConstants.h"
 #include <string>
-#include <vector>
 
 /*----------------------------
 This is a base class for all the lists this program has
@@ -24,19 +23,24 @@ class List
 {
 protected:
 
-	std::vector<T*>* list;
+	int counter, dim;
+	T** list;
 
+	void shiftRight(const int pos);
+	void shiftLeft(const int pos);
+
+	void resize(int dim);
 	void init(int dim);
 	void release();
 
 public:
 
-	List() : list(nullptr) { init(START_ELEM); }
+	List() : counter(0), list(nullptr) { init(START_ELEM); }
 	~List() { release(); }
 
-	//inline bool full()  const { return counter == dim; }
-	inline bool empty() const { return list->empty(); }
-	inline int length() const { return list->size(); }
+	inline bool full()  const { return counter == dim; }
+	inline bool empty() const { return counter == 0; }
+	inline int length() const { return counter; }
 
 	T* operator [](int i) const { return list[i]; }
 
@@ -59,20 +63,23 @@ void List<T>::insert(T* elem)
 	if (full()) resize(dim + 1);
 
 	int pos;
-	int left_key = 0, right_key = list->size() - 1;
+	int left_key = 0, right_key = counter - 1;
 
 	search(elem->getId(), pos, left_key, right_key);
-	list->insert(pos, elem);
+	shiftRight(pos);
+	list[pos] = elem;
+	counter++;
 }
 
 template<class T>
 bool List<T>::destroy(const std::string &id)
 {
 	int pos;
-	int left_key = 0, right_key = list->size() - 1;
+	int left_key = 0, right_key = counter - 1;
 	if (search(id, pos, left_key, right_key))
 	{
-		list->erase(pos);
+		delete list[pos];
+		shiftLeft(pos);
 		return true;
 	}
 	else return false;
@@ -82,7 +89,7 @@ template<class T>
 bool List<T>::pop(const std::string &id)
 {
 	int pos;
-	int left_key = 0, right_key = list->size() - 1;
+	int left_key = 0, right_key = counter - 1;
 	if (search(id, pos, left_key, right_key))
 	{
 		list[pos] = nullptr;
@@ -95,10 +102,11 @@ bool List<T>::pop(const std::string &id)
 template<class T>
 void List<T>::erase()
 {
-	for (auto i: list)
+	for (int i = 0; i < counter; i++)
 	{
-		i = nullptr;
+		list[i] = nullptr;
 	}
+	counter = 0;
 }
 
 template<class T>
@@ -127,7 +135,7 @@ template<class T>
 T* List<T>::get(const std::string &id)
 {
 	int pos = 0;
-	int ini = 0, fin = list->size() - 1;
+	int ini = 0, fin = counter - 1;
 
 	return search(id, pos, ini, fin) ? list[pos] : nullptr;
 }
@@ -139,9 +147,9 @@ void List<T>::save(const std::string &name)
 
 	file.open(name);
 
-	for (auto i: list)
+	for (int i = 0; i < counter; i++)
 	{
-		i->save(file);
+		list[i]->save(file);
 	}
 
 	file << "XXX";
@@ -182,20 +190,82 @@ bool List<T>::load(const std::string &name)
 }
 
 template<class T>
+void List<T>::shiftRight(const int pos)
+{
+	for (int i = counter; i > pos; i--)
+	{
+		list[i] = list[i - 1];
+	}
+}
+
+template<class T>
+void List<T>::shiftLeft(const int pos)
+{
+	for (int i = pos; i < counter - 1; i++)
+	{
+		list[i] = list[i + 1];
+	}
+	counter--;
+}
+
+template<class T>
 void List<T>::init(int newdim)
 {
-	
-	list = new std::vector<T>(newdim);
-
-	for (auto i: lista)
+	if (newdim <= 0)
 	{
-		i = nullptr;
+		list = nullptr;
+		dim = 0;
 	}
+	else 
+	{
+		list = new T*[newdim];
+
+		for (int i = 0; i < newdim; i++)
+		{
+			list[i] = nullptr;
+		}
+
+		dim = newdim;
+	}
+	counter = 0;
 }
 
 template<class T>
 void List<T>::release()
 {
-	list->erase();
+	if (dim != 0)
+	{
+		for (int i = 0; i < counter; i++)
+		{
+			delete list[i];
+			list[i] = nullptr;
+		}
+		delete[] list;
+		list = nullptr;
+		counter = 0;
+		dim = 0;
+	}
+}
+
+template<class T>
+void List<T>::resize(int newdim)
+{
+	if (newdim > dim)
+	{
+		T** newlist = new T*[newdim];
+
+		for (int i = 0; i < counter; i++)
+		{
+			newlist[i] = list[i];
+		}
+		for (int i = counter; i < newdim; i++)
+		{
+			newlist[i] = nullptr;
+		}
+		delete[] list;
+
+		list = newlist;
+		dim = newdim;
+	}
 }
 #endif
