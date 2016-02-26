@@ -18,6 +18,8 @@ public:
 	ContactList(){}
 	ContactList(std::string userID);
 
+	inline bool full() { return list->size() == MAX_ELEMS; }
+
 	std::string SearchFastName(std::string &name);
 	void changeMe(std::string new_name);
 
