@@ -26,9 +26,6 @@ struct tElemTray
 	void load(std::ifstream &file);
 	void save(std::ofstream &file) const;
 
-	void setId()
-	{
-		id = mail->getId() + "_" + std::to_string(box);
-	}
+	void setId() { id = mail->getId() + "_" + std::to_string(box); }
 };
 #endif

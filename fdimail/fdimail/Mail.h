@@ -42,13 +42,13 @@ public:
 	std::string getSubject() { return subject; }
 	std::vector<std::string> getRecipients() { return recipients; }
 
-	std::string& setId(std::string newId) { return id = newId; }
-	int& setCounter(int newCounter) { return counter = newCounter; }
+	void setId(std::string newId) { id = newId; }
+	void setCounter(int newCounter) { counter = newCounter; }
 
-	Date& setDate(Date newDate) { return date = newDate; }
-	std::string& setFrom(std::string newFrom) { return from = newFrom; }
-	std::string& setBody(std::string newBody) { return body = newBody; }
-	std::string& setSubject(std::string newSubject) { return subject = newSubject; }
+	void setDate(Date newDate) { date = newDate; }
+	void setFrom(std::string newFrom) { from = newFrom; }
+	void setBody(std::string newBody) { body = newBody; }
+	void setSubject(std::string newSubject) { subject = newSubject; }
 	void setRecipient(std::string newRecipient) { recipients.push_back(newRecipient); }
 
 	bool load(std::ifstream &file);
