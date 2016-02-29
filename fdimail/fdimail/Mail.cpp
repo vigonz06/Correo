@@ -60,7 +60,7 @@ void Mail::save(std::ofstream &file) const
 	file << id << std::endl << counter << std::endl
 		<< date << std::endl << from << std::endl;
 
-	for (auto i: recipients)
+	for (std::string i: recipients)
 	{
 		file << i << std::endl;
 	}

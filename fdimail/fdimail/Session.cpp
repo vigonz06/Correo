@@ -461,7 +461,7 @@ void Session::AddFastName()
 				}
 				else
 				{
-					for (auto k: newId)
+					for (char k: newId)
 					{
 						if (('A' > k || k > 'Z') && (k < 'a' || k > 'z'))
 						{
@@ -619,7 +619,7 @@ void Session::chooseFilter(Filter filter)
 			GraphInter::get()->display("Enter your reference word");
 			GraphInter::get()->enter(reference);
 
-			for (auto i: reference)
+			for (char i: reference)
 			{
 				i = tolower(i);
 			}

@@ -10,9 +10,9 @@ std::string ContactList::SearchFastName(std::string &name)
 {
 	if (name != "")
 	{
-		for (int j = 0; j < name.size(); j++)
+		for (char j: name)
 		{
-			if (name[j] == '@') return name;
+			if (j == '@') return name;
 		}
 
 		tContact* contact = get(name);

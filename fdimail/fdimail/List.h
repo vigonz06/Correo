@@ -170,7 +170,7 @@ bool List<T>::load(const std::string &name)
 	{
 		right = true;
 
-		for (int i = 0; right; i++)
+		while (right)
 		{
 			elem = new T;
 

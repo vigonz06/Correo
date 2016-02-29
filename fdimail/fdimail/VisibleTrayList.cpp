@@ -48,7 +48,7 @@ void VisibleTrayList::refresh()
 	}
 
 	if (inverse_order) reverse();
-	lastPage = (length()-1)/MAILS_X_PAGE;
+	lastPage = (counter - 1)/MAILS_X_PAGE;
 	filterPage();
 }
 
@@ -158,7 +158,7 @@ void VisibleTrayList::filterPage()
 {
 	if (page*MAILS_X_PAGE >= counter) page = 0;
 
-	else if(page < 0) page = lastPage;
+	else if (page < 0) page = lastPage;
 
 	if (dim > MAILS_X_PAGE)
 	{

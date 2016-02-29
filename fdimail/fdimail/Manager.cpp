@@ -121,7 +121,7 @@ void Manager::sendMail(User* user, Mail* mail)
 
 	user->getOutbox()->insert(elem);
 
-	for (auto j: mail->getRecipients())
+	for (std::string j: mail->getRecipients())
 	{
 		if (userList.get(j) != nullptr) userList.get(j)->getInbox()->insert(new tElemTray(mail, Inbox, false));
 

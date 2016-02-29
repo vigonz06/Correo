@@ -738,7 +738,7 @@ std::string GraphInter::valid_user()
 		}
 		else
 		{
-			for (auto i: id)
+			for (char i: id)
 			{
 				if ('A' > i || i > 'Z' && i < 'a' || i > 'z')
 				{
@@ -847,7 +847,7 @@ std::string GraphInter::HidePassword()
 
 bool GraphInter::mayus(std::string word)
 {
-	for (auto i: word)
+	for (char i : word)
 	{
 		if (i >= 65 && i <= 90) return true;
 	}
@@ -856,7 +856,7 @@ bool GraphInter::mayus(std::string word)
 
 bool GraphInter::digit(std::string word)
 {
-	for (auto i: word)
+	for (char i : word)
 	{
 		if (isdigit(i)) return true;
 	}
@@ -865,7 +865,7 @@ bool GraphInter::digit(std::string word)
 
 bool GraphInter::symbl(std::string word)
 {
-	for (auto i: word)
+	for (char i: word)
 	{
 		if (i < 48 || (i > 57 && i < 65) || (i > 90 && i < 97) || i > 122) return true;
 	}
