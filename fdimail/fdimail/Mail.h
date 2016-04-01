@@ -32,7 +32,7 @@ public:
 
 	Mail() : counter(0) {}
 
-	int lowerCounter() { return counter--; }
+	void lowerCounter() { counter--; }
 	int getCounter() const { return counter; }
 	const std::string& getId() const { return id; }
 
