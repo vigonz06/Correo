@@ -957,7 +957,7 @@ void GraphInter::send_to_multiple(Mail* mail, ContactList* contactList)
 
 		if (!recipient.empty())
 		{
-			for (auto j: mail->getRecipients())
+			for (std::string j: mail->getRecipients())
 			{
 				if (j == recipient)
 				{
@@ -1044,7 +1044,7 @@ void GraphInter::showRecipients(Mail* mail)
 
 	if (!mail->getRecipients().empty())
 	{
-		for (auto i: mail->getRecipients())
+		for (std::string i: mail->getRecipients())
 		{
 			if (!repeat)
 			{
