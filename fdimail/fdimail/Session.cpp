@@ -256,7 +256,7 @@ void Session::restoreMail()
 
 				if (elem != nullptr)
 				{
-					if (elem->box == Inbox) user->getInbox()->insert(elem);
+					if (elem->box) user->getInbox()->insert(elem);
 
 					else user->getOutbox()->insert(elem);
 
@@ -268,7 +268,7 @@ void Session::restoreMail()
 
 				do
 				{
-					if (active_tray()->operator[](0)->box == Inbox) user->getInbox()->insert(active_tray()->operator[](0));
+					if (active_tray()->operator[](0)->box) user->getInbox()->insert(active_tray()->operator[](0));
 
 					else user->getOutbox()->insert(active_tray()->operator[](0));
 

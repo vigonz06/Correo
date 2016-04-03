@@ -9,17 +9,15 @@ This struct is responsible for load and save the id of a mail
 and its read status
 ------------------------------*/
 
-enum Box { Inbox, Outbox };
-
 struct tElemTray
 {
 	std::string id;
 	Mail* mail;
 	bool read;
-	Box box;
+	bool box;
 
 	tElemTray() {}
-	tElemTray(Mail* mail, Box box, bool read) : mail(mail), box(box), read(read) { setId(); }
+	tElemTray(Mail* mail, bool box, bool read) : mail(mail), box(box), read(read) { setId(); }
 
 	const std::string& getId() const { return id; }
 

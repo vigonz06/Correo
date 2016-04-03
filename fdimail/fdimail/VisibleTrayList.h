@@ -1,7 +1,6 @@
 #ifndef VISIBLETRAYLIST
 #define VISIBLETRAYLIST
 
-#include "GlobalConstants.h"
 #include "tElemTray.h"
 #include "TrayList.h"
 #include "Date.h"
@@ -69,6 +68,10 @@ public:
 
 	void filterPage();
 
+	void setFilterRead() { filters[read] = true; }
+	void setFilterUnread() { filters[unread] = true; }
+	void setInvert(bool invert){ inverse_order = invert; }
+
 	void setFilterDate(char* up, char* low)
 	{
 		filters[date] = true;
@@ -84,21 +87,6 @@ public:
 	{
 		filters[field] = true;
 		keys[field] = search;
-	}
-
-	void setFilterRead()
-	{
-		filters[read] = true;
-	}
-
-	void setFilterUnread()
-	{
-		filters[unread] = true;
-	}
-
-	void setInvert(bool invert)
-	{
-		inverse_order = invert;
 	}
 
 	void closeFilter()

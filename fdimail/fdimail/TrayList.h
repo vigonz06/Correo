@@ -1,7 +1,6 @@
 #ifndef TRAYLIST
 #define TRAYLIST
 
-#include "GlobalConstants.h"
 #include "tElemTray.h"
 #include <fstream>
 #include "List.h"

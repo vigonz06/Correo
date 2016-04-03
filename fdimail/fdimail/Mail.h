@@ -1,7 +1,6 @@
 #ifndef MAIL
 #define MAIL
 
-#include "GlobalConstants.h"
 #include <fstream>
 #include <string>
 #include <vector>

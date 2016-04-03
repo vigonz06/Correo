@@ -9,7 +9,7 @@ void tElemTray::load(std::ifstream &file)
 	file >> idMail >> read >> number;
 
 	mail = Manager::getManager()->getMailList()->get(idMail);
-	box = Box(number);
+	box = bool(number);
 	setId();
 }
 

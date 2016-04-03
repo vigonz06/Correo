@@ -1,7 +1,6 @@
 #ifndef CONTACTLIST
 #define CONTACTLIST
 
-#include "GlobalConstants.h"
 #include "tContact.h"
 #include "MailList.h"
 #include "List.h"
