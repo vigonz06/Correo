@@ -29,11 +29,7 @@ public:
 	User(const std::string idUser, const std::string password);
 	User() : contactList(){}
 
-<<<<<<< HEAD
 	std::string getId() { return id; }
-=======
-	std::string& getId() { return id; }
->>>>>>> origin/master
 	TrayList* getInbox() { return &inbox; }
 	TrayList* getOutbox() { return &outbox; }
 	TrayList* getRecycling() { return &recycling; }
