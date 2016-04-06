@@ -2,7 +2,6 @@
 #define CONTACTLIST
 
 #include "tContact.h"
-#include "MailList.h"
 #include "List.h"
 
 /*----------------------------
