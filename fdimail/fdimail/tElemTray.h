@@ -19,7 +19,7 @@ struct tElemTray
 	tElemTray() {}
 	tElemTray(Mail* mail, bool box, bool read) : mail(mail), box(box), read(read) { setId(); }
 
-	const std::string& getId() const { return id; }
+	const std::string getId() const { return id; }
 
 	void load(std::ifstream &file);
 	void save(std::ofstream &file) const;
