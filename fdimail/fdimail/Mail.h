@@ -33,7 +33,7 @@ public:
 
 	void lowerCounter() { counter--; }
 	int getCounter() const { return counter; }
-	const std::string& getId() const { return id; }
+	const std::string getId() const { return id; }
 
 	Date getDate() { return date; }
 	std::string getFrom() { return from; }
