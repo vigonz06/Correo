@@ -24,8 +24,8 @@ public:
 	tContact(std::string realName, std::string fastName) : user(realName), alias(fastName) {}
 	tContact() {}
 	
-	std::string& getId() { return alias; }
-	std::string& getAddress() { return user; }
+	std::string getId() { return alias; }
+	std::string getAddress() { return user; }
 	void setAddress(std::string newUser) { user = newUser; }
 
 	void load(std::ifstream &file)
