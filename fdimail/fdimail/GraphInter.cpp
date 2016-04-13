@@ -105,7 +105,7 @@ int GraphInter::trayMenu(Session* session, std::vector<std::string> elems)
 	{
 		display("Mail of " + session->getUser()->getId());
 
-		session->get_visible()->refresh();
+		session->getVisible()->refresh();
 		showTray(session);
 
 		display(linea());
@@ -145,30 +145,30 @@ int GraphInter::mailMenu(Session* session)
 
 	do
 	{
-		session->get_visible()->refresh();
+		session->getVisible()->refresh();
 
 		display("Choose your desired mail: ");
 
-		for (int i = 0; i < session->get_visible()->length(); i++)
+		for (int i = 0; i < session->getVisible()->length(); i++)
 		{
 			std::ostringstream mail;
 
-			if (!session->get_visible()->operator[](i)->read) mail << "* ";
+			if (!session->getVisible()->operator[](i)->read) mail << "* ";
 
 			else mail << "  ";
 
-			mail << session->get_visible()->operator[](i)->mail->header();
+			mail << session->getVisible()->operator[](i)->mail->header();
 
 			tab_word(mail.str(), i, elem);
 		}
-		tab_word("  Back", session->get_visible()->length(), elem);
+		tab_word("  Back", session->getVisible()->length(), elem);
 
 		display(linea());
 		display(pags(session));
 		display(linea());
 
 		key = getKey();
-		elem = update(key, elem, session->get_visible()->length() + 1);
+		elem = update(key, elem, session->getVisible()->length() + 1);
 		updateTray(key, session);
 
 		clearConsole();
@@ -184,7 +184,7 @@ int GraphInter::aliasMenu(Session* session)
 
 	do
 	{
-		session->get_visible()->refresh();
+		session->getVisible()->refresh();
 
 		display("Choose your desired alias: ");
 
@@ -192,7 +192,7 @@ int GraphInter::aliasMenu(Session* session)
 		{
 			tab_word(session->getUser()->getContactlist()->operator[](i)->header(), i, elem);
 		}
-		tab_word("Back", session->get_visible()->length(), elem);
+		tab_word("Back", session->getVisible()->length(), elem);
 
 		display(linea());
 
@@ -334,9 +334,9 @@ int GraphInter::AccountOptions()
 
 Mail* GraphInter::newMail(const std::string &sender, ContactList* contactList)
 {
-	std::string subject;
-	std::ostringstream ID;
 	Mail* newMail = new Mail;
+	std::ostringstream ID;
+	std::string subject;
 
 	newMail->setFrom(sender);
 	newMail->setDate(time(0));
@@ -408,8 +408,8 @@ Mail* GraphInter::newMail(const std::string &sender, ContactList* contactList)
 Mail* GraphInter::answerMail(Mail* &originalMail, const std::string &sender)
 {
 	std::ostringstream ID, BODY, SUBJECT;
-	std::string recipient;
 	Mail* newMail = new Mail;
+	std::string recipient;
 	std::string WhatToSay;
 
 	SUBJECT << "Re: " << originalMail->getSubject();
@@ -458,8 +458,8 @@ Mail* GraphInter::answerMail(Mail* &originalMail, const std::string &sender)
 Mail* GraphInter::forward(Mail* &originalMail, const std::string &sender, ContactList* contactList)
 {
 	std::ostringstream ID, BODY, SUBJECT;
-	std::string WhatToSay;
 	Mail* newMail = new Mail;
+	std::string WhatToSay;
 
 	SUBJECT << "Re: " << originalMail->getSubject();
 
@@ -511,7 +511,7 @@ tElemTray* GraphInter::selectMail(Session* session)
 
 	number = mailMenu(session);
 
-	if (number != session->get_visible()->length()) return session->get_visible()->operator[](number);
+	if (number != session->getVisible()->length()) return session->getVisible()->operator[](number);
 
 	else return nullptr;
 }
@@ -522,7 +522,7 @@ std::string GraphInter::selectAlias(Session* session)
 
 	number = aliasMenu(session);
 
-	if (number < session->getUser()->getContactlist()->length()) return session->getUser()->getContactlist()->operator[](session->get_visible()->length() - number + 1)->getAddress();
+	if (number < session->getUser()->getContactlist()->length()) return session->getUser()->getContactlist()->operator[](session->getVisible()->length() - number + 1)->getAddress();
 
 	else return "";
 }
@@ -575,7 +575,7 @@ void GraphInter::showTray(Session* session)
 
 	display(title);
 
-	if (session->get_visible()->empty())
+	if (session->getVisible()->empty())
 	{
 		display(linea());
 
@@ -590,15 +590,15 @@ void GraphInter::showTray(Session* session)
 
 		display(linea());
 
-		for (int i = 0; i < session->get_visible()->length(); i++)
+		for (int i = 0; i < session->getVisible()->length(); i++)
 		{
 			std::ostringstream show;
 
-			if (session->get_visible()->operator[](i)->read) show << "  ";
+			if (session->getVisible()->operator[](i)->read) show << "  ";
 
 			else show << " *";
 
-			Mail* mail = session->get_visible()->operator[](i)->mail;
+			Mail* mail = session->getVisible()->operator[](i)->mail;
 
 			if (mail == nullptr)
 			{
@@ -607,7 +607,7 @@ void GraphInter::showTray(Session* session)
 
 			thisMail = mail->header();
 
-			show << std::setw(2) << (i + 1 + (MAILS_X_PAGE*session->get_visible()->getPage())) << " - " << thisMail;
+			show << std::setw(2) << (i + 1 + (MAILS_X_PAGE*session->getVisible()->getPage())) << " - " << thisMail;
 			display(show.str());
 		}
 	}
@@ -907,9 +907,9 @@ std::string GraphInter::linea()
 
 void GraphInter::updateTray(int key, Session* session)
 {
-	if (key == RIGHT) session->get_visible()->increasePage();
+	if (key == RIGHT) session->getVisible()->increasePage();
 
-	if (key == LEFT) session->get_visible()->decreasePage();
+	if (key == LEFT) session->getVisible()->decreasePage();
 }
 
 int GraphInter::menu(std::vector<std::string> elems)
@@ -1014,22 +1014,22 @@ std::string GraphInter::pags(Session* session)
 {
 	std::ostringstream pags;
 
-	if (session->get_visible()->getLastPage() == 0) pags << "              ";
+	if (session->getVisible()->getLastPage() == 0) pags << "              ";
 
 	else
 	{
-		if (session->get_visible()->getPage() > 0) pags << "<- (prev page)";
+		if (session->getVisible()->getPage() > 0) pags << "<- (prev page)";
 
 		else pags << "<- (last page)";
 	}
 
-	pags << center_word(std::to_string(session->get_visible()->getPage() + 1) + "/" + std::to_string(session->get_visible()->getLastPage() + 1), HORIZONTAL-28, " ");
+	pags << center_word(std::to_string(session->getVisible()->getPage() + 1) + "/" + std::to_string(session->getVisible()->getLastPage() + 1), HORIZONTAL - 28, " ");
 
-	if (session->get_visible()->getLastPage() == 0) pags << "              ";
+	if (session->getVisible()->getLastPage() == 0) pags << "              ";
 
 	else
 	{
-		if (session->get_visible()->LastPage()) pags << "(first page)->";
+		if (session->getVisible()->LastPage()) pags << "(first page)->";
 
 		else pags << "(next page) ->";
 	}

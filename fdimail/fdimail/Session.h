@@ -50,7 +50,7 @@ public:
 	Session(Manager* manager);
 	~Session();
 	
-	VisibleTrayList* get_visible() { return &visible; }
+	VisibleTrayList* getVisible() { return &visible; }
 	int get_active_list() { return active_list; }
 	Manager* getManager() { return manager; }
 	User* getUser() { return user; }
