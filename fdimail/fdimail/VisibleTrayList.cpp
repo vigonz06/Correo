@@ -88,7 +88,7 @@ void VisibleTrayList::filterBy(Funct filter, K key)
 void VisibleTrayList::filterByDate(Date lower, Date upper)
 {
 	filterBy([](tElemTray* a, Date key){ return key <= a->mail->getDate(); }, lower);
-	filterBy([](tElemTray* a, Date key){ return a->mail->getDate() <= key; }, upper);
+	filterBy([](tElemTray* a, Date key){ return key >= a->mail->getDate(); }, upper);
 }
 
 void VisibleTrayList::filterBySubject(std::string key)
