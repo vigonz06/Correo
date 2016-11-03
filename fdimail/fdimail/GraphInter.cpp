@@ -8,7 +8,6 @@
 #include <iomanip>
 #include <conio.h>
 #include <vector>
-#include "Mail.h"
 
 GraphInter* GraphInter::inter = nullptr;
 Mail* GraphInter::error = nullptr;

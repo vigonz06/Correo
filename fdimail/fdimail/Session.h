@@ -17,10 +17,10 @@ private:
 
 	VisibleTrayList visible;
 	Manager* manager;
-        int active_list;
+	int active_list;
 	User* user;
 
-        void changeTray();
+	void changeTray();
 
 	void launch();
 
