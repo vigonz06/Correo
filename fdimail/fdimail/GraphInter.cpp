@@ -16,8 +16,8 @@ GraphInter* GraphInter::get() {	return inter; }
 
 Mail* GraphInter::errorMail()
 {
-	std::ostringstream ID;
 	Mail* error = new Mail;
+	std::ostringstream ID;
 	std::string recipient;
 
 	error->setFrom("Tecnical Service");
