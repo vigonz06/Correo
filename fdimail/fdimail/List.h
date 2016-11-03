@@ -2,7 +2,6 @@
 #define LIST
 
 #include "GlobalConstants.h"
-#include <string>
 
 /*----------------------------
 This is a base class for all the lists this program has
@@ -25,6 +24,8 @@ protected:
 
 	int counter, dim;
 	T** list;
+
+	bool search(const std::string &id, int &pos, int &left_key, int &right_key) const;
 
 	void shiftRight(const int pos);
 	void shiftLeft(const int pos);
@@ -50,7 +51,6 @@ public:
 
 	void erase();
 
-	bool search(const std::string &id, int &pos, int &left_key, int &right_key) const;
 	T* get(const std::string &id);
 
 	void save(const std::string &name);
