@@ -8,6 +8,19 @@ VisibleTrayList::VisibleTrayList() : List()
 	init(nullptr);
 }
 
+void VisibleTrayList::change(int pos1, int pos2)
+{
+	tElemTray* aux = list[pos1];
+	list[pos1] = list[pos2];
+	list[pos2] = aux;
+}
+
+void VisibleTrayList::insert(tElemTray* elem)
+{
+	if (full()) resize(dim + 1);
+	list[counter++] = elem;
+}
+
 void VisibleTrayList::init(TrayList* trayList)
 {
 	closeFilter();
@@ -52,6 +65,14 @@ void VisibleTrayList::refresh()
 	filterPage();
 }
 
+void VisibleTrayList::close()
+{
+	closeFilter();
+	refresh();
+	erase();
+	link(nullptr);
+}
+
 void VisibleTrayList::sync()
 {
 	erase();
@@ -60,14 +81,6 @@ void VisibleTrayList::sync()
 	{
 		insert(trayList->operator[](i));
 	}
-}
-
-void VisibleTrayList::close()
-{
-	closeFilter();
-	refresh();
-	erase();
-	link(nullptr);
 }
 
 template<typename Funct, typename K>
@@ -91,6 +104,16 @@ void VisibleTrayList::filterByDate(Date lower, Date upper)
 	filterBy([](tElemTray* a, Date key){ return key >= a->mail->getDate(); }, upper);
 }
 
+void VisibleTrayList::filterByRecipient(std::string key)
+{
+	filterBy([](tElemTray* a, std::string key){ for (auto i : a->mail->getRecipients()){ if (i.find(key) != -1) return true; } return false; }, key);
+}
+
+void VisibleTrayList::filterByEmissor(std::string key)
+{
+	filterBy([](tElemTray* a, std::string key){ return a->mail->getFrom().find(key) != -1; }, key);
+}
+
 void VisibleTrayList::filterBySubject(std::string key)
 {
 	filterBy([](tElemTray* a, std::string key){ return a->mail->getSubject().find(key) != -1; }, key);
@@ -99,16 +122,6 @@ void VisibleTrayList::filterBySubject(std::string key)
 void VisibleTrayList::filterByBody(std::string key)
 {
 	filterBy([](tElemTray* a, std::string key){ return a->mail->getBody().find(key) != -1; }, key);
-}
-
-void VisibleTrayList::filterByEmissor(std::string key)
-{
-	filterBy([](tElemTray* a, std::string key){ return a->mail->getFrom().find(key) != -1; }, key);
-}
-
-void VisibleTrayList::filterByRecipient(std::string key)
-{
-	filterBy([](tElemTray* a, std::string key){ for (auto i: a->mail->getRecipients()){ if (i.find(key) != -1) return true; } return false; }, key);
 }
 
 void VisibleTrayList::filterByRead(bool is_read)
@@ -136,14 +149,14 @@ void VisibleTrayList::orderBy(Funct order)
 	} while (change_made);
 }
 
-void VisibleTrayList::orderByDate()
-{
-	orderBy([](tElemTray* a, tElemTray* b){ return a->mail->getDate() >= b->mail->getDate(); });
-}
-
 void VisibleTrayList::orderBySubject()
 {
 	orderBy([](tElemTray* a, tElemTray* b) { return a->mail->subSubject() <= b->mail->subSubject(); });
+}
+
+void VisibleTrayList::orderByDate()
+{
+	orderBy([](tElemTray* a, tElemTray* b){ return a->mail->getDate() >= b->mail->getDate(); });
 }
 
 void VisibleTrayList::reverse()
@@ -175,17 +188,4 @@ void VisibleTrayList::filterPage()
 		}
 		counter = i;
 	}
-}
-
-void VisibleTrayList::insert(tElemTray* elem)
-{
-	if (full()) resize(dim + 1);
-	list[counter++] = elem;	
-}
-
-void VisibleTrayList::change(int pos1, int pos2)
-{
-	tElemTray* aux = list[pos1];
-	list[pos1] = list[pos2];
-	list[pos2] = aux;
 }

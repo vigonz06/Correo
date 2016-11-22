@@ -22,9 +22,6 @@ class VisibleTrayList: public List<tElemTray>
 {
 private:
 
-	void change(int pos1, int pos2);
-	void insert(tElemTray* elem);
-
 	Filter active_order;
 	TrayList* trayList;
 	bool inverse_order;
@@ -37,17 +34,20 @@ private:
 	std::map<Filter, bool> filters;
 	std::map<Filter, std::string> keys;
 
+	void change(int pos1, int pos2);
+	void insert(tElemTray* elem);
+
 public:
 
 	VisibleTrayList();
+
+	void changeOrder(Filter order) { active_order = order; }
 
 	void init(TrayList* trayList);
 	void link(TrayList* trayList);
 	void refresh();
 	void close();
 	void sync();
-
-	void changeOrder(Filter order) { active_order = order; }
 
 	template<typename Funct, typename K>
 	void filterBy(Funct filter, K key);
@@ -65,7 +65,6 @@ public:
 	void orderByDate();
 
 	void reverse();
-
 	void filterPage();
 
 	void setFilterRead() { filters[read] = true; }

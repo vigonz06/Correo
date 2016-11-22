@@ -39,7 +39,7 @@ public:
 	void setPassword(std::string newPassword) { password = sha1(newPassword); }
 	bool checkPassword(const std::string &possible_password) const { return password == sha1(possible_password); }
 
-	void save(std::ofstream &file)const;
 	bool load(std::ifstream &file);
+	void save(std::ofstream &file)const;
 };
 #endif

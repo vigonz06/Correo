@@ -16,11 +16,11 @@ public:
 	ContactList(){}
 	ContactList(std::string userID);
 
-	std::string SearchFastName(std::string &name);
 	void changeMe(std::string new_name);
+	std::string SearchFastName(std::string &name);
 
-	void save(std::ofstream &file)const;
 	void load(std::ifstream &file);
+	void save(std::ofstream &file)const;
 };
 
 #endif

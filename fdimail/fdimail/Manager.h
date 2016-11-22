@@ -30,16 +30,15 @@ public:
 	~Manager();
 
 	static Manager* getManager() { return manager; }
-
 	MailList* getMailList() { return &mailList; }
 	UserList* getUserList() { return &userList; }
-
-	User* createAccount();
-	User* registerUser();
 
 	void deleteMail(TrayList* box, const tElemTray* elem);
 	void sendMail(User* user, Mail* mail);
 	bool answer(User* user, Mail* mail);
 	void deleteAccount(User* user);
+
+	User* createAccount();
+	User* registerUser();
 };
 #endif

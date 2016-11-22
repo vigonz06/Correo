@@ -86,15 +86,14 @@ public:
 
 	void checkUsername(std::string &password);
 	void checkPassword(std::string &password);
+	std::string HideLimitPassword();
 	std::string valid_user();
+
+	void display(std::string error);
+	void display(char sign);
 
 	void enter(std::string &word);
 	void enter(int &digit);
 	void enter(char* str);
-
-	std::string HideLimitPassword();
-
-	void display(std::string error);
-	void display(char sign);
 };
 #endif

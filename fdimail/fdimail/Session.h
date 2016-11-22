@@ -20,14 +20,13 @@ private:
 	int active_list;
 	User* user;
 
-	void changeTray();
-
 	void launch();
 
 	void forwardMail(Mail* &originalMail);
 	void answerMail(Mail* &originalMail);
 	void restoreMail();
 	void mailOptions();
+	void changeTray();
 	void deleteMail();
 	void readMail();
 	void sendMail();	

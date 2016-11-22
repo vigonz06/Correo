@@ -6,6 +6,11 @@ ContactList::ContactList(std::string userID): List()
 	insert(me);
 }
 
+void ContactList::changeMe(std::string new_name)
+{
+	get("Me")->setAddress(new_name);
+}
+
 std::string ContactList::SearchFastName(std::string &name)
 {
 	if (name != "")
@@ -20,11 +25,6 @@ std::string ContactList::SearchFastName(std::string &name)
 		else return name + "@fdimail.com";
 	}
 	return name;
-}
-
-void ContactList::changeMe(std::string new_name)
-{
-	get("Me")->setAddress(new_name);
 }
 
 void ContactList::load(std::ifstream &file)

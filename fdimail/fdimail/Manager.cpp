@@ -41,61 +41,6 @@ void Manager::shutDown()
 	mailList.save(mail_file.str());
 }
 
-User* Manager::registerUser()
-{
-	std::string idUser;
-	std::string last_password;
-
-	GraphInter::get()->logMenu(idUser, last_password);
-
-	if (idUser != "@fdimail.com" && last_password != "")
-	{
-		User* user = (userList.get(idUser));
-
-		if (user != nullptr)
-		{
-			if (user->checkPassword(last_password)) return user;
-
-			else
-			{
-				message("Wrong password");
-				return nullptr;
-			}
-		}
-		else
-		{
-			message("User does not exist");
-			return nullptr;
-		}
-	}
-	else return nullptr;
-}
-
-User* Manager::createAccount()
-{
-	std::string idUser;
-	std::string last_password;
-
-	GraphInter::get()->logMenu(idUser, last_password);
-	
-	if (idUser != "@fdimail.com" && last_password != "")
-	{
-		if (userList.get(idUser) == nullptr)
-		{
-			GraphInter::get()->checkPassword(last_password);
-			User* user = new User(idUser, last_password);
-			userList.insert(user);
-			return user;
-		}
-		else
-		{
-			message("This username already exists");
-			return nullptr;
-		}
-	}
-	else return nullptr;
-}
-
 void Manager::deleteAccount(User* user)
 {
 	while (!user->getRecycling()->empty())
@@ -156,4 +101,59 @@ void Manager::deleteMail(TrayList* box, const tElemTray* elem)
 	mailList.delete_mail(elem->mail->getId());
 
 	box->destroy(elem->getId());
+}
+
+User* Manager::registerUser()
+{
+	std::string idUser;
+	std::string last_password;
+
+	GraphInter::get()->logMenu(idUser, last_password);
+
+	if (idUser != "@fdimail.com" && last_password != "")
+	{
+		User* user = (userList.get(idUser));
+
+		if (user != nullptr)
+		{
+			if (user->checkPassword(last_password)) return user;
+
+			else
+			{
+				message("Wrong password");
+				return nullptr;
+			}
+		}
+		else
+		{
+			message("User does not exist");
+			return nullptr;
+		}
+	}
+	else return nullptr;
+}
+
+User* Manager::createAccount()
+{
+	std::string idUser;
+	std::string last_password;
+
+	GraphInter::get()->logMenu(idUser, last_password);
+
+	if (idUser != "@fdimail.com" && last_password != "")
+	{
+		if (userList.get(idUser) == nullptr)
+		{
+			GraphInter::get()->checkPassword(last_password);
+			User* user = new User(idUser, last_password);
+			userList.insert(user);
+			return user;
+		}
+		else
+		{
+			message("This username already exists");
+			return nullptr;
+		}
+	}
+	else return nullptr;
 }

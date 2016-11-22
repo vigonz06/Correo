@@ -38,10 +38,6 @@ Session::~Session()
 	GraphInter::close();
 }
 
-/****************************************************************/
-/*                            MENUS                             */
-/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
 void Session::launch()
 {
 	int opt;
@@ -105,66 +101,6 @@ void Session::launch()
 	user = nullptr;
 }
 
-/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-/*                                 MAIN MENU OPTIONS                                 */
-/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
-void Session::readMail()
-{
-	if (visible.empty()) message("You have no mails to read");
-
-	else
-	{
-		tElemTray* elem = GraphInter::get()->selectMail(this);
-
-		if (elem != nullptr)
-		{
-			active_tray()->readMail(elem->getId());
-
-			int option = GraphInter::get()->mailMenu(elem->mail);
-
-			GraphInter::get()->clearConsole();
-
-			switch (option)
-			{
-			case 0:
-
-				answerMail(elem->mail);
-				break;
-
-			case 1:
-
-				forwardMail(elem->mail);
-				break;
-			}
-		}
-	}
-}
-
-void Session::sendMail()
-{
-	Mail* mail = GraphInter::get()->newMail(user->getId(), user->getContactlist());
-
-	if (mail == nullptr)
-	{
-		message("Mail not sent");
-		delete mail;
-	}
-	else manager->sendMail(user, mail);
-}
-
-void Session::answerMail(Mail* &originalMail)
-{
-	Mail* answer = GraphInter::get()->answerMail(originalMail, user->getId());
-
-	if (answer == nullptr)
-	{
-		message("Mail not sent");
-		delete answer;
-	}
-	else manager->answer(user, answer);
-}
-
 void Session::forwardMail(Mail* &originalMail)
 {
 	Mail* forward = GraphInter::get()->forward(originalMail, user->getId(), user->getContactlist());
@@ -177,60 +113,16 @@ void Session::forwardMail(Mail* &originalMail)
 	else manager->sendMail(user, forward);
 }
 
-void Session::deleteMail()
+void Session::answerMail(Mail* &originalMail)
 {
-	int option;
+	Mail* answer = GraphInter::get()->answerMail(originalMail, user->getId());
 
-	if (visible.empty()) message("You have no mails to delete");
-	
-	else
+	if (answer == nullptr)
 	{
-		do
-		{
-			visible.refresh();
-			GraphInter::get()->clearConsole();
-
-			option = GraphInter::get()->WhatToDelete(this);
-
-			switch (option)
-			{
-			case 0:
-			{
-				tElemTray* elem = GraphInter::get()->selectMail(this);
-
-				if (elem != nullptr)
-				{
-					if (active_tray() == user->getRecycling())
-					{
-						manager->deleteMail(active_tray(), elem);
-					}
-					else
-					{
-						user->getRecycling()->insert(elem);
-						active_tray()->pop(elem->getId());
-					}
-				}
-				break;
-			}
-			case 1:
-			{
-				do
-				{
-					if (active_tray() == user->getRecycling())
-					{
-						manager->deleteMail(active_tray(), active_tray()->operator[](0));
-					}
-					else
-					{
-						user->getRecycling()->insert(active_tray()->operator[](0));
-						active_tray()->pop(active_tray()->operator[](0)->getId());
-					}
-				} while (!active_tray()->empty());
-				break;
-			}
-			}
-		} while (!active_tray()->empty() && option != 2);
+		message("Mail not sent");
+		delete answer;
 	}
+	else manager->answer(user, answer);
 }
 
 void Session::restoreMail()
@@ -283,7 +175,7 @@ void Session::restoreMail()
 void Session::mailOptions()
 {
 	if (active_tray()->empty()) message("You have no mails to manipulate");
-	
+
 	else
 	{
 		if (active_tray() == user->getRecycling())
@@ -309,32 +201,111 @@ void Session::mailOptions()
 	}
 }
 
-TrayList* Session::active_tray()
-{ 
-	switch (active_list)
-	{
-	case 0:
-
-		return user->getInbox();
-		break;
-
-	case 1:
-
-		return user->getOutbox();
-		break;
-
-	case 2:
-
-		return user->getRecycling();
-		break;
-	}
-}
-
 void Session::changeTray()
 {
 	active_list = GraphInter::get()->chooseTray();
 
 	visible.link(active_tray());
+}
+
+void Session::deleteMail()
+{
+	int option;
+
+	if (visible.empty()) message("You have no mails to delete");
+
+	else
+	{
+		do
+		{
+			visible.refresh();
+			GraphInter::get()->clearConsole();
+
+			option = GraphInter::get()->WhatToDelete(this);
+
+			switch (option)
+			{
+			case 0:
+			{
+				tElemTray* elem = GraphInter::get()->selectMail(this);
+
+				if (elem != nullptr)
+				{
+					if (active_tray() == user->getRecycling())
+					{
+						manager->deleteMail(active_tray(), elem);
+					}
+					else
+					{
+						user->getRecycling()->insert(elem);
+						active_tray()->pop(elem->getId());
+					}
+				}
+				break;
+			}
+			case 1:
+			{
+				do
+				{
+					if (active_tray() == user->getRecycling())
+					{
+						manager->deleteMail(active_tray(), active_tray()->operator[](0));
+					}
+					else
+					{
+						user->getRecycling()->insert(active_tray()->operator[](0));
+						active_tray()->pop(active_tray()->operator[](0)->getId());
+					}
+				} while (!active_tray()->empty());
+				break;
+			}
+			}
+		} while (!active_tray()->empty() && option != 2);
+	}
+}
+
+void Session::readMail()
+{
+	if (visible.empty()) message("You have no mails to read");
+
+	else
+	{
+		tElemTray* elem = GraphInter::get()->selectMail(this);
+
+		if (elem != nullptr)
+		{
+			active_tray()->readMail(elem->getId());
+
+			int option = GraphInter::get()->mailMenu(elem->mail);
+
+			GraphInter::get()->clearConsole();
+
+			switch (option)
+			{
+			case 0:
+
+				answerMail(elem->mail);
+				break;
+
+			case 1:
+
+				forwardMail(elem->mail);
+				break;
+			}
+		}
+	}
+}
+
+void Session::sendMail()
+{
+	Mail* mail = GraphInter::get()->newMail(user->getId(), user->getContactlist());
+
+	if (mail == nullptr)
+	{
+		message("Mail not sent");
+		delete mail;
+	}
+	else manager->sendMail(user, mail);
 }
 
 void Session::fastRead()
@@ -387,6 +358,56 @@ void Session::AccountOptions(int &option)
 			break;
 		}
 	} while (menu != 3 && option != 8);
+}
+
+void Session::AliasOptions()
+{
+	int option;
+
+	do
+	{
+		GraphInter::get()->clearConsole();
+
+		option = GraphInter::get()->AliasMenu(this);
+
+		switch (option)
+		{
+		case 0:
+
+			AddFastName();
+			break;
+
+		case 1:
+
+			if (user->getContactlist()->length() > 1)
+			{
+				std::string name = GraphInter::get()->selectAlias(this);
+
+				if (name != "")
+				{
+					if (user->getContactlist()->get(name)->getId() == "Me") message("You cannot delete your self alias");
+
+					else user->getContactlist()->destroy(name);
+				}
+			}
+			else message("You cannot delete your self alias");
+			break;
+
+		case 2:
+
+			if (user->getContactlist()->length() > 1)
+			{
+				int namelenth = user->getContactlist()->length();
+
+				for (int i = namelenth - 1; i >= 0; i--)
+				{
+					if (user->getContactlist()->operator[](i)->getId() != "Me") user->getContactlist()->destroy(user->getContactlist()->operator[](i)->getId());
+				}
+			}
+			else message("You cannot delete your self alias");
+			break;
+		}
+	} while (option != 3);
 }
 
 void Session::AddFastName()
@@ -488,56 +509,6 @@ void Session::AddFastName()
 			user->getContactlist()->insert(newContact);
 		}
 	}
-}
-
-void Session::AliasOptions()
-{
-	int option;
-
-	do
-	{
-		GraphInter::get()->clearConsole();
-
-		option = GraphInter::get()->AliasMenu(this);
-
-		switch (option)
-		{
-		case 0:
-
-			AddFastName();
-			break;
-
-		case 1:
-
-			if (user->getContactlist()->length() > 1)
-			{
-				std::string name = GraphInter::get()->selectAlias(this);
-
-				if (name != "")
-				{
-					if (user->getContactlist()->get(name)->getId() == "Me") message("You cannot delete your self alias");
-
-					else user->getContactlist()->destroy(name);
-				}
-			}
-			else message("You cannot delete your self alias");
-			break;
-
-		case 2:
-
-			if (user->getContactlist()->length() > 1)
-			{
-				int namelenth = user->getContactlist()->length();
-
-				for (int i = namelenth - 1; i >= 0; i--)
-				{
-					if (user->getContactlist()->operator[](i)->getId() != "Me") user->getContactlist()->destroy(user->getContactlist()->operator[](i)->getId());
-				}
-			}
-			else message("You cannot delete your self alias");
-			break;
-		}
-	} while (option != 3);
 }
 
 void Session::filterOptions(Filter filter)
@@ -692,5 +663,26 @@ void Session::changePassword()
 		GraphInter::get()->checkPassword(data);
 
 		user->setPassword(data);
+	}
+}
+
+TrayList* Session::active_tray()
+{
+	switch (active_list)
+	{
+	case 0:
+
+		return user->getInbox();
+		break;
+
+	case 1:
+
+		return user->getOutbox();
+		break;
+
+	case 2:
+
+		return user->getRecycling();
+		break;
 	}
 }

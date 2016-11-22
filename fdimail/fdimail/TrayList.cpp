@@ -2,17 +2,17 @@
 #include "TrayList.h"
 #include "Manager.h"
 
-tElemTray* TrayList::get(const std::string &id)
-{
-	int pos = 0;
-	return (search(id, pos)) ? list[pos] : nullptr;
-}
-
 bool TrayList::search(const std::string &id, int &pos)
 {
 	for (pos = 0; pos < counter && list[pos]->getId() != id; pos++);
 
 	return (pos < counter) ? true : false;
+}
+
+tElemTray* TrayList::get(const std::string &id)
+{
+	int pos = 0;
+	return (search(id, pos)) ? list[pos] : nullptr;
 }
 
 void TrayList::insert(tElemTray * const elem)
@@ -45,6 +45,16 @@ bool TrayList::pop(const std::string id)
 	else return false;
 }
 
+void TrayList::save(std::ofstream &file)const
+{
+	file << counter << std::endl;
+
+	for (int i = 0; i < counter; i++)
+	{
+		list[i]->save(file);
+	}
+}
+
 void TrayList::load(std::ifstream &file)
 {
 	int n;
@@ -58,16 +68,6 @@ void TrayList::load(std::ifstream &file)
 		elem->load(file);
 
 		if (elem->mail != nullptr) insert(elem);
-	}
-}
-
-void TrayList::save(std::ofstream &file)const
-{
-	file << counter << std::endl;
-
-	for (int i = 0; i < counter; i++)
-	{
-		list[i]->save(file);
 	}
 }
 

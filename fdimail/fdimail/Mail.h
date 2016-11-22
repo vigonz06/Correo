@@ -18,8 +18,8 @@ class Mail
 {
 private:
 
-	std::string id;
 	int counter;
+	std::string id;
 
 	Date date;
 	std::string from;
