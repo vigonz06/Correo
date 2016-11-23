@@ -1,7 +1,7 @@
-#include "tElemTray.h"
+#include "ElemTray.h"
 #include "Manager.h"
 
-void tElemTray::load(std::ifstream &file)
+void ElemTray::load(std::ifstream &file)
 {
 	int number;
 	std::string idMail;
@@ -13,7 +13,7 @@ void tElemTray::load(std::ifstream &file)
 	setId();
 }
 
-void tElemTray::save(std::ofstream &file) const
+void ElemTray::save(std::ofstream &file) const
 {
 	file << mail->getId() << " " << read << " " << box << std::endl;
 }

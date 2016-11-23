@@ -1,7 +1,7 @@
 #ifndef CONTACTLIST
 #define CONTACTLIST
 
-#include "tContact.h"
+#include "Contact.h"
 #include "List.h"
 
 /*----------------------------
@@ -9,7 +9,7 @@ Derived class from list, responsible
 for work whith the alias an user has
 ------------------------------*/
 
-class ContactList : public List < tContact>
+class ContactList : public List < Contact>
 {
 public:
 

@@ -701,7 +701,7 @@ std::string GraphInter::selectAlias(Session* session)
 	else return "";
 }
 
-tElemTray* GraphInter::selectMail(Session* session)
+ElemTray* GraphInter::selectMail(Session* session)
 {
 	int number;
 

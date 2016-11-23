@@ -27,9 +27,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="fdimail.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Date.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -48,9 +45,6 @@
     <ClCompile Include="Manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tElemTray.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TrayList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -63,7 +57,13 @@
     <ClCompile Include="Session.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="utilsWin.cpp">
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UtilsWin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ElemTray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -75,9 +75,6 @@
       <Filter>Auxiliar</Filter>
     </ClInclude>
     <ClInclude Include="Encript.h">
-      <Filter>Auxiliar</Filter>
-    </ClInclude>
-    <ClInclude Include="utilsWin.h">
       <Filter>Auxiliar</Filter>
     </ClInclude>
     <ClInclude Include="GraphInter.h">
@@ -104,12 +101,6 @@
     <ClInclude Include="User.h">
       <Filter>List Elements</Filter>
     </ClInclude>
-    <ClInclude Include="tElemTray.h">
-      <Filter>List Elements</Filter>
-    </ClInclude>
-    <ClInclude Include="tContact.h">
-      <Filter>List Elements</Filter>
-    </ClInclude>
     <ClInclude Include="Mail.h">
       <Filter>List Elements</Filter>
     </ClInclude>
@@ -118,6 +109,15 @@
     </ClInclude>
     <ClInclude Include="Session.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UtilsWin.h">
+      <Filter>Auxiliar</Filter>
+    </ClInclude>
+    <ClInclude Include="Contact.h">
+      <Filter>List Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="ElemTray.h">
+      <Filter>List Elements</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

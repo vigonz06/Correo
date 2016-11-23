@@ -12,7 +12,7 @@ the id of an user and its associated alias;
 it also turns an user and its alias to string
 ------------------------------*/
 
-class tContact
+class Contact
 {
 private:
 
@@ -21,8 +21,8 @@ private:
 
 public:
 
-	tContact(std::string realName, std::string fastName) : user(realName), alias(fastName) {}
-	tContact() {}
+	Contact(std::string realName, std::string fastName) : user(realName), alias(fastName) {}
+	Contact() {}
 	
 	std::string getId() { return alias; }
 	std::string getAddress() { return user; }

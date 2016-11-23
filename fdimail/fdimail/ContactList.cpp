@@ -2,7 +2,7 @@
 
 ContactList::ContactList(std::string userID): List()
 {
-	tContact* me = new tContact(userID, "Me");
+	Contact* me = new Contact(userID, "Me");
 	insert(me);
 }
 
@@ -20,7 +20,7 @@ std::string ContactList::SearchFastName(std::string &name)
 			if (j == '@') return name;
 		}
 
-		tContact* contact = get(name);
+		Contact* contact = get(name);
 		if (contact != nullptr) return contact->getAddress();
 		else return name + "@fdimail.com";
 	}
@@ -34,7 +34,7 @@ void ContactList::load(std::ifstream &file)
 
 	for (int i = 0; i < n && !file.fail(); i++)
 	{
-		tContact* cont = new tContact();
+		Contact* cont = new Contact();
 		cont->load(file);
 		insert(cont);
 	}

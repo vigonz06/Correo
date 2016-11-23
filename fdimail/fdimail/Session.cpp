@@ -144,7 +144,7 @@ void Session::restoreMail()
 			{
 			case 0:
 			{
-				tElemTray* elem = GraphInter::get()->selectMail(this);
+				ElemTray* elem = GraphInter::get()->selectMail(this);
 
 				if (elem != nullptr)
 				{
@@ -227,7 +227,7 @@ void Session::deleteMail()
 			{
 			case 0:
 			{
-				tElemTray* elem = GraphInter::get()->selectMail(this);
+				ElemTray* elem = GraphInter::get()->selectMail(this);
 
 				if (elem != nullptr)
 				{
@@ -270,7 +270,7 @@ void Session::readMail()
 
 	else
 	{
-		tElemTray* elem = GraphInter::get()->selectMail(this);
+		ElemTray* elem = GraphInter::get()->selectMail(this);
 
 		if (elem != nullptr)
 		{
@@ -504,7 +504,7 @@ void Session::AddFastName()
 				}
 			} while (!alias_right);
 
-			tContact* newContact = new tContact(idUser, newId);
+			Contact* newContact = new Contact(idUser, newId);
 
 			user->getContactlist()->insert(newContact);
 		}

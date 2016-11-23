@@ -1,7 +1,7 @@
 #ifndef TRAYLIST
 #define TRAYLIST
 
-#include "tElemTray.h"
+#include "ElemTray.h"
 #include <fstream>
 #include "List.h"
 
@@ -11,13 +11,13 @@ for work whith the id of the mails,
 and its read status
 ------------------------------*/
 
-class TrayList: public List<tElemTray>
+class TrayList: public List<ElemTray>
 {
 public:
 
 	bool search(const std::string &id, int &pos);
-	tElemTray* get(const std::string &id);
-	void insert(tElemTray * const elem);
+	ElemTray* get(const std::string &id);
+	void insert(ElemTray * const elem);
 	bool destroy(const std::string &id);
 	bool pop(const std::string id);
 

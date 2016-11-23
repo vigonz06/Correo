@@ -1,4 +1,4 @@
-#include "tElemTray.h"
+#include "ElemTray.h"
 #include "TrayList.h"
 #include "Manager.h"
 
@@ -9,13 +9,13 @@ bool TrayList::search(const std::string &id, int &pos)
 	return (pos < counter) ? true : false;
 }
 
-tElemTray* TrayList::get(const std::string &id)
+ElemTray* TrayList::get(const std::string &id)
 {
 	int pos = 0;
 	return (search(id, pos)) ? list[pos] : nullptr;
 }
 
-void TrayList::insert(tElemTray * const elem)
+void TrayList::insert(ElemTray * const elem)
 {
 	if (full()) resize(dim + 1);
 	list[counter++] = elem;
@@ -63,7 +63,7 @@ void TrayList::load(std::ifstream &file)
 
 	for (int i = 0; i < n; i++)
 	{
-		tElemTray* elem = new tElemTray();
+		ElemTray* elem = new ElemTray();
 
 		elem->load(file);
 
@@ -73,7 +73,7 @@ void TrayList::load(std::ifstream &file)
 
 bool TrayList::readMail(const std::string &idMail)
 {
-	tElemTray* elem = get(idMail);
+	ElemTray* elem = get(idMail);
 
 	if (elem != nullptr)
 	{

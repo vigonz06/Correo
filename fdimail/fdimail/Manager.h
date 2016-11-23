@@ -33,7 +33,7 @@ public:
 	MailList* getMailList() { return &mailList; }
 	UserList* getUserList() { return &userList; }
 
-	void deleteMail(TrayList* box, const tElemTray* elem);
+	void deleteMail(TrayList* box, const ElemTray* elem);
 	void sendMail(User* user, Mail* mail);
 	bool answer(User* user, Mail* mail);
 	void deleteAccount(User* user);

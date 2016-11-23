@@ -1,7 +1,7 @@
 #ifndef VISIBLETRAYLIST
 #define VISIBLETRAYLIST
 
-#include "tElemTray.h"
+#include "ElemTray.h"
 #include "TrayList.h"
 #include "Date.h"
 #include "List.h"
@@ -18,7 +18,7 @@ Suborders may be achived by calling the order methods in the proper order (pun n
 
 enum Filter{ subject, date, emissor, recipients, body, read, unread, none };
 
-class VisibleTrayList: public List<tElemTray>
+class VisibleTrayList: public List<ElemTray>
 {
 private:
 
@@ -35,7 +35,7 @@ private:
 	std::map<Filter, std::string> keys;
 
 	void change(int pos1, int pos2);
-	void insert(tElemTray* elem);
+	void insert(ElemTray* elem);
 
 public:
 

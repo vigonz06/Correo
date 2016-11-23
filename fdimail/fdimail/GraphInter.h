@@ -67,7 +67,7 @@ public:
 	Mail* answerMail(Mail* &originalMail, const std::string &sender);
 
 	std::string selectAlias(Session* session);
-	tElemTray* selectMail(Session* sesion);
+	ElemTray* selectMail(Session* sesion);
 
 	std::string center_word(std::string word, int length, std::string arround);
 	void showFastNames(ContactList* contactList);
