@@ -77,22 +77,22 @@ void Session::launch()
 
 		case 4:
 
-			fastRead();
+			AliasOptions();
 			break;
 
 		case 5:
 
-			AccountOptions(opt);
+			filterOptions(filter);
 			break;
 
 		case 6:
 
-			AliasOptions();
+			AccountOptions(opt);
 			break;
 
 		case 7:
 
-			filterOptions(filter);
+			fastRead();
 			break;
 		}
 	} while (opt != 8);
@@ -377,7 +377,27 @@ void Session::AliasOptions()
 			AddFastName();
 			break;
 
+
 		case 1:
+		{
+			std::string name = GraphInter::get()->selectAlias(this);
+
+			if (name != user->getId())
+			{
+				if (name != "")
+				{
+					std::string alias;
+
+					GraphInter::get()->display("Enter the new alias:");
+					GraphInter::get()->enter(alias);
+
+					if (alias != "") user->getContactlist()->changeAlias(user->getContactlist()->getAdress(name)->getId(), alias);
+				}
+			}
+			else message("You cannot change your self alias");
+			break;
+		}
+		case 2:
 
 			if (user->getContactlist()->length() > 1)
 			{
@@ -393,7 +413,7 @@ void Session::AliasOptions()
 			else message("You cannot delete your self alias");
 			break;
 
-		case 2:
+		case 3:
 
 			if (user->getContactlist()->length() > 1)
 			{
@@ -407,7 +427,7 @@ void Session::AliasOptions()
 			else message("You cannot delete your self alias");
 			break;
 		}
-	} while (option != 3);
+	} while (option != 4);
 }
 
 void Session::AddFastName()
@@ -644,7 +664,7 @@ void Session::changeUsername()
 			manager->getUserList()->pop(user->getId());
 
 			user->setId(data);
-			user->getContactlist()->changeMe(data);
+			user->getContactlist()->ChangeMe(data);
 			manager->getUserList()->insert(user);
 		}
 	}

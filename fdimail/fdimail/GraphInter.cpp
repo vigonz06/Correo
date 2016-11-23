@@ -363,10 +363,10 @@ int GraphInter::sessionMenu(Session* session)
 	elems.push_back("Send mail");
 	elems.push_back("Delete mail");
 	elems.push_back("Change Tray");
-	elems.push_back("Fast read of unread mails");
-	elems.push_back("Account options");
 	elems.push_back("Alias options");
 	elems.push_back("Filter options");
+	elems.push_back("Account options");
+	elems.push_back("Fast read of unread mails");
 	elems.push_back("Sign out");
 
 	return trayMenu(session, elems);
@@ -386,7 +386,7 @@ int GraphInter::aliasMenu(Session* session)
 		{
 			tab_word(session->getUser()->getContactlist()->operator[](i)->header(), i, elem);
 		}
-		tab_word("Back", session->getVisible()->length(), elem);
+		tab_word("Back", session->getUser()->getContactlist()->length(), elem);
 
 		display(linea());
 
@@ -397,7 +397,7 @@ int GraphInter::aliasMenu(Session* session)
 
 	} while (key != ENTER && key != ESCAPE);
 
-	return elem;
+ 	return elem;
 }
 
 int GraphInter::AliasMenu(Session* session)
@@ -409,12 +409,13 @@ int GraphInter::AliasMenu(Session* session)
 		showFastNames(session->getUser()->getContactlist());
 
 		tab_word("Add an alias", 0, elem);
-		tab_word("Delete an alias", 1, elem);
-		tab_word("Delete all alias", 2, elem);
-		tab_word("Exit to session menu", 3, elem);
+		tab_word("Change an alias", 1, elem);
+		tab_word("Delete an alias", 2, elem);
+		tab_word("Delete all alias", 3, elem);
+		tab_word("Exit to session menu", 4, elem);
 
 		key = getKey();
-		elem = update(key, elem, 4);
+		elem = update(key, elem, 5);
 
 		clearConsole();
 
@@ -696,7 +697,7 @@ std::string GraphInter::selectAlias(Session* session)
 
 	number = aliasMenu(session);
 
-	if (number < session->getUser()->getContactlist()->length()) return session->getUser()->getContactlist()->operator[](session->getVisible()->length() - number + 1)->getAddress();
+	if (number < session->getUser()->getContactlist()->length()) return session->getUser()->getContactlist()->operator[](number)->getAddress();
 
 	else return "";
 }
@@ -995,7 +996,7 @@ std::string GraphInter::valid_user()
 		clearConsole();
 		id_right = true;
 
-		display("Enter your id: ");
+		display("Enter the id: ");
 		enter(id);
 
 		if (id.size() > 15)

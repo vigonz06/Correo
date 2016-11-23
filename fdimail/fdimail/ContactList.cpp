@@ -6,7 +6,36 @@ ContactList::ContactList(std::string userID): List()
 	insert(me);
 }
 
-void ContactList::changeMe(std::string new_name)
+Contact* ContactList::getAdress(std::string name)
+{
+	int pos = 0;
+	int ini = 0, fin = counter - 1;
+
+	return searchAddress(name, pos, ini, fin) ? list[pos] : nullptr;
+}
+
+bool ContactList::searchAddress(const std::string &id, int &pos, int &left_key, int &right_key) const
+{
+	if (left_key <= right_key)
+	{
+		pos = (left_key + right_key) / 2;
+
+		if (list[pos]->getAddress() == id) return true;
+
+		if (list[pos]->getAddress() < id) left_key = pos + 1;
+
+		if (list[pos]->getAddress() > id) right_key = pos - 1;
+
+		return searchAddress(id, pos, left_key, right_key);
+	}
+	else
+	{
+		pos = left_key;
+		return false;
+	}
+}
+
+void ContactList::ChangeMe(std::string new_name)
 {
 	get("Me")->setAddress(new_name);
 }
@@ -25,6 +54,11 @@ std::string ContactList::SearchFastName(std::string &name)
 		else return name + "@fdimail.com";
 	}
 	return name;
+}
+
+void ContactList::changeAlias(std::string id, std::string alias)
+{
+	get(id)->setAlias(alias);
 }
 
 void ContactList::load(std::ifstream &file)

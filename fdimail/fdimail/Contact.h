@@ -21,6 +21,7 @@ public:
 	std::string getId() { return alias; }
 	std::string getAddress() { return user; }
 	void setAddress(std::string newUser) { user = newUser; }
+	void setAlias(std::string newAlias) { alias = newAlias; }
 
 	void load(std::ifstream &file)
 	{
