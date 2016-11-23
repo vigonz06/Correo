@@ -7,11 +7,6 @@
 #include <fstream>
 #include <string>
 
-/*----------------------------
-Contains the user variables, and the
-functions necessary for working with it
-------------------------------*/
-
 class User
 {
 private:

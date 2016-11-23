@@ -7,11 +7,6 @@
 #include "Mail.h"
 #include "User.h"
 
-/*----------------------------
-Class responsible for interacting with the user
-through the console
-------------------------------*/
-
 class Session;
 
 class GraphInter

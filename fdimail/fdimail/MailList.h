@@ -5,11 +5,6 @@
 #include "List.h"
 #include "Mail.h"
 
-/*----------------------------
-Derived class from list, responsible 
-for work whith all mails
-------------------------------*/
-
 class MailList: public List<Mail>
 {
 public:

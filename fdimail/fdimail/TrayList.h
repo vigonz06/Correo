@@ -5,12 +5,6 @@
 #include <fstream>
 #include "List.h"
 
-/*----------------------------
-Derived class from list, responsible
-for work whith the id of the mails, 
-and its read status
-------------------------------*/
-
 class TrayList: public List<ElemTray>
 {
 public:

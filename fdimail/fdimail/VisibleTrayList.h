@@ -7,15 +7,6 @@
 #include "List.h"
 #include <map>
 
-/*----------------------------
-Unordered list of tElemTrays (email references), with capacity to apply filters, orders and easily extendible.
-The main method is refresh, which performs a sync (loading every element in the linked TrayList),
-applies fliters, orders (bubble sort), and finally discards every element but those of the current page.
-
-Setters are provided to change the filters and sort order applied.
-Suborders may be achived by calling the order methods in the proper order (pun not intended).
-------------------------------*/
-
 enum Filter{ subject, date, emissor, recipients, body, read, unread, none };
 
 class VisibleTrayList: public List<ElemTray>

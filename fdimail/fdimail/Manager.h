@@ -5,12 +5,6 @@
 #include "UserList.h"
 #include <string>
 
-/*----------------------------
-Manager holds the mail and user databases
-He is responsible for loading and saving them to text files
-It acts as the backend server, providing service to Sessions requesting GETS and POSTS
-------------------------------*/
-
 class Manager
 {
 private:

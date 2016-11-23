@@ -4,11 +4,6 @@
 #include <string>
 #include "Mail.h"
 
-/*----------------------------
-This struct is responsible for load and save the id of a mail
-and its read status
-------------------------------*/
-
 struct ElemTray
 {
 	std::string id;

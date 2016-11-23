@@ -6,12 +6,6 @@
 #include <vector>
 #include "Date.h"
 
-/*----------------------------
-This class contains the mail datos of a mail
-and the neccesary functions to make it work
-correctly
-------------------------------*/
-
 class ContactList;
 
 class Mail
