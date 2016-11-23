@@ -227,6 +227,22 @@ void Session::deleteMail()
 			{
 			case 0:
 			{
+				do
+				{
+					if (active_tray() == user->getRecycling())
+					{
+						manager->deleteMail(active_tray(), active_tray()->operator[](0));
+					}
+					else
+					{
+						user->getRecycling()->insert(active_tray()->operator[](0));
+						active_tray()->pop(active_tray()->operator[](0)->getId());
+					}
+				} while (!active_tray()->empty());
+				break;
+			}
+			case 1:
+			{
 				ElemTray* elem = GraphInter::get()->selectMail(this);
 
 				if (elem != nullptr)
@@ -241,22 +257,6 @@ void Session::deleteMail()
 						active_tray()->pop(elem->getId());
 					}
 				}
-				break;
-			}
-			case 1:
-			{
-				do
-				{
-					if (active_tray() == user->getRecycling())
-					{
-						manager->deleteMail(active_tray(), active_tray()->operator[](0));
-					}
-					else
-					{
-						user->getRecycling()->insert(active_tray()->operator[](0));
-						active_tray()->pop(active_tray()->operator[](0)->getId());
-					}
-				} while (!active_tray()->empty());
 				break;
 			}
 			}
@@ -343,18 +343,18 @@ void Session::AccountOptions(int &option)
 		{
 		case 0:
 
-			changeUsername();
+			manager->deleteAccount(user);
+			option = 8;
 			break;
 
 		case 1:
 
-			changePassword();
+			changeUsername();
 			break;
 
 		case 2:
 
-			manager->deleteAccount(user);
-			option = 8;
+			changePassword();
 			break;
 		}
 	} while (menu != 3 && option != 8);
@@ -541,17 +541,17 @@ void Session::filterOptions(Filter filter)
 	{
 	case 0:
 
-		chooseOrder(filter);
+		visible.closeFilter();
 		break;
 
 	case 1:
 
-		chooseFilter(filter);
+		chooseOrder(filter);
 		break;
 
 	case 2:
 
-		visible.closeFilter();
+		chooseFilter(filter);
 		break;
 	}
 }
@@ -661,11 +661,24 @@ void Session::changeUsername()
 
 		if (data != "@fdimail.com")
 		{
+			std::string oldId = user->getId();
+
 			manager->getUserList()->pop(user->getId());
 
 			user->setId(data);
 			user->getContactlist()->ChangeMe(data);
 			manager->getUserList()->insert(user);
+
+			for (int i = 0; i < manager->getUserList()->length(); i++)
+			{
+				for (int j = 0; j < manager->getUserList()->operator[](i)->getContactlist()->length(); j++)
+				{
+					if (manager->getUserList()->operator[](i)->getContactlist()->operator[](j)->getAddress() == oldId)
+					{
+						manager->getUserList()->operator[](i)->getContactlist()->operator[](i)->setAddress(user->getId());
+					}
+				}
+			}
 		}
 	}
 }

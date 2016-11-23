@@ -7,7 +7,7 @@
 #include "List.h"
 #include <map>
 
-enum Filter{ subject, date, emissor, recipients, body, read, unread, none };
+enum Filter{ date, body, read, unread, emissor, subject, recipients, none };
 
 class VisibleTrayList: public List<ElemTray>
 {

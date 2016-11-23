@@ -348,8 +348,8 @@ int GraphInter::WhatToDelete(Session* session)
 {
 	std::vector<std::string> elems;
 
-	elems.push_back("Choose mail");
 	elems.push_back("All mails");
+	elems.push_back("Choose mail");
 	elems.push_back("Exit to session menu");
 
 	return trayMenu(session, elems);
@@ -478,9 +478,9 @@ int GraphInter::AccountOptions()
 {
 	std::vector<std::string> elems;
 
+	elems.push_back("Delete account");
 	elems.push_back("Change username");
 	elems.push_back("Change password");
-	elems.push_back("Delete account");
 	elems.push_back("Exit to session menu");
 
 	return menu(elems);
@@ -492,7 +492,7 @@ int GraphInter::MailOptions()
 
 	elems.push_back("Delete mail");
 	elems.push_back("Restore mail");
-	elems.push_back("Back");
+	elems.push_back("Exit to session menu");
 
 	return menu(elems);
 }
@@ -843,13 +843,13 @@ int GraphInter::choosefilter()
 {
 	std::vector<std::string> elems;
 
-	elems.push_back("Subject");
 	elems.push_back("Date");
-	elems.push_back("Emissor");
-	elems.push_back("Recipients");
 	elems.push_back("Body");
 	elems.push_back("Read");
 	elems.push_back("Unread");
+	elems.push_back("Emissor");
+	elems.push_back("Subject");
+	elems.push_back("Recipients");
 	elems.push_back("Exit to session menu");
 
 	return menu(elems);
@@ -869,9 +869,9 @@ int GraphInter::filter()
 {
 	std::vector<std::string> elems;
 
+	elems.push_back("Quit filter");
 	elems.push_back("Change order");
 	elems.push_back("Change filter");
-	elems.push_back("Quit filter");
 	elems.push_back("Exit to session menu");
 
 	return menu(elems);

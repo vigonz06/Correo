@@ -15,6 +15,7 @@ private:
 	MailList mailList;
 	UserList userList;
 
+	void deleteAlias(User* user);
 	void shutDown();
 	void bootUp();
 

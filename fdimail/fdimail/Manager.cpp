@@ -21,6 +21,20 @@ Manager::~Manager()
 	shutDown();
 }
 
+void Manager::deleteAlias(User* user)
+{
+	for (int i = 0; i < userList.length(); i++)
+	{
+		for (int j = 0; j < userList.operator[](i)->getContactlist()->length(); j++)
+		{
+			if (userList.operator[](i)->getContactlist()->operator[](j)->getAddress() == user->getId())
+			{
+				userList.operator[](i)->getContactlist()->destroy(userList.operator[](i)->getContactlist()->operator[](j)->getId());
+			}
+		}
+	}
+}
+
 void Manager::bootUp()
 {
 	std::ostringstream mail_file, user_file;
@@ -55,6 +69,7 @@ void Manager::deleteAccount(User* user)
 	{
 		deleteMail(user->getInbox(), user->getInbox()->operator[](0));
 	}
+	deleteAlias(user);
 	userList.destroy(user->getId());
 }
 
