@@ -3,10 +3,7 @@
 #include "TrayList.h"
 #include "Date.h"
 
-VisibleTrayList::VisibleTrayList() : List()
-{
-	init(nullptr);
-}
+VisibleTrayList::VisibleTrayList() : List() { init(nullptr); }
 
 void VisibleTrayList::change(int pos1, int pos2)
 {
