@@ -13,7 +13,7 @@ private:
 
 	std::string id;
 	std::string password;
-
+	
 	TrayList inbox;
 	TrayList outbox;
 	TrayList recycling;
@@ -21,8 +21,8 @@ private:
 
 public:
 
-	User(const std::string idUser, const std::string password);
 	User() : contactList(){}
+	User(const std::string idUser, const std::string password);
 
 	std::string getId() { return id; }
 	TrayList* getInbox() { return &inbox; }

@@ -37,7 +37,6 @@ public:
 	void insert(T* elem);
 	void erase();
 
-
 	void save(const std::string &name);
 	bool load(const std::string &name);
 };

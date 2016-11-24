@@ -14,6 +14,22 @@ Contact* ContactList::getAdress(std::string name)
 	return searchAddress(name, pos, ini, fin) ? list[pos] : nullptr;
 }
 
+std::string ContactList::SearchFastName(std::string &name)
+{
+	if (name != "")
+	{
+		for (char j : name)
+		{
+			if (j == '@') return name;
+		}
+
+		Contact* contact = get(name);
+		if (contact != nullptr) return contact->getAddress();
+		else return name + "@fdimail.com";
+	}
+	return name;
+}
+
 bool ContactList::searchAddress(const std::string &id, int &pos, int &left_key, int &right_key) const
 {
 	if (left_key <= right_key)
@@ -33,32 +49,6 @@ bool ContactList::searchAddress(const std::string &id, int &pos, int &left_key, 
 		pos = left_key;
 		return false;
 	}
-}
-
-void ContactList::ChangeMe(std::string new_name)
-{
-	get("Me")->setAddress(new_name);
-}
-
-std::string ContactList::SearchFastName(std::string &name)
-{
-	if (name != "")
-	{
-		for (char j: name)
-		{
-			if (j == '@') return name;
-		}
-
-		Contact* contact = get(name);
-		if (contact != nullptr) return contact->getAddress();
-		else return name + "@fdimail.com";
-	}
-	return name;
-}
-
-void ContactList::changeAlias(std::string id, std::string alias)
-{
-	get(id)->setAlias(alias);
 }
 
 void ContactList::load(std::ifstream &file)

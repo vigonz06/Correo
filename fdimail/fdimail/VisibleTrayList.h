@@ -17,14 +17,14 @@ private:
 	TrayList* trayList;
 	bool inverse_order;
 
-	int page;
 	int lastPage;
+	int page;
 
+	std::map<Filter, std::string> keys;
+	std::map<Filter, bool> filters;
 	Date lower;
 	Date upper;
-	std::map<Filter, bool> filters;
-	std::map<Filter, std::string> keys;
-
+	
 	void change(int pos1, int pos2);
 	void insert(ElemTray* elem);
 
@@ -52,15 +52,22 @@ public:
 
 	template<typename Funct>
 	void orderBy(Funct order);
+
 	void orderBySubject();
 	void orderByDate();
 
-	void reverse();
 	void filterPage();
+	void reverse();
 
-	void setFilterRead() { filters[read] = true; }
-	void setFilterUnread() { filters[unread] = true; }
 	void setInvert(bool invert){ inverse_order = invert; }
+	void setFilterUnread() { filters[unread] = true; }
+	void setFilterRead() { filters[read] = true; }
+
+	void setFilter(std::string search, Filter field)
+	{
+		filters[field] = true;
+		keys[field] = search;
+	}
 
 	void setFilterDate(char* up, char* low)
 	{
@@ -71,12 +78,6 @@ public:
 
 		lower = update;
 		upper = lowdate;
-	}
-
-	void setFilter(std::string search, Filter field)
-	{
-		filters[field] = true;
-		keys[field] = search;
 	}
 
 	void closeFilter()
@@ -90,8 +91,8 @@ public:
 	void increasePage(){ page++; }
 	void decreasePage(){ page--; }
 
-	int getPage(){ return page; }
-	int getLastPage(){ return lastPage; }
 	bool LastPage(){ return page == lastPage; }
+	int getLastPage(){ return lastPage; }
+	int getPage(){ return page; }
 };
 #endif

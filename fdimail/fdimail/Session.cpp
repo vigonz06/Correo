@@ -391,7 +391,7 @@ void Session::AliasOptions()
 					GraphInter::get()->display("Enter the new alias:");
 					GraphInter::get()->enter(alias);
 
-					if (alias != "") user->getContactlist()->changeAlias(user->getContactlist()->getAdress(name)->getId(), alias);
+					if (alias != "") user->getContactlist()->get(user->getContactlist()->getAdress(name)->getId())->setAlias(alias);
 				}
 			}
 			else message("You cannot change your self alias");
@@ -666,7 +666,6 @@ void Session::changeUsername()
 			manager->getUserList()->pop(user->getId());
 
 			user->setId(data);
-			user->getContactlist()->ChangeMe(data);
 			manager->getUserList()->insert(user);
 
 			for (int i = 0; i < manager->getUserList()->length(); i++)
