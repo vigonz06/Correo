@@ -1,13 +1,8 @@
-#include "GlobalConstants.h"
 #include "GraphInter.h"
 #include "utilsWin.h"
 #include "Session.h"
 #include <iostream>
-#include <ctype.h>
-#include <sstream>
-#include <iomanip>
 #include <conio.h>
-#include <vector>
 
 GraphInter* GraphInter::inter = nullptr;
 Mail* GraphInter::error = nullptr;
