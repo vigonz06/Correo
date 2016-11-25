@@ -1,10 +1,6 @@
 #ifndef GRAPHINTER
 #define GRAPHINTER
 
-#include "ContactList.h"
-#include "TrayList.h"
-#include "UserList.h"
-#include "Mail.h"
 #include "User.h"
 
 class Session;

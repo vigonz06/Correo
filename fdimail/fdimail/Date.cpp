@@ -3,8 +3,8 @@
 #endif
 
 #include <algorithm>
+#include <sstream>
 #include "Date.h"
-#include <time.h>
 
 std::string showDate(Date d)
 {

@@ -1,7 +1,4 @@
 #include "VisibleTrayList.h"
-#include "ElemTray.h"
-#include "TrayList.h"
-#include "Date.h"
 
 VisibleTrayList::VisibleTrayList() : List() { init(nullptr); }
 

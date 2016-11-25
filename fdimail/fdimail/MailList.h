@@ -1,7 +1,6 @@
 #ifndef MAILLIST
 #define MAILLIST
 
-#include <string>
 #include "List.h"
 #include "Mail.h"
 

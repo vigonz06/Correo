@@ -2,7 +2,6 @@
 #define TRAYLIST
 
 #include "ElemTray.h"
-#include <fstream>
 #include "List.h"
 
 class TrayList: public List<ElemTray>

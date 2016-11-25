@@ -1,7 +1,6 @@
 #ifndef TELEMENTRAY
 #define TELEMENTRAY
 
-#include <string>
 #include "Mail.h"
 
 struct ElemTray

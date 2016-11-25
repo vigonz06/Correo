@@ -1,7 +1,6 @@
-#include "GraphInter.h"
+//#include "GraphInter.h"
 #include "utilsWin.h"
 #include "Session.h"
-#include "Mail.h"
 
 Session::Session(Manager* manager) :
 manager(manager)

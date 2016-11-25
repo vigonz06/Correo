@@ -1,7 +1,6 @@
 #ifndef SHA1_HPP
 #define SHA1_HPP
 
-#include <fstream>
 #include <string>
 
 class Encript

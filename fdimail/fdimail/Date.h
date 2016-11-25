@@ -1,7 +1,6 @@
 #ifndef MY_DATE
 #define MY_DATE
 
-#include <sstream>
 #include <string>
 #include <ctime>
 

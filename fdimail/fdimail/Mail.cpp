@@ -1,8 +1,6 @@
-#include <iostream>
 #include <sstream>
 #include <iomanip>
 #include "Mail.h"
-#include "Date.h"
 
 bool Mail::load(std::ifstream &file)
 {

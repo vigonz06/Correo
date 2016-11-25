@@ -4,8 +4,6 @@
 #include "ContactList.h"
 #include "TrayList.h"
 #include "Encript.h"
-#include <fstream>
-#include <string>
 
 class User
 {

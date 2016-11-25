@@ -1,9 +1,7 @@
 #ifndef VISIBLETRAYLIST
 #define VISIBLETRAYLIST
 
-#include "ElemTray.h"
 #include "TrayList.h"
-#include "Date.h"
 #include "List.h"
 #include <map>
 

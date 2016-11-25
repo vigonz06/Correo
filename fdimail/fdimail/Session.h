@@ -3,8 +3,6 @@
 
 #include "VisibleTrayList.h"
 #include "Manager.h"
-#include "User.h"
-#include "Mail.h"
 
 class Session
 {

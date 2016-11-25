@@ -1,7 +1,6 @@
 #include "GraphInter.h"
 #include "utilsWin.h"
 #include "Manager.h"
-#include <sstream>
 
 Manager* Manager::manager = nullptr;
 

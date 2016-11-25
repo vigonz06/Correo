@@ -1,6 +1,7 @@
 #include "Encript.h"
 #include <sstream>
 #include <iomanip>
+#include <fstream>
 
 #define SHA1_ROL(value, bits) (((value) << (bits)) | (((value) & 0xffffffff) >> (32 - (bits))))
 #define SHA1_BLK(i) (block[i&15] = SHA1_ROL(block[(i+13)&15] ^ block[(i+8)&15] ^ block[(i+2)&15] ^ block[i&15],1))

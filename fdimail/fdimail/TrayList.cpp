@@ -1,6 +1,4 @@
-#include "ElemTray.h"
 #include "TrayList.h"
-#include "Manager.h"
 
 bool TrayList::search(const std::string &id, int &pos)
 {
