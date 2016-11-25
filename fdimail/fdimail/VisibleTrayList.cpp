@@ -54,8 +54,8 @@ void VisibleTrayList::refresh()
 		break;
 	}
 
+	lastPage = (counter - 1) / MAILS_X_PAGE;
 	if (inverse_order) reverse();
-	lastPage = (counter - 1)/MAILS_X_PAGE;
 	filterPage();
 }
 
@@ -153,14 +153,6 @@ void VisibleTrayList::orderByDate()
 	orderBy([](ElemTray* a, ElemTray* b){ return a->mail->getDate() >= b->mail->getDate(); });
 }
 
-void VisibleTrayList::reverse()
-{
-	for (int i = 0; i < counter / 2; i++)
-	{
-		change(i, counter - i - 1);
-	}
-}
-
 void VisibleTrayList::filterPage()
 {
 	if (page*MAILS_X_PAGE >= counter) page = 0;
@@ -181,5 +173,13 @@ void VisibleTrayList::filterPage()
 			list[k] = nullptr;
 		}
 		counter = i;
+	}
+}
+
+void VisibleTrayList::reverse()
+{
+	for (int i = 0; i < counter / 2; i++)
+	{
+		change(i, counter - i - 1);
 	}
 }

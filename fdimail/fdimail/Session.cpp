@@ -1,4 +1,4 @@
-//#include "GraphInter.h"
+#include "GraphInter.h"
 #include "utilsWin.h"
 #include "Session.h"
 
