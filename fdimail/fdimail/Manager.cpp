@@ -34,16 +34,6 @@ void Manager::deleteAlias(User* user)
 	}
 }
 
-void Manager::bootUp()
-{
-	std::ostringstream mail_file, user_file;
-	mail_file << domain << "_mails.txt";
-	user_file << domain << "_users.txt";
-
-	if (!mailList.load(mail_file.str())) message("Could not load Maillist");
-	if (!userList.load(user_file.str())) message("Could not load Userlist");
-}
-
 void Manager::shutDown()
 {
 	std::ostringstream mail_file, user_file;
@@ -52,6 +42,16 @@ void Manager::shutDown()
 
 	userList.save(user_file.str());
 	mailList.save(mail_file.str());
+}
+
+void Manager::bootUp()
+{
+	std::ostringstream mail_file, user_file;
+	mail_file << domain << "_mails.txt";
+	user_file << domain << "_users.txt";
+
+	if (!mailList.load(mail_file.str())) message("Could not load Maillist");
+	if (!userList.load(user_file.str())) message("Could not load Userlist");
 }
 
 void Manager::deleteAccount(User* user)
