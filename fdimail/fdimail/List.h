@@ -2,7 +2,6 @@
 #define LIST
 
 #include "GlobalConstants.h"
-#include <vector>
 
 template <class T>
 class List
@@ -10,14 +9,21 @@ class List
 protected:
 
 	int counter, dim;
-	std::vector<T*> list;
+	T** list;
 
 	bool search(const std::string &id, int &pos, int &left_key, int &right_key) const;
 
+	void shiftRight(const int pos);
+	void shiftLeft(const int pos);
+
+	void resize(int dim);
+	void init(int dim);
+	void release();
+
 public:
 
-	List() {}
-	~List() {}
+	List() : counter(0), list(nullptr) { init(START_ELEM); }
+	~List() { release(); }
 
 	inline bool full()  const { return counter == dim; }
 	inline bool empty() const { return counter == 0; }
@@ -54,6 +60,86 @@ bool List<T>::search(const std::string &id, int &pos, int &left_key, int &right_
 	{
 		pos = left_key;
 		return false;
+	}
+}
+
+template<class T>
+void List<T>::shiftRight(const int pos)
+{
+	for (int i = counter; i > pos; i--)
+	{
+		list[i] = list[i - 1];
+	}
+}
+
+template<class T>
+void List<T>::shiftLeft(const int pos)
+{
+	for (int i = pos; i < counter - 1; i++)
+	{
+		list[i] = list[i + 1];
+	}
+	counter--;
+}
+
+template<class T>
+void List<T>::resize(int newdim)
+{
+	if (newdim > dim)
+	{
+		T** newlist = new T*[newdim];
+
+		for (int i = 0; i < counter; i++)
+		{
+			newlist[i] = list[i];
+		}
+		for (int i = counter; i < newdim; i++)
+		{
+			newlist[i] = nullptr;
+		}
+		delete[] list;
+
+		list = newlist;
+		dim = newdim;
+	}
+}
+
+template<class T>
+void List<T>::init(int newdim)
+{
+	if (newdim <= 0)
+	{
+		list = nullptr;
+		dim = 0;
+	}
+	else
+	{
+		list = new T*[newdim];
+
+		for (int i = 0; i < newdim; i++)
+		{
+			list[i] = nullptr;
+		}
+
+		dim = newdim;
+	}
+	counter = 0;
+}
+
+template<class T>
+void List<T>::release()
+{
+	if (dim != 0)
+	{
+		for (int i = 0; i < counter; i++)
+		{
+			delete list[i];
+			list[i] = nullptr;
+		}
+		delete[] list;
+		list = nullptr;
+		counter = 0;
+		dim = 0;
 	}
 }
 
