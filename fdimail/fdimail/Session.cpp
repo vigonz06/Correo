@@ -31,9 +31,6 @@ manager(manager)
 			break;
 		}
 	} while (option != 2);
-
-	visible.close();
-	user = nullptr;
 }
 
 Session::~Session()
@@ -99,6 +96,9 @@ void Session::launch()
 			break;
 		}
 	} while (opt != 8);
+
+	visible.close();
+	user = nullptr;
 }
 
 void Session::forwardMail(Mail* &originalMail)
@@ -165,6 +165,7 @@ void Session::restoreMail()
 					else user->getOutbox()->insert(active_tray()->operator[](0));
 
 					active_tray()->pop(active_tray()->operator[](0)->getId());
+
 				} while (!active_tray()->empty());
 				break;
 			}
@@ -315,8 +316,8 @@ void Session::fastRead()
 	else
 	{
 		visible.filterByRead(false);
-		visible.orderByDate();
 		visible.orderBySubject();
+		visible.orderByDate();
 
 		for (int i = 0; i < visible.size(); i++)
 		{
@@ -336,7 +337,6 @@ void Session::AccountOptions(int &option)
 	do
 	{
 		GraphInter::get()->clearConsole();
-
 		menu = GraphInter::get()->AccountOptions();
 
 		switch (menu)
