@@ -74,7 +74,7 @@ void VisibleTrayList::sync()
 {
 	erase();
 
-	for (int i = 0; i < trayList->length(); i++)
+	for (int i = 0; i < trayList->size(); i++)
 	{
 		insert(trayList->operator[](i));
 	}

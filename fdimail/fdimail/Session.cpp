@@ -3,7 +3,7 @@
 #include "Session.h"
 #include "Mail.h"
 
-Session::Session(Manager* manager) : 
+Session::Session(Manager* manager) :
 manager(manager)
 {
 	int option;
@@ -31,6 +31,9 @@ manager(manager)
 			break;
 		}
 	} while (option != 2);
+
+	visible.close();
+	user = nullptr;
 }
 
 Session::~Session()
@@ -96,9 +99,6 @@ void Session::launch()
 			break;
 		}
 	} while (opt != 8);
-
-	visible.close();
-	user = nullptr;
 }
 
 void Session::forwardMail(Mail* &originalMail)
@@ -318,7 +318,7 @@ void Session::fastRead()
 		visible.orderByDate();
 		visible.orderBySubject();
 
-		for (int i = 0; i < visible.length(); i++)
+		for (int i = 0; i < visible.size(); i++)
 		{
 			GraphInter::get()->drawMail(visible.operator[](i)->mail);
 			GraphInter::get()->display(GraphInter::get()->linea());
@@ -399,7 +399,7 @@ void Session::AliasOptions()
 		}
 		case 2:
 
-			if (user->getContactlist()->length() > 1)
+			if (user->getContactlist()->size() > 1)
 			{
 				std::string name = GraphInter::get()->selectAlias(this);
 
@@ -415,9 +415,9 @@ void Session::AliasOptions()
 
 		case 3:
 
-			if (user->getContactlist()->length() > 1)
+			if (user->getContactlist()->size() > 1)
 			{
-				int namelenth = user->getContactlist()->length();
+				int namelenth = user->getContactlist()->size();
 
 				for (int i = namelenth - 1; i >= 0; i--)
 				{
@@ -463,7 +463,7 @@ void Session::AddFastName()
 				}
 				else
 				{
-					for (int i = 0; i < user->getContactlist()->length() && name_right; i++)
+					for (int i = 0; i < user->getContactlist()->size() && name_right; i++)
 					{
 						if (idUser == user->getContactlist()->operator[](i)->getAddress())
 						{
@@ -512,7 +512,7 @@ void Session::AddFastName()
 						}
 					}
 
-					for (int j = 0; j < user->getContactlist()->length() && alias_right; j++)
+					for (int j = 0; j < user->getContactlist()->size() && alias_right; j++)
 					{
 						if (newId == user->getContactlist()->operator[](j)->getId())
 						{
@@ -668,9 +668,9 @@ void Session::changeUsername()
 			user->setId(data);
 			manager->getUserList()->insert(user);
 
-			for (int i = 0; i < manager->getUserList()->length(); i++)
+			for (int i = 0; i < manager->getUserList()->size(); i++)
 			{
-				for (int j = 0; j < manager->getUserList()->operator[](i)->getContactlist()->length(); j++)
+				for (int j = 0; j < manager->getUserList()->operator[](i)->getContactlist()->size(); j++)
 				{
 					if (manager->getUserList()->operator[](i)->getContactlist()->operator[](j)->getAddress() == oldId)
 					{

@@ -23,9 +23,9 @@ Manager::~Manager()
 
 void Manager::deleteAlias(User* user)
 {
-	for (int i = 0; i < userList.length(); i++)
+	for (int i = 0; i < userList.size(); i++)
 	{
-		for (int j = 0; j < userList.operator[](i)->getContactlist()->length(); j++)
+		for (int j = 0; j < userList.operator[](i)->getContactlist()->size(); j++)
 		{
 			if (userList.operator[](i)->getContactlist()->operator[](j)->getAddress() == user->getId())
 			{

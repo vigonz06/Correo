@@ -27,7 +27,7 @@ public:
 
 	inline bool full()  const { return counter == dim; }
 	inline bool empty() const { return counter == 0; }
-	inline int length() const { return counter; }
+	inline int  size()  const { return counter; }
 
 	T* operator [](int i) const { return list[i]; }
 	T* get(const std::string &id);

@@ -382,16 +382,16 @@ int GraphInter::aliasMenu(Session* session)
 
 		display("Choose your desired alias: ");
 
-		for (int i = 0; i < session->getUser()->getContactlist()->length(); i++)
+		for (int i = 0; i < session->getUser()->getContactlist()->size(); i++)
 		{
 			tab_word(session->getUser()->getContactlist()->operator[](i)->header(), i, elem);
 		}
-		tab_word("Back", session->getUser()->getContactlist()->length(), elem);
+		tab_word("Back", session->getUser()->getContactlist()->size(), elem);
 
 		display(linea());
 
 		key = getKey();
-		elem = update(key, elem, session->getUser()->getContactlist()->length() + 1);
+		elem = update(key, elem, session->getUser()->getContactlist()->size() + 1);
 
 		clearConsole();
 
@@ -434,7 +434,7 @@ int GraphInter::mailMenu(Session* session)
 
 		display("Choose your desired mail: ");
 
-		for (int i = 0; i < session->getVisible()->length(); i++)
+		for (int i = 0; i < session->getVisible()->size(); i++)
 		{
 			std::ostringstream mail;
 
@@ -446,14 +446,14 @@ int GraphInter::mailMenu(Session* session)
 
 			tab_word(mail.str(), i, elem);
 		}
-		tab_word("  Back", session->getVisible()->length(), elem);
+		tab_word("  Back", session->getVisible()->size(), elem);
 
 		display(linea());
 		display(pags(session));
 		display(linea());
 
 		key = getKey();
-		elem = update(key, elem, session->getVisible()->length() + 1);
+		elem = update(key, elem, session->getVisible()->size() + 1);
 		updateTray(key, session);
 
 		clearConsole();
@@ -697,7 +697,7 @@ std::string GraphInter::selectAlias(Session* session)
 
 	number = aliasMenu(session);
 
-	if (number < session->getUser()->getContactlist()->length()) return session->getUser()->getContactlist()->operator[](number)->getAddress();
+	if (number < session->getUser()->getContactlist()->size()) return session->getUser()->getContactlist()->operator[](number)->getAddress();
 
 	else return "";
 }
@@ -708,7 +708,7 @@ ElemTray* GraphInter::selectMail(Session* session)
 
 	number = mailMenu(session);
 
-	if (number != session->getVisible()->length()) return session->getVisible()->operator[](number);
+	if (number != session->getVisible()->size()) return session->getVisible()->operator[](number);
 
 	else return nullptr;
 }
@@ -729,7 +729,7 @@ std::string GraphInter::center_word(std::string word, int length, std::string ar
 
 void GraphInter::showFastNames(ContactList* contactList)
 {
-	if (contactList->length() != 0)
+	if (contactList->size() != 0)
 	{
 		std::ostringstream alias;
 
@@ -739,7 +739,7 @@ void GraphInter::showFastNames(ContactList* contactList)
 
 		display(linea());
 
-		for (int i = 0; i < contactList->length(); i++)
+		for (int i = 0; i < contactList->size(); i++)
 		{
 			display(tab_word(contactList->operator[](i)->header()));
 		}
@@ -813,7 +813,7 @@ void GraphInter::showTray(Session* session)
 
 		display(linea());
 
-		for (int i = 0; i < session->getVisible()->length(); i++)
+		for (int i = 0; i < session->getVisible()->size(); i++)
 		{
 			std::ostringstream show;
 
