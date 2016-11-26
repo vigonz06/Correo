@@ -1,6 +1,6 @@
 #include "UtilsWin.h"
 
-void message(char* word)
+void message(LPCSTR word)
 {
 	MessageBox(NULL, word, "Error", MB_OK | MB_ICONERROR);
 }

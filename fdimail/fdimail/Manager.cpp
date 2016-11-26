@@ -84,14 +84,7 @@ void Manager::sendMail(User* user, Mail* mail)
 	{
 		if (userList.get(j) != nullptr) userList.get(j)->getInbox()->insert(new ElemTray(mail, true, false));
 
-		else
-		{
-			GraphInter::get()->display("Destinatary " + j + " not found");
-			GraphInter::get()->display("He was not send the mail");
-			GraphInter::get()->pause();
-
-			mail->lowerCounter();
-		}
+		else mail->lowerCounter();
 	}
 }
 

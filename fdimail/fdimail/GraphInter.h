@@ -61,8 +61,10 @@ public:
 	ElemTray* selectMail(Session* sesion);
 
 	std::string center_word(std::string word, int length, std::string arround);
+	void choosedate(char* &lowdate, char* &update);
 	void showFastNames(ContactList* contactList);
 	int SureToEmpty(Mail* mail);
+	bool isdate(char* date);
 
 	void drawMail(const Mail* mail);
 	void showTray(Session* session);

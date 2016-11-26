@@ -577,10 +577,7 @@ void Session::chooseFilter(Filter filter)
 
 			do
 			{
-				GraphInter::get()->display("Enter the lower date");
-				GraphInter::get()->enter(lowdate);
-				GraphInter::get()->display("Enter the upper date");
-				GraphInter::get()->enter(update);
+				GraphInter::get()->choosedate(lowdate, update);
 
 				if (lowdate > update) message("The lower date cannot be higher than the upper one");
 				

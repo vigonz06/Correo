@@ -722,6 +722,37 @@ std::string GraphInter::center_word(std::string word, int length, std::string ar
 	return word;
 }
 
+void GraphInter::choosedate(char* &lowdate, char* &update)
+{
+	bool wrong;
+
+	do
+	{
+		wrong = false;
+
+		GraphInter::get()->display("Enter the lower date");
+		GraphInter::get()->enter(lowdate);
+
+		if (!isdate(lowdate))
+		{
+			message("Error, this is not a date");
+			wrong = true;
+		}
+		
+		else
+		{
+			GraphInter::get()->display("Enter the upper date");
+			GraphInter::get()->enter(update);
+
+			if (!isdate(lowdate))
+			{
+				message("Error, this is not a date");
+				wrong = true;
+			}
+		}
+	} while (wrong);
+}
+
 void GraphInter::showFastNames(ContactList* contactList)
 {
 	if (contactList->size() != 0)
@@ -731,7 +762,7 @@ void GraphInter::showFastNames(ContactList* contactList)
 		alias << std::setw(10) << "Username" << std::setw(33) << "Alias";
 
 		display(alias.str());
-
+		
 		display(linea());
 
 		for (int i = 0; i < contactList->size(); i++)
@@ -763,6 +794,19 @@ int GraphInter::SureToEmpty(Mail* mail)
 	} while (key != ENTER);
 
 	return elem;
+}
+
+bool GraphInter::isdate(char* date)
+{
+	if (isdigit(date[0]) && isdigit(date[1])
+		&& isdigit(date[3]) && isdigit(date[4])
+		&& isdigit(date[6]) && isdigit(date[7])
+		&& isdigit(date[8]) && isdigit(date[9])
+		&& std::to_string(*date).size() == 10
+		&& date[2] == '/' && date[6] == '/')
+		return true;
+
+	else return false;
 }
 
 void GraphInter::drawMail(const Mail* mail)
@@ -829,9 +873,11 @@ void GraphInter::showTray(Session* session)
 			display(show.str());
 		}
 	}
-	display(linea());
-	display(pags(session));
-	display(linea());
+	if (!session->getVisible()->empty())
+	{
+		display(linea());
+		display(pags(session));
+	}
 }
 
 int GraphInter::choosefilter()
