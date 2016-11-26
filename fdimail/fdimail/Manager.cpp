@@ -74,6 +74,8 @@ void Manager::deleteAccount(User* user)
 
 void Manager::sendMail(User* user, Mail* mail)
 {
+	bool fail = false;
+
 	mailList.insert(mail);
 
 	ElemTray* elem = new ElemTray(mail, false, true);
@@ -84,8 +86,13 @@ void Manager::sendMail(User* user, Mail* mail)
 	{
 		if (userList.get(j) != nullptr) userList.get(j)->getInbox()->insert(new ElemTray(mail, true, false));
 
-		else mail->lowerCounter();
+		else
+		{
+			mail->lowerCounter();
+			fail = true;
+		}
 	}
+	if (fail) message("Some recipients could not be sent this mail");
 }
 
 bool Manager::answer(User* user, Mail* mail)
