@@ -574,14 +574,18 @@ void Session::chooseFilter(Filter filter)
 		{
 			char* lowdate = new char[256];
 			char* update = new char[256];
+			time_t low, up;
 
 			do
 			{
 				GraphInter::get()->choosedate(lowdate, update);
 
-				if (lowdate > update) message("The lower date cannot be higher than the upper one");
+				low = turnDate(lowdate);
+				up = turnDate(update);
+
+				if (low > up) message("The lower date cannot be higher than the upper one");
 				
-			} while (lowdate > update);
+			} while (low > up);
 
 			visible.setFilterDate(lowdate, update);
 

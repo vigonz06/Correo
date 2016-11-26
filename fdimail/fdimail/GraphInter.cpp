@@ -746,7 +746,7 @@ void GraphInter::choosedate(char* &lowdate, char* &update)
 			GraphInter::get()->display("Enter the upper date");
 			GraphInter::get()->enter(update);
 
-			if (!isdate(lowdate))
+			if (!isdate(update))
 			{
 				message("Error, this is not a date");
 				wrong = true;
@@ -802,7 +802,7 @@ bool GraphInter::isdate(char* date)
 {
 	std::string digit;
 
-	if (date[2] == '/' && digit[5] == '/')
+	if (date[4] == '/' && date[7] == '/')
 	{
 		std::replace(date, date + strlen(date), '/', ' ');
 
@@ -815,6 +815,7 @@ bool GraphInter::isdate(char* date)
 				if (!isdigit(digit[j])) return false;
 			}
 		}
+		std::replace(date, date + strlen(date), ' ', '/');
 		return true;
 	}
 	else return false;
@@ -1066,6 +1067,7 @@ std::string GraphInter::valid_user()
 					message("Error, your id cannot contain symbols or numbers, only leters");
 
 					id_right = false;
+					break;
 				}
 				else i = tolower(i);
 			}
