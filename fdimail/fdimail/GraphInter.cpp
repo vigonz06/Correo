@@ -1062,15 +1062,11 @@ std::string GraphInter::valid_user()
 		{
 			for (char i: id)
 			{
-				if ('A' > i || i > 'Z' && i < 'a' || i > 'z')
-				{
-					message("Error, your id cannot contain symbols or numbers, only leters");
+				if ('A' > i || i > 'Z' && i < 'a' || i > 'z') id_right = false;
 
-					id_right = false;
-					break;
-				}
 				else i = tolower(i);
 			}
+			if (!id_right) message("Error, your id cannot contain symbols or numbers");
 		}
 	} while (!id_right);
 
