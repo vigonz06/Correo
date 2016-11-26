@@ -19,8 +19,8 @@ void VisibleTrayList::init(TrayList* trayList)
 {
 	closeFilter();
 	
-	active_order = none;
-	inverse_order = false;
+	activeOrder = none;
+	inverseOrder = false;
 
 	link(trayList);
 }
@@ -44,7 +44,7 @@ void VisibleTrayList::refresh()
 	if (filters[read])      filterByRead(true);
 	
 
-	switch (active_order)
+	switch (activeOrder)
 	{
 	case subject:
 		orderBySubject();
@@ -55,7 +55,7 @@ void VisibleTrayList::refresh()
 	}
 
 	lastPage = (counter - 1) / MAILS_X_PAGE;
-	if (inverse_order) reverse();
+	if (inverseOrder) reverse();
 	filterPage();
 }
 

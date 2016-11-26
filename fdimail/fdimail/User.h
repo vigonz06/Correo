@@ -30,7 +30,7 @@ public:
 
 	void setId(std::string newId) { id = newId; }
 	void setPassword(std::string newPassword) { password = sha1(newPassword); }
-	bool checkPassword(const std::string &possible_password) const { return password == sha1(possible_password); }
+	bool checkPassword(const std::string &possiblePassword) const { return password == sha1(possiblePassword); }
 
 	bool load(std::ifstream &file);
 	void save(std::ofstream &file)const;

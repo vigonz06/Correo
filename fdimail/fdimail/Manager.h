@@ -10,7 +10,6 @@ class Manager
 private:
 
 	static Manager* manager;
-
 	std::string domain;
 	MailList mailList;
 	UserList userList;

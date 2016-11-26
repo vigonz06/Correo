@@ -49,9 +49,7 @@ bool List<T>::search(const std::string &id, int &pos, int &left_key, int &right_
 		pos = (left_key + right_key) / 2;
 
 		if (list[pos]->getId() == id) return true;
-
 		if (list[pos]->getId() < id) left_key = pos + 1;
-
 		if (list[pos]->getId() > id) right_key = pos - 1;
 
 		return search(id, pos, left_key, right_key);
@@ -183,11 +181,9 @@ bool List<T>::pop(const std::string &id)
 template<class T>
 void List<T>::insert(T* elem)
 {
+	int pos, left_key = 0, right_key = counter - 1;
+
 	if (full()) resize(dim + 1);
-
-	int pos;
-	int left_key = 0, right_key = counter - 1;
-
 	search(elem->getId(), pos, left_key, right_key);
 	shiftRight(pos);
 	list[pos] = elem;
@@ -215,9 +211,7 @@ void List<T>::save(const std::string &name)
 	{
 		list[i]->save(file);
 	}
-
 	file << "XXX";
-
 	file.close();
 }
 

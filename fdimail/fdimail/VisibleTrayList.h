@@ -11,9 +11,9 @@ class VisibleTrayList: public List<ElemTray>
 {
 private:
 
-	Filter active_order;
+	Filter activeOrder;
 	TrayList* trayList;
-	bool inverse_order;
+	bool inverseOrder;
 
 	int lastPage;
 	int page;
@@ -30,7 +30,7 @@ public:
 
 	VisibleTrayList();
 
-	void changeOrder(Filter order) { active_order = order; }
+	void changeOrder(Filter order) { activeOrder = order; }
 
 	void init(TrayList* trayList);
 	void link(TrayList* trayList);
@@ -57,7 +57,7 @@ public:
 	void filterPage();
 	void reverse();
 
-	void setInvert(bool invert){ inverse_order = invert; }
+	void setInvert(bool invert){ inverseOrder = invert; }
 	void setFilterUnread() { filters[unread] = true; }
 	void setFilterRead() { filters[read] = true; }
 
