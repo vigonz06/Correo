@@ -8,11 +8,9 @@
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 
-typedef std::time_t Date;
+std::string showDate(time_t d);
+std::string showDay(time_t d);
 
-std::string showDate(Date d);
-std::string showDay(Date d);
-
-Date turnDate(char* str);
+time_t turnDate(char* str);
 
 #endif

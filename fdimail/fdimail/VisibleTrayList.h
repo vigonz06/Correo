@@ -20,8 +20,8 @@ private:
 
 	std::map<Filter, std::string> keys;
 	std::map<Filter, bool> filters;
-	Date lower;
-	Date upper;
+	time_t lower;
+	time_t upper;
 	
 	void change(int pos1, int pos2);
 	void insert(ElemTray* elem);
@@ -41,7 +41,7 @@ public:
 	template<typename Funct, typename K>
 	void filterBy(Funct filter, K key);
 
-	void filterByDate(Date lower, Date upper);
+	void filterByDate(time_t lower, time_t upper);
 	void filterByRecipient(std::string key);
 	void filterByEmissor(std::string key);
 	void filterBySubject(std::string key);
@@ -71,8 +71,8 @@ public:
 	{
 		filters[date] = true;
 
-		Date update = turnDate(up);
-		Date lowdate = turnDate(low);
+		time_t update = turnDate(up);
+		time_t lowdate = turnDate(low);
 
 		lower = update;
 		upper = lowdate;

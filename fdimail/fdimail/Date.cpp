@@ -6,7 +6,7 @@
 #include <sstream>
 #include "Date.h"
 
-std::string showDate(Date d)
+std::string showDate(time_t d)
 {
 	std::ostringstream resultado;
 	tm ltm;
@@ -17,7 +17,7 @@ std::string showDate(Date d)
 	return resultado.str();
 }
 
-std::string showDay(Date d)
+std::string showDay(time_t d)
 {
 	std::ostringstream resultado;
 	tm ltm;
@@ -27,10 +27,10 @@ std::string showDay(Date d)
 	return resultado.str();
 }
 
-Date turnDate(char* str)
+time_t turnDate(char* str)
 {
-	Date rawtime;
 	tm* timeinfo;
+	time_t rawtime;
 	int year, month, day;
 
 	std::replace(str, str + strlen(str), '/', ' ');

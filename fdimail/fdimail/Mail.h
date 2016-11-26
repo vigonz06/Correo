@@ -15,7 +15,7 @@ private:
 	int counter;
 	std::string id;
 
-	Date date;
+	time_t date;
 	std::string from;
 	std::string body;
 	std::string subject;
@@ -29,7 +29,7 @@ public:
 	int getCounter() const { return counter; }
 	const std::string getId() const { return id; }
 
-	Date getDate() { return date; }
+	time_t getDate() { return date; }
 	std::string getFrom() { return from; }
 	std::string getBody() { return body; }
 	std::string getSubject() { return subject; }
@@ -38,7 +38,7 @@ public:
 	void setId(std::string newId) { id = newId; }
 	void setCounter(int newCounter) { counter = newCounter; }
 
-	void setDate(Date newDate) { date = newDate; }
+	void setDate(time_t newDate) { date = newDate; }
 	void setFrom(std::string newFrom) { from = newFrom; }
 	void setBody(std::string newBody) { body = newBody; }
 	void setSubject(std::string newSubject) { subject = newSubject; }
