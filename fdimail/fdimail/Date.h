@@ -10,7 +10,6 @@
 
 std::string showDate(time_t d);
 std::string showDay(time_t d);
-
 time_t turnDate(char* str);
 
 #endif

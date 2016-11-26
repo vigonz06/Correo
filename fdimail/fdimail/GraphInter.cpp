@@ -1,7 +1,9 @@
 #include "GraphInter.h"
 #include "utilsWin.h"
 #include "Session.h"
+#include <algorithm>
 #include <iostream>
+#include <sstream>
 #include <conio.h>
 
 GraphInter* GraphInter::inter = nullptr;
@@ -798,14 +800,23 @@ int GraphInter::SureToEmpty(Mail* mail)
 
 bool GraphInter::isdate(char* date)
 {
-	if (isdigit(date[0]) && isdigit(date[1])
-		&& isdigit(date[3]) && isdigit(date[4])
-		&& isdigit(date[6]) && isdigit(date[7])
-		&& isdigit(date[8]) && isdigit(date[9])
-		&& std::to_string(*date).size() == 10
-		&& date[2] == '/' && date[6] == '/')
-		return true;
+	std::string digit;
 
+	if (date[2] == '/' && digit[5] == '/')
+	{
+		std::replace(date, date + strlen(date), '/', ' ');
+
+		for (int i = 0; i < 3; i++)
+		{
+			std::istringstream(date) >> digit;
+
+			for (int j = 0; j < digit.size(); j++)
+			{
+				if (!isdigit(digit[j])) return false;
+			}
+		}
+		return true;
+	}
 	else return false;
 }
 
