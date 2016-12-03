@@ -2,6 +2,7 @@
 #define GRAPHINTER
 
 #include "User.h"
+#include "Button.h"
 
 class Session;
 
@@ -9,6 +10,7 @@ class GraphInter
 {
 private:
 
+	static sf::RenderWindow* window;
 	static GraphInter* inter;
 	static Mail* errorMail();
 	static Mail* error;
@@ -23,7 +25,7 @@ private:
 	bool symbl(std::string word);
 	std::string HidePassword();
 
-	int menu(std::vector<std::string> elems);
+	int menu(std::vector<Button> elems);
 
 	void send_to_multiple(Mail* mail, ContactList* contactList);
 	void tab_word(std::string word, int pos, int cont);

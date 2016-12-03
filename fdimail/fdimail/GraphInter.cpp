@@ -6,6 +6,7 @@
 #include <sstream>
 #include <conio.h>
 
+sf::RenderWindow* GraphInter::window = nullptr;
 GraphInter* GraphInter::inter = nullptr;
 Mail* GraphInter::error = nullptr;
 
@@ -111,27 +112,18 @@ std::string GraphInter::HidePassword()
 	return word;
 }
 
-int GraphInter::menu(std::vector<std::string> elems)
+int GraphInter::menu(std::vector<Button> elems)
 {
-	int key = UP, elem = 0;
+	int i;
 
-	do
+	window->clear();
+
+	for (i = 0; i < elems.size(); i++)
 	{
-		display("Which one do you choose?: ");
-
-		for (int i = 0; i < elems.size(); i++)
-		{
-			tab_word(elems[i], i, elem);
-		}
-
-		key = getKey();
-		elem = update(key, elem, elems.size());
-
-		clearConsole();
-
-	} while (key != ENTER && key != ESCAPE);
-
-	return elem;
+		window->draw(elems[i].getButton());
+	}
+	window->display();
+	if (elems[i].getClicked()) return i;
 }
 
 void GraphInter::send_to_multiple(Mail* mail, ContactList* contactList)
@@ -263,11 +255,11 @@ void GraphInter::load()
 
 int GraphInter::mainMenu()
 {
-	std::vector<std::string> elems;
+	std::vector<Button> elems;
 
-	elems.push_back("Sign up");
-	elems.push_back("Sign in");
-	elems.push_back("Exit");
+	elems.push_back(Button("Sign up", sf::Color::White, 30, sf::Vector2f(0, 0)));
+	elems.push_back(Button("Sign in", sf::Color::White, 30, sf::Vector2f(0, 30)));
+	elems.push_back(Button("Exit", sf::Color::White, 30, sf::Vector2f(0, 60)));
 
 	return menu(elems);
 }
