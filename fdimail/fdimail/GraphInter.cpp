@@ -81,7 +81,7 @@ bool GraphInter::symbl(std::string word)
 std::string GraphInter::HidePassword()
 {
 	int i = 0;
-	char word[50];
+	char word[50]("");
 
 	do
 	{
@@ -498,6 +498,7 @@ int GraphInter::chooseTray()
 {
 	std::vector<std::string> elems;
 
+	elems.push_back("All");
 	elems.push_back("Inbox");
 	elems.push_back("Outbox");
 	elems.push_back("Paper Bin");
@@ -829,21 +830,33 @@ void GraphInter::drawMail(const Mail* mail)
 
 void GraphInter::showTray(Session* session)
 {
-	std::string title, thisMail;
+	std::string title, word, thisMail;
 	std::ostringstream menu;
 
-	if (session->get_active_list() == 0)
+	switch (session->get_active_list())
 	{
-		title = center_word("Inbox", HORIZONTAL, "-");
+	case 0:
+
+		word = "All";
+		break;
+
+	case 1:
+
+		word = "Inbox";
+		break;
+
+	case 2:
+
+		word = "Outbox";
+		break;
+
+	case 3:
+
+		word = "Papper Bin";
+		break;
 	}
-	if (session->get_active_list() == 1)
-	{
-		title = center_word("Outbox", HORIZONTAL, "-");
-	}
-	if (session->get_active_list() == 2)
-	{
-		title = center_word("Paper Bin", HORIZONTAL, "-");
-	}
+
+	title = center_word(word, HORIZONTAL, "-");
 
 	display(linea());
 

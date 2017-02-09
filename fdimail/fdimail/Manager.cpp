@@ -80,12 +80,16 @@ void Manager::sendMail(User* user, Mail* mail)
 
 	ElemTray* elem = new ElemTray(mail, false, true);
 
+	user->getAll()->insert(elem);
 	user->getOutbox()->insert(elem);
 
 	for (std::string j: mail->getRecipients())
 	{
-		if (userList.get(j) != nullptr) userList.get(j)->getInbox()->insert(new ElemTray(mail, true, false));
-
+		if (userList.get(j) != nullptr)
+		{
+			userList.get(j)->getAll()->insert(new ElemTray(mail, true, false));
+			userList.get(j)->getInbox()->insert(new ElemTray(mail, true, false));
+		}
 		else
 		{
 			mail->lowerCounter();

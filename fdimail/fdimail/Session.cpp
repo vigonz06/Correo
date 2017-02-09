@@ -704,15 +704,20 @@ TrayList* Session::active_tray()
 	{
 	case 0:
 
-		return user->getInbox();
+		return user->getAll();
 		break;
 
 	case 1:
 
-		return user->getOutbox();
+		return user->getInbox();
 		break;
 
 	case 2:
+
+		return user->getOutbox();
+		break;
+
+	case 3:
 
 		return user->getRecycling();
 		break;
