@@ -73,7 +73,7 @@ const std::string Mail::to_string() const
 
 	flow << "From: " << from << std::setw(55) << showDate(date) << std::endl;
 
-	for (auto i: recipients)
+	for (std::string i: recipients)
 	{
 		flow << "To: " << i << std::endl;
 	}
