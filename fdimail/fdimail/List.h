@@ -114,9 +114,9 @@ void List<T>::init(int newdim)
 	{
 		list = new T*[newdim];
 
-		for (int i = 0; i < newdim; i++)
+		for (T* i: list)
 		{
-			list[i] = nullptr;
+			i = nullptr;
 		}
 
 		dim = newdim;
@@ -129,10 +129,10 @@ void List<T>::release()
 {
 	if (dim != 0)
 	{
-		for (int i = 0; i < counter; i++)
+		for (T* i: list)
 		{
-			delete list[i];
-			list[i] = nullptr;
+			delete i;
+			i = nullptr;
 		}
 		delete[] list;
 		list = nullptr;
