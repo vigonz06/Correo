@@ -53,14 +53,16 @@ bool ContactList::searchAddress(const std::string &id, int &pos, int &left_key, 
 
 void ContactList::load(std::ifstream &file)
 {
-	int n;
+	int n, i = 0;
+	
 	file >> n;
 
-	for (int i = 0; i < n && !file.fail(); i++)
+	while(i < n && !file.fail())
 	{
 		Contact* cont = new Contact();
 		cont->load(file);
 		insert(cont);
+		i++;
 	}
 }
 
