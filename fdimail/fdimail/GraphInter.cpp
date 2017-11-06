@@ -768,9 +768,9 @@ void GraphInter::showFastNames(ContactList* contactList)
 		
 		display(linea());
 
-		for (int i = 0; i < contactList->size(); i++)
+		for (Contact i: contactList)
 		{
-			display(tab_word(contactList->operator[](i)->header()));
+			display(tab_word(i->header()));
 		}
 		display(linea());
 	}
@@ -877,15 +877,15 @@ void GraphInter::showTray(Session* session)
 
 		display(linea());
 
-		for (int i = 0; i < session->getVisible()->size(); i++)
+		for (tElemTray i: session->getVisible())
 		{
 			std::ostringstream show;
 
-			if (session->getVisible()->operator[](i)->read) show << "  ";
+			if (i->read) show << "  ";
 
 			else show << " *";
 
-			Mail* mail = session->getVisible()->operator[](i)->mail;
+			Mail* mail = i->mail;
 
 			if (mail == nullptr)
 			{
