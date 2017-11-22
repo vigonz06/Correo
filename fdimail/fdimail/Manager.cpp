@@ -22,13 +22,13 @@ Manager::~Manager()
 
 void Manager::deleteAlias(User* user)
 {
-	for (int i = 0; i < userList.size(); i++)
+	for (User i: userList; i++)
 	{
-		for (int j = 0; j < userList.operator[](i)->getContactlist()->size(); j++)
+		for (Contact j: i->getContactlist(); j++)
 		{
-			if (userList.operator[](i)->getContactlist()->operator[](j)->getAddress() == user->getId())
+			if (i->j->getAddress() == user->getId())
 			{
-				userList.operator[](i)->getContactlist()->destroy(userList.operator[](i)->getContactlist()->operator[](j)->getId());
+				i->getContactlist()->destroy(i->j->getId());
 			}
 		}
 	}
@@ -58,15 +58,15 @@ void Manager::deleteAccount(User* user)
 {
 	while (!user->getRecycling()->empty())
 	{
-		deleteMail(user->getRecycling(), user->getRecycling()->operator[](0));
+		deleteMail(user->getRecycling(), user->getRecycling()[0]);
 	}
 	while (!user->getOutbox()->empty())
 	{
-		deleteMail(user->getOutbox(), user->getOutbox()->operator[](0));
+		deleteMail(user->getOutbox(), user->getOutbox()[0]);
 	}
 	while (!user->getInbox()->empty())
 	{
-		deleteMail(user->getInbox(), user->getInbox()->operator[](0));
+		deleteMail(user->getInbox(), user->getInbox()[0]);
 	}
 	deleteAlias(user);
 	userList.destroy(user->getId());
