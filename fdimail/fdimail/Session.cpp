@@ -159,11 +159,11 @@ void Session::restoreMail()
 
 				do
 				{
-					if (active_tray()->operator[](0)->box) user->getInbox()->insert(active_tray()->operator[](0));
+					if (active_tray()[0]->box) user->getInbox()->insert(active_tray()[0]);
 
-					else user->getOutbox()->insert(active_tray()->operator[](0));
+					else user->getOutbox()->insert(active_tray()[0]);
 
-					active_tray()->pop(active_tray()->operator[](0)->getId());
+					active_tray()->pop(active_tray()[0]->getId());
 
 				} while (!active_tray()->empty());
 				break;
@@ -231,12 +231,12 @@ void Session::deleteMail()
 				{
 					if (active_tray() == user->getRecycling())
 					{
-						manager->deleteMail(active_tray(), active_tray()->operator[](0));
+						manager->deleteMail(active_tray(), active_tray()[0]);
 					}
 					else
 					{
-						user->getRecycling()->insert(active_tray()->operator[](0));
-						active_tray()->pop(active_tray()->operator[](0)->getId());
+						user->getRecycling()->insert(active_tray()[0]);
+						active_tray()->pop(active_tray()[0]->getId());
 					}
 				} while (!active_tray()->empty());
 				break;
@@ -318,13 +318,13 @@ void Session::fastRead()
 		visible.orderBySubject();
 		visible.orderByDate();
 
-		for (int i = 0; i < visible.size(); i++)
+		for (ElemTray i: visible)
 		{
-			GraphInter::get()->drawMail(visible.operator[](i)->mail);
+			GraphInter::get()->drawMail(i->mail);
 			GraphInter::get()->display(GraphInter::get()->linea());
 			GraphInter::get()->pause();
 
-			visible.operator[](i)->read = true;
+			i->read = true;
 		}
 	}
 }
@@ -416,11 +416,9 @@ void Session::AliasOptions()
 
 			if (user->getContactlist()->size() > 1)
 			{
-				int namelenth = user->getContactlist()->size();
-
-				for (int i = namelenth - 1; i >= 0; i--)
+				for (Contact i: user->getcontactlist())
 				{
-					if (user->getContactlist()->operator[](i)->getId() != "Me") user->getContactlist()->destroy(user->getContactlist()->operator[](i)->getId());
+					if (i->getId() != "Me") user->getContactlist()->destroy(i->getId());
 				}
 			}
 			else message("You cannot delete your self alias");
@@ -437,6 +435,7 @@ void Session::AddFastName()
 	{
 		bool name_right, alias_right;
 		std::string idUser, newId;
+		int i;
 
 		do
 		{
@@ -462,9 +461,11 @@ void Session::AddFastName()
 				}
 				else
 				{
-					for (int i = 0; i < user->getContactlist()->size() && name_right; i++)
+					i = 0;
+					
+					while (i < user->getContactlist()->size() && name_right)
 					{
-						if (idUser == user->getContactlist()->operator[](i)->getAddress())
+						if (idUser == user->getContactlist()[i]->getAddress())
 						{
 							message("This username already has an alias asigned");
 
@@ -481,6 +482,7 @@ void Session::AddFastName()
 			{
 				std::ostringstream character;
 				alias_right = true;
+				int j;
 
 				GraphInter::get()->clearConsole();
 				GraphInter::get()->display("User: " + idUser);
@@ -510,10 +512,12 @@ void Session::AddFastName()
 							alias_right = false;
 						}
 					}
-
-					for (int j = 0; j < user->getContactlist()->size() && alias_right; j++)
+					
+					j = 0;
+					
+					while (j < user->getContactlist()->size() && alias_right)
 					{
-						if (newId == user->getContactlist()->operator[](j)->getId())
+						if (newId == user->getContactlist()[j]->getId())
 						{
 							message("This alias is already asigned to an user");
 
@@ -663,18 +667,18 @@ void Session::changeUsername()
 		{
 			std::string oldId = user->getId();
 
-			manager->getUserList()->pop(user->getId());
+			manager->getUserList()->pop(oldId);
 
 			user->setId(data);
 			manager->getUserList()->insert(user);
 
-			for (int i = 0; i < manager->getUserList()->size(); i++)
+			for (User i: manager->getUserList())
 			{
-				for (int j = 0; j < manager->getUserList()->operator[](i)->getContactlist()->size(); j++)
+				for (Contact j: i->getContactlist())
 				{
-					if (manager->getUserList()->operator[](i)->getContactlist()->operator[](j)->getAddress() == oldId)
+					if (i->j->getAddress() != oldId)
 					{
-						manager->getUserList()->operator[](i)->getContactlist()->operator[](i)->setAddress(user->getId());
+						i->j->setAddress(user->getId());
 					}
 				}
 			}
