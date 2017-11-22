@@ -5,6 +5,7 @@
 bool Mail::load(std::ifstream &file)
 {
 	std::string recipient;
+	int i;
 
 	file >> id;
 
@@ -22,12 +23,17 @@ bool Mail::load(std::ifstream &file)
 
 				if (!file.fail())
 				{
-					for (int i = 0; i < counter - 1; i++)
+					i = 0;
+					
+					while (i < counter - 1 && !file.fail())
 					{
 						file >> recipient;
 
 						recipients.push_back(recipient);
+						
+						i++;
 					}
+					
 					if (!file.fail())
 					{
 						file.ignore();
