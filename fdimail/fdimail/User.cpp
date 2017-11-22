@@ -17,6 +17,7 @@ bool User::load(std::ifstream &file)
 			recycling.load(file);
 			outbox.load(file);
 			inbox.load(file);
+			all.load(file);
 			return true;
 		}
 		else return false;
@@ -33,4 +34,5 @@ void User::save(std::ofstream &file)const
 	recycling.save(file);
 	outbox.save(file);
 	inbox.save(file);
+	all.save(file);
 }
