@@ -2,9 +2,11 @@
 
 bool TrayList::search(const std::string &id, int &pos)
 {
-	for (pos = 0; pos < counter && list[pos]->getId() != id; pos++);
-
-	return (pos < counter) ? true : false;
+	for (pos = 0; pos < counter; pos++)
+	{
+		if (list[pos]->getId() == id) return true;
+	}
+	return false;
 }
 
 ElemTray* TrayList::get(const std::string &id)
@@ -63,9 +65,7 @@ void TrayList::load(std::ifstream &file)
 	{
 		ElemTray* elem = new ElemTray();
 
-		elem->load(file);
-
-		if (elem->mail != nullptr) insert(elem);
+		if (elem->load(file)) insert(elem);
 	}
 }
 
