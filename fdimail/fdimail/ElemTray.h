@@ -16,7 +16,7 @@ struct ElemTray
 	const std::string getId() const { return id; }
 	void setId() { id = mail->getId() + "_" + std::to_string(box); }
 
-	void load(std::ifstream &file);
+	bool load(std::ifstream &file);
 	void save(std::ofstream &file) const;
 };
 #endif
