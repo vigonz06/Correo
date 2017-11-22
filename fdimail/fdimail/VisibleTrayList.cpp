@@ -35,13 +35,26 @@ void VisibleTrayList::refresh()
 {
 	sync();
 	
-	if (filters[recipients])filterByRecipient(keys[recipients]);
-	if (filters[subject])	filterBySubject(keys[subject]);
-	if (filters[emissor])	filterByEmissor(keys[emissor]);
-	if (filters[date])		filterByDate(lower, upper);
-	if (filters[body])		filterByBody(keys[body]);
-	if (filters[unread])    filterByRead(false);
-	if (filters[read])      filterByRead(true);
+	if (filters[recipients])
+		filterByRecipient(keys[recipients]);
+	
+	if (filters[subject])	
+		filterBySubject(keys[subject]);
+	
+	if (filters[emissor])	
+		filterByEmissor(keys[emissor]);
+	
+	if (filters[date])	
+		filterByDate(lower, upper);
+	
+	if (filters[body])	
+		filterByBody(keys[body]);
+	
+	if (filters[unread])    
+		filterByRead(false);
+	
+	if (filters[read])      
+		filterByRead(true);
 	
 
 	switch (activeOrder)
@@ -71,9 +84,9 @@ void VisibleTrayList::sync()
 {
 	erase();
 
-	for (int i = 0; i < trayList->size(); i++)
+	for (ElemTray i: trayList)
 	{
-		insert(trayList->operator[](i));
+		insert(i);
 	}
 }
 
@@ -134,9 +147,9 @@ void VisibleTrayList::orderBy(Funct order)
 
 		for (int i = 0; i < counter - 1; i++)
 		{
-			if (!order(list[i], list[i + 1]))
+			if (!order(list[i], list[i+1]))
 			{
-				change(i, i + 1);
+				change(i, i+1);
 				change_made = true;
 			}
 		}
