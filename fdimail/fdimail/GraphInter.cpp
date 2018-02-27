@@ -179,9 +179,7 @@ void GraphInter::send_to_multiple(Mail* mail, ContactList* contactList)
 
 void GraphInter::tab_word(std::string word, int pos, int cont)
 {
-	if (pos == cont) word = "->" + word;
-
-	else word = tab_word(word);
+	word = (pos == cont)? "->" + word:"  " + word;
 
 	display(word);
 }
