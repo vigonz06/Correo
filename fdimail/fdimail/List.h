@@ -42,23 +42,16 @@ public:
 };
 
 template<class T>
-bool List<T>::search(const std::string &id, int &pos, int &left_key, int &right_key) const
+bool List<T>::search(const std::string &id, int &pos, int &bgn, int &end) const
 {
-	if (left_key <= right_key)
+	pos = (bgn + end) / 2;
+	
+	while(bgn <= end && list[pos]->getId() != id)
 	{
-		pos = (left_key + right_key) / 2;
-
-		if (list[pos]->getId() == id) return true;
-		if (list[pos]->getId() < id) left_key = pos + 1;
-		if (list[pos]->getId() > id) right_key = pos - 1;
-
-		return search(id, pos, left_key, right_key);
+		pos += list[pos]->getId() < id ? end + 1 : bgn - 1;
+		pos /= 2;
 	}
-	else
-	{
-		pos = left_key;
-		return false;
-	}
+	return bgn <= end;
 }
 
 template<class T>
