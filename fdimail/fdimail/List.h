@@ -22,7 +22,7 @@ protected:
 
 public:
 
-	List() : counter(0), list(nullptr) { init(START_ELEM); }
+	List() : dim(0), counter(0), list(nullptr) { init(START_ELEM); }
 	~List() { release(); }
 
 	inline bool full()  const { return counter == dim; }
@@ -43,15 +43,16 @@ public:
 
 template<class T>
 bool List<T>::search(const std::string &id, int &pos, int &bgn, int &end) const
-{
-	pos = (bgn + end) / 2;
+{	
+	pos = (bgn+end)/2;
 	
-	while(bgn <= end && list[pos]->getId() != id)
+	while(bgn < end && list[pos]->getId() != id)
 	{
-		pos += list[pos]->getId() < id ? end + 1 : bgn - 1;
-		pos /= 2;
+		if(list[pos].getId() < id){bgn = pos+1;}
+		if(list[pos].getId() > id){end = pos-1;}
+		pos = (bgn+end)/2;
 	}
-	return bgn <= end;
+	return bgn < end;
 }
 
 template<class T>
@@ -98,12 +99,7 @@ void List<T>::resize(int newdim)
 template<class T>
 void List<T>::init(int newdim)
 {
-	if (newdim <= 0)
-	{
-		list = nullptr;
-		dim = 0;
-	}
-	else
+	if (newdim > 0)
 	{
 		list = new T*[newdim];
 
@@ -111,10 +107,8 @@ void List<T>::init(int newdim)
 		{
 			i = nullptr;
 		}
-
 		dim = newdim;
 	}
-	counter = 0;
 }
 
 template<class T>
@@ -127,10 +121,10 @@ void List<T>::release()
 			delete i;
 			i = nullptr;
 		}
+		dim = 0;
+		counter = 0;
 		delete[] list;
 		list = nullptr;
-		counter = 0;
-		dim = 0;
 	}
 }
 
